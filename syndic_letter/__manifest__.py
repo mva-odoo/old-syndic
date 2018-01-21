@@ -8,7 +8,6 @@
     Syndic Lettre
     """,
     'depends': ['syndic_base'],
-    'website': 'http://www.openerp.com',
     'data': [
     ],
 }

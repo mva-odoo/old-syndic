@@ -7,6 +7,6 @@ class ResConfigSettings(models.TransientModel):
     _inherit = 'res.config.settings'
 
     module_syndic_sub_lot = fields.Boolean('Ajout des sous-lots')
-    module_tech_fields = fields.Boolean('Création de fiche technique possible')
+    module_syndic_tech_fields = fields.Boolean('Fiche technique')
     module_pdf_viewer = fields.Boolean('Visionner le PDF avant de le downloader')
-    module_syndic_letter = fields.Boolean('Ecrire du courrier papier')
+    module_syndic_letter = fields.Boolean('Ecrire lettre en format papier')

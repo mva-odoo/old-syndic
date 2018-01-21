@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
 {
-    'name' : 'Syndic Base',
+    'name' : 'Syndic Sub Lot',
     'version' : '2.0',
     'description': """
-Core mechanisms for the syndic modules.
+Add option for lot.
     """,
     'category': 'Syndic',
-    'depends' : ['base'],
+    'depends' : ['syndic_base'],
     'data': [
-
+        'views/sub_lot.xml',
     ],
 }

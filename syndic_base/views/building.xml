@@ -64,15 +64,15 @@
                            attrs="{'readonly': [('is_lock', '=', True)]}"/>
                 </h1>
 
-                    <field name="is_lock" invisible="1"/>
+                <field name="is_lock" invisible="1"/>
 
-                    <group string="Adresse:">
+                <group string="Adresse:" name="address">
                     <field name="zip" widget="raw-field-integer" attrs="{'readonly': [('is_lock', '=', True)]}"/>
                     <field name="city_id" context="{'default_zip': zip}" attrs="{'readonly': [('is_lock', '=', True)]}"/>
                     <field name="street" attrs="{'readonly': [('is_lock', '=', True)]}"/>
                 </group>
-                <group attrs="{'readonly': [('is_lock', '=', True)]}">
-                    <group string="Information Divers:">
+                <group>
+                    <group string="Information Divers:" name="divers">
                         <field name="compte" attrs="{'readonly': [('is_lock', '=', True)]}"/>
                         <field name="BCE" attrs="{'readonly': [('is_lock', '=', True)]}"/>
                     </group>

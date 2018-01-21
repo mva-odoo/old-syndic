@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record model="ir.ui.view" id="inherit_form_tech_building">
+        <field name="name">Syndic Form building tech info</field>
+        <field name="model">syndic.building</field>
+        <field name="inherit_id" ref="syndic_base.form_building"/>
+        <field name="arch" type="xml">
+            <xpath expr="//group[@name='divers']" position="after">
+                <group string="Date de l'Assemblée Générale" name="assemblee">
+                    <field name="sign_mois_rel" attrs="{'readonly': [('is_lock', '=', True)]}"/>
+                    <field name="sign_quizaine_rel" attrs="{'readonly': [('is_lock', '=', True)]}"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+</odoo>
