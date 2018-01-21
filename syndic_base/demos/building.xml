@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record model="syndic.building" id="syndic_demo_building_gemini">
+        <field name="name">Gemini</field>
+        <field name="num">1</field>
+        <field name="zip">1300</field>
+        <field name="street">Rue du test</field>
+        <field name="city_id" ref="syndic_demo_city_wavre"/>
+    </record>
+</odoo>

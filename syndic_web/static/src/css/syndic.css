@@ -1,0 +1,8 @@
+@media print{
+    .o_sub_menu{
+        display: none!important;
+    }
+    .o_content{
+        display: table-footer-group !important;
+    }
+}

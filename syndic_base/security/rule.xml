@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="syndic_rule_see_my_building" model="ir.rule">
+        <field name="name">See only my building</field>
+        <field name="model_id" ref="syndic_base.model_syndic_building"/>
+        <field name="groups" eval="[(4, ref('syndic_base.syndic_client'))]"/>
+        <field name="perm_read" eval="1"/>
+        <field name="perm_write" eval="0"/>
+        <field name="perm_create" eval="0"/>
+        <field name="perm_unlink" eval="0" />
+        <field name="domain_force">['|', ('lot_ids.owner_ids','in', user.partner_id.id), ('lot_ids.loaner_ids', 'in', user.partner_id.id)]</field>
+    </record>
+
+    <record id="syndic_rule_see_all_building" model="ir.rule">
+        <field name="name">See all building</field>
+        <field name="model_id" ref="syndic_base.model_syndic_building"/>
+        <field name="groups" eval="[(4, ref('syndic_base.syndic_employe'))]"/>
+        <field name="perm_read" eval="1"/>
+        <field name="perm_write" eval="0"/>
+        <field name="perm_create" eval="0"/>
+        <field name="perm_unlink" eval="0" />
+        <field name="domain_force">[(1, '=', 1)]</field>
+    </record>
+</odoo>

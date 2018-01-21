@@ -1,1 +1,1 @@
-# syndic
+# syndic 2.0

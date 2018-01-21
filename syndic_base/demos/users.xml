@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record model="res.users" id="syndic_user_florence">
+        <field name="name">Florence</field>
+        <field name="login">Florence</field>
+        <field name="groups_id" eval="[(4, ref('syndic_base.syndic_manager')), (4, ref('base.group_user'))]"/>
+    </record>
+
+    <record model="res.users" id="syndic_user_sandrine">
+        <field name="name">Sandrine</field>
+        <field name="login">Sandrine</field>
+        <field name="groups_id" eval="[(4, ref('syndic_base.syndic_employe')), (4, ref('base.group_user'))]"/>
+    </record>
+
+     <record model="res.users" id="syndic_user_serge">
+        <field name="name">Serge</field>
+        <field name="login">Serge</field>
+        <field name="groups_id" eval="[(4, ref('syndic_base.syndic_client'))]"/>
+    </record>
+</odoo>

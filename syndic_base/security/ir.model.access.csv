@@ -1,0 +1,14 @@
+"id","name","model_id:id","group_id:id","perm_read","perm_write","perm_create","perm_unlink"
+"syndic_building","syndic immeuble","model_syndic_building","syndic_manager",1,1,1,1
+"syndic_building_employe","syndic immeuble","model_syndic_building","syndic_employe",1,1,1,0
+"syndic_building_client","syndic client immeuble","model_syndic_building","syndic_client",1,0,0,0
+"syndic_lot","syndic lot","model_syndic_lot","syndic_manager",1,1,1,1
+"syndic_lot_employe","syndic lot","model_syndic_lot","syndic_employe",1,1,1,0
+"syndic_lot_client","syndic lot client","model_syndic_lot","syndic_client",1,0,0,0
+"syndic_type_lot","syndic type lot","model_syndic_type_lot","syndic_manager",1,1,1,1
+"syndic_type_lot_employe","syndic type lot","model_syndic_type_lot","syndic_employe",1,1,1,0
+"syndic_mutation","syndic mutation","model_syndic_mutation","syndic_manager",1,1,1,1
+"syndic_mutation_employe","syndic mutation","model_syndic_mutation","syndic_employe",1,1,1,0
+"syndic_res_partner_job_employe","syndic res_partner_job","model_res_partner_job","syndic_employe",1,1,1,1
+"syndic_city","syndic city","model_res_partner_city","syndic_manager",1,1,1,1
+"syndic_city_employe","syndic city","model_res_partner_city","syndic_employe",1,0,1,0
