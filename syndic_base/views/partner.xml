@@ -93,6 +93,11 @@
 								</field>
 							</group>
                     </page>
+                    <page string="Information Technique">
+                        <group>
+                            <field name="user_ids"/>
+                        </group>
+                    </page>
                     <!--<page string="Ancien Lot" name="old_lot" attrs="{'invisible': [('is_old', '=', False)]}">-->
                         <!--<field name="old_lot_ids" readonly="1">-->
                             <!--<tree>-->

@@ -15,7 +15,6 @@ class Immeuble(models.Model):
     street = fields.Char('Rue', required=True)
     zip = fields.Integer('Code Postal', required=True)
     compte = fields.Char('Compte en banque')
-    password = fields.Char('Mot de Passe')
 
     city_id = fields.Many2one('res.partner.city', 'Commune', required=True)
     supplier_ids = fields.Many2many('res.partner', string="Fiche technique")

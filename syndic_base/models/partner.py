@@ -41,6 +41,19 @@ class Partner(models.Model):
     old_lot_ids = fields.Many2many('syndic.lot', 'old_prop_table',
                                    'lot_id', 'old_proprio_id', string='Ancien lot')
 
+    @api.model
+    def create(self, vals):
+        partner = super(Partner, self).create(vals)
+
+        self.env['res.users']._signup_create_user({
+            'partner_id': partner.id,
+            'name': partner.name,
+            'login': '%s - %s' % (partner.name, partner.id),
+        })
+
+        return partner
+
+
     @api.multi
     @api.depends('lot_ids', 'loaner_lot_ids', 'lot_ids.building_id.active', 'old_lot_ids')
     def _get_partner_type(self):
