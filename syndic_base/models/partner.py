@@ -41,17 +41,16 @@ class Partner(models.Model):
     old_lot_ids = fields.Many2many('syndic.lot', 'old_prop_table',
                                    'lot_id', 'old_proprio_id', string='Ancien lot')
 
-    @api.model
-    def create(self, vals):
-        partner = super(Partner, self).create(vals)
-
-        self.env['res.users']._signup_create_user({
-            'partner_id': partner.id,
-            'name': partner.name,
-            'login': '%s - %s' % (partner.name, partner.id),
-        })
-
-        return partner
+    #@api.model
+    #def create(self, vals):
+    #    partner = super(Partner, self).create(vals)
+    #    self.env['res.users']._signup_create_user({
+    #        'partner_id': partner.id,
+    #        'name': partner.name,
+    #        'login': '%s - %s' % (partner.name, partner.id),
+    #    })
+    #
+    #    return partner
 
 
     @api.multi

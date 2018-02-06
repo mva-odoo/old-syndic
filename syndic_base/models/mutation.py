@@ -4,6 +4,7 @@ from odoo import models, fields, api, exceptions, _
 
 class Mutation(models.Model):
     _name = 'syndic.mutation'
+    _description = 'Mutation'
     _order = 'immeuble_id'
 
     name = fields.Char('Mutation', compute='_get_name', store=True)

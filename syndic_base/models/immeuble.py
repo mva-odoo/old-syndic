@@ -5,6 +5,7 @@ from odoo import api, fields, models
 
 class Immeuble(models.Model):
     _name = 'syndic.building'
+    _description = 'Immeubles'
     _order = 'name asc'
 
     name = fields.Char('Immeuble', required=True)
