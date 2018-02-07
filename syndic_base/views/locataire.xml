@@ -1,5 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+    <record model="ir.ui.view" id="search_locataire">
+        <field name="name">Syndic Search view locataire</field>
+        <field name="model">res.partner</field>
+        <field name="mode">primary</field>
+        <field name="inherit_id" ref="search_partner"/>
+        <field name="arch" type="xml">
+            <field name="email" position="after">
+                <field name="loaner_building_ids"/>
+            </field>
+        </field>
+    </record>
 
     <record model="ir.ui.view" id="tree_locataire">
         <field name="name">Syndic Tree view locataire</field>
@@ -8,8 +19,11 @@
         <field name="inherit_id" ref="tree_partner"/>
         <field name="arch" type="xml">
             <field name="email" positon="after">
-                <field name="loaner_building_ids"/>
+                <field name="loaner_building_ids" widget="many2many_tags"/>
             </field>
+            <xpath expr="/tree" position="attributes">
+                <attribute name="create">false</attribute>
+            </xpath>
         </field>
     </record>
 
@@ -19,21 +33,22 @@
         <field name="mode">primary</field>
         <field name="inherit_id" ref="form_partner"/>
         <field name="arch" type="xml">
-
-            <page name="contact" position="after">
-                <page string="Lots" name="lots">
-                    <field name="loaner_lot_ids" required="True"/>
-                </page>
-            </page>
+            <field name="name" position="after">
+                <field name="loaner_building_ids" widget="many2many_tags"/>
+            </field>
+            <xpath expr="/form" position="attributes">
+                <attribute name="create">false</attribute>
+            </xpath>
         </field>
     </record>
 
     <record model="ir.actions.act_window" id="action_locataire">
-        <field name="name">locataire</field>
+        <field name="name">Locataires</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">res.partner</field>
         <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="search_locataire"/>
         <field name="domain">[('is_locataire', '=', True)]</field>
     </record>
 

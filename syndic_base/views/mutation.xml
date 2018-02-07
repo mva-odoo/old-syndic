@@ -68,6 +68,39 @@
         </field>
     </record>
 
+    <record model="ir.ui.view" id="form_mutation_wizard">
+        <field name="name">Mutation form view</field>
+        <field name="model">syndic.mutation</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="mutation" layout="manual" version="7.0">
+                <group>
+                    <field name="name" invisible="True"/>
+                    <field name="mutation_date" required="True"/>
+                    <group>
+                        <field name="old_owner_ids"
+                               readonly="1"
+                               widget="many2many_tags"/>
+                    </group>
+                    <group>
+                        <field name="new_owner_ids" widget="many2many_tags"/>
+                    </group>
+                </group>
+                <group string="Lots modifiés">
+                    <field name="lot_ids" colspan="4" nolabel="1" readonly="1">
+                        <tree>
+                            <field name="name"/>
+                            <field name="building_id"/>
+                        </tree>
+                    </field>
+                </group>
+                <footer>
+                    <button string="Mutation" name="mutation" type="object"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
     <record model="ir.actions.act_window" id="action_mutation">
         <field name="name">Mutation</field>
         <field name="type">ir.actions.act_window</field>
@@ -77,5 +110,16 @@
         <field name="view_id" ref="tree_mutation" />
         <field name="search_view_id" ref="search_mutation" />
     </record>
+
+    <record model="ir.actions.act_window" id="wizard_action_mutation">
+        <field name="name">Mutation</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">syndic.mutation</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="view_id" ref="form_mutation_wizard" />
+    </record>
+
     <menuitem name="Mutations" id="mutation" parent="syndic" action="action_mutation"/>
 </odoo>

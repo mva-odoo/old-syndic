@@ -18,13 +18,6 @@
                             <div class="o_setting_right_pane">
                                 <label for="module_syndic_sub_lot"/>
                             </div>
-
-                            <div class="o_setting_left_pane">
-                                <field name="module_syndic_tech_fields"/>
-                            </div>
-                            <div class="o_setting_right_pane">
-                                <label for="module_syndic_tech_fields"/>
-                            </div>
                         </div>
                     </div>
                     <h2>Syndic Lettres</h2>

@@ -38,6 +38,11 @@ class Immeuble(models.Model):
     is_private_gestion = fields.Boolean("Gestion Privative")
     is_lock = fields.Boolean('Bloquer')
 
+    signalitic_id = fields.Many2one('syndic.building.signalitic', string='Immeuble',
+                    required=True, ondelete="cascade", delegate=True)
+    sign_mois_rel = fields.Selection(string='Mois', related='signalitic_id.date_mois')
+    sign_quizaine_rel = fields.Selection(string='Quinzaine', related='signalitic_id.date_quizaine')
+
     @api.model
     def create(self, vals):
         vals['is_lock'] = True
@@ -83,3 +88,9 @@ class Immeuble(models.Model):
             building.lot_count = len(building.lot_ids)
             building.owner_count = len(building.mapped('lot_ids.owner_ids'))
             building.loaner_count = len(building.mapped('lot_ids.loaner_ids'))
+
+    def open_tech(self):
+        self.ensure_one()
+        action = self.env.ref('syndic_base.action_signalitic').read()[0]
+        action['res_id'] = self.signalitic_id.id
+        return action

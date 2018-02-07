@@ -7,7 +7,7 @@ class Desamientage(models.Model):
     desamiente_par = fields.Many2one('res.partner', string=u'Désamianté par')
     desamiente_le = fields.Date(u'Désamianté le')
     desamiente_niveau = fields.Char('au niveau de')
-    signalitic_id = fields.Many2one('building.signalitic', string='signalitique')
+    signalitic_id = fields.Many2one('syndic.building.signalitic', string='signalitique')
 
 
 class DIU(models.Model):
@@ -15,7 +15,7 @@ class DIU(models.Model):
     diu_par = fields.Many2one('res.partner', string='DIU par')
     diu_le = fields.Date('DIU le')
     diu_concerne = fields.Char('Concerne')
-    diu_id = fields.Many2one('building.signalitic', string='DIU')
+    diu_id = fields.Many2one('syndic.building.signalitic', string='DIU')
 
 
 class ObservationFacade(models.Model):
@@ -23,7 +23,7 @@ class ObservationFacade(models.Model):
     observation = fields.Text('Observation')
     date_observation = fields.Date("Date d'observation")
     suivi = fields.Text("Suivi")
-    signalitic_id = fields.Many2one('building.signalitic', string='signalitic')
+    signalitic_id = fields.Many2one('syndic.building.signalitic', string='signalitic')
 
 
 class RepeirFacade(models.Model):
@@ -31,7 +31,7 @@ class RepeirFacade(models.Model):
     facade_date_repeir = fields.Date(u'date de la réparation')
     facade_fournisseur_repeir = fields.Many2one('res.partner', string='entreprise')
     facade_what_repeir = fields.Text(u'Objet de la réparation')
-    signalitic_id = fields.Many2one('building.signalitic', string='signalitic')
+    signalitic_id = fields.Many2one('syndic.building.signalitic', string='signalitic')
 
 
 class Terasse(models.Model):
@@ -39,7 +39,7 @@ class Terasse(models.Model):
     observation = fields.Text('Observation')
     date_observation = fields.Date("Date d'observation")
     suivi = fields.Text("suivi")
-    signalitic_id = fields.Many2one('building.signalitic', string='signalitic')
+    signalitic_id = fields.Many2one('syndic.building.signalitic', string='signalitic')
 
 
 class RepeirTerasse(models.Model):
@@ -47,7 +47,7 @@ class RepeirTerasse(models.Model):
     terasse_date_repeir = fields.Date(u'date de la réparation')
     terasse_fournisseur_repeir = fields.Many2one('res.partner', string='entreprise')
     terasse_what_repeir = fields.Text(u'Objet de la réparation')
-    signalitic_id = fields.Many2one('building.signalitic', string='signalitic')
+    signalitic_id = fields.Many2one('syndic.building.signalitic', string='signalitic')
 
 
 class ObservationToiture(models.Model):
@@ -55,7 +55,7 @@ class ObservationToiture(models.Model):
     observation_toiture = fields.Char('Observation')
     date_toiture = fields.Date("Date de l'observation")
     suivi_toiture = fields.Char('Suivi')
-    signalitic_id = fields.Many2one('building.signalitic', string='signalitic')
+    signalitic_id = fields.Many2one('syndic.building.signalitic', string='signalitic')
 
 
 class RepeirToiture(models.Model):
@@ -63,7 +63,7 @@ class RepeirToiture(models.Model):
     entreprise = fields.Many2one('res.partner', string='Fournisseur')
     date_repeir = fields.Date('Date')
     objet_repeir = fields.Char(u'Objet de la réparation')
-    signalitic_id = fields.Many2one('building.signalitic', string='signalitic')
+    signalitic_id = fields.Many2one('syndic.building.signalitic', string='signalitic')
 
 
 class ObservationJardin(models.Model):
@@ -71,7 +71,7 @@ class ObservationJardin(models.Model):
     observation_jardin = fields.Char('Observation')
     date_jardin = fields.Date("Date de l'observation")
     suivi_jardin = fields.Char('Suivi')
-    signalitic_id = fields.Many2one('building.signalitic', string='signalitic')
+    signalitic_id = fields.Many2one('syndic.building.signalitic', string='signalitic')
 
 
 class Ascensseur(models.Model):
@@ -83,7 +83,7 @@ class Ascensseur(models.Model):
     date_asc = fields.Integer(u'Année de fabrication')
     charge = fields.Integer('Charge maximale')
     nbr_personne = fields.Integer('Nombre de personnes maximales')
-    signalitic_id = fields.Many2one('building.signalitic', string='signalitic')
+    signalitic_id = fields.Many2one('syndic.building.signalitic', string='signalitic')
 
 
 class RepeirAscensseur(models.Model):
@@ -91,7 +91,7 @@ class RepeirAscensseur(models.Model):
     entreprise = fields.Many2one('res.partner', string='Fournisseur')
     date_repeir = fields.Date('Date')
     objet_repeir = fields.Char(u'Objet de la réparation')
-    signalitic_id = fields.Many2one('building.signalitic', string='signalitic')
+    signalitic_id = fields.Many2one('syndic.building.signalitic', string='signalitic')
 
 
 class PieceChauffage(models.Model):
@@ -106,7 +106,7 @@ class PieceChauffage(models.Model):
     type = fields.Char('Type')
     annee = fields.Integer(u'Année de construction')
     puissance = fields.Char('Puissance')
-    signalitic_id = fields.Many2one('building.signalitic', string='signalitic')
+    signalitic_id = fields.Many2one('syndic.building.signalitic', string='signalitic')
 
 
 class RepeirChaudiere(models.Model):
@@ -114,7 +114,7 @@ class RepeirChaudiere(models.Model):
     entreprise = fields.Many2one('res.partner', string='Fournisseur')
     date_repeir = fields.Date('Date')
     objet_repeir = fields.Char(u'Objet de la réparation')
-    signalitic_id = fields.Many2one('building.signalitic', string='signalitic')
+    signalitic_id = fields.Many2one('syndic.building.signalitic', string='signalitic')
 
 
 class ObservationEgoutage(models.Model):
@@ -122,7 +122,7 @@ class ObservationEgoutage(models.Model):
     entreprise = fields.Many2one('res.partner', string='Fournisseur')
     date_egoutage = fields.Date("Date de l'observation")
     suivi_egoutage = fields.Char(u'objet de la réparation')
-    signalitic_id = fields.Many2one('building.signalitic', string='signalitic')
+    signalitic_id = fields.Many2one('syndic.building.signalitic', string='signalitic')
 
 
 class Extincteur(models.Model):
@@ -130,7 +130,7 @@ class Extincteur(models.Model):
     extincteur_marque = fields.Char('Marque')
     extincteur_contrat = fields.Many2one('res.partner', string='Contrat d\'entretien')
     extincteur_contrat_date = fields.Date('date anniversaire du contrat')
-    signalitic_id = fields.Many2one('building.signalitic', string='signalitic')
+    signalitic_id = fields.Many2one('syndic.building.signalitic', string='signalitic')
 
 
 class RepeirGarage(models.Model):
@@ -138,7 +138,7 @@ class RepeirGarage(models.Model):
     entreprise = fields.Many2one('res.partner', string='Fournisseur')
     date_repeir = fields.Date('Date')
     objet_repeir = fields.Char(u'Objet de la réparation')
-    signalitic_id = fields.Many2one('building.signalitic', string='signalitic')
+    signalitic_id = fields.Many2one('syndic.building.signalitic', string='signalitic')
 
 
 class RepeirGeneral(models.Model):
@@ -147,15 +147,16 @@ class RepeirGeneral(models.Model):
     date_repeir = fields.Date('Date')
     objet_repeir = fields.Char(u'Objet de la réparation')
     architect = fields.Many2one('res.partner', string='architect')
-    signalitic_id = fields.Many2one('building.signalitic', string='signalitic')
+    signalitic_id = fields.Many2one('syndic.building.signalitic', string='signalitic')
 
 
 class SignalitiqueImmeuble(models.Model):
-    _name = 'building.signalitic'
-    _inherits = {'syndic.building': 'building_id'}
+    _name = 'syndic.building.signalitic'
 
-    building_id = fields.Many2one('syndic.building', string='Immeuble', required=True, ondelete="cascade")
     # info general---------------------------------------
+    building_ids = fields.One2many('syndic.building', 'signalitic_id', string='Immeubles')
+    name = fields.Char('Nom', related='building_ids.name')
+
     construction_date = fields.Integer('Date de construction')
     date_mois = fields.Selection([('janvier', 'Janvier'), ('fevrier', 'Fevrier'), ('mars', 'Mars'), ('avril', 'Avril'),
                                   ('mai', 'Mai'), ('juin', 'Juin'), ('juillet', 'Juillet'), ('aout', 'Aout'),
@@ -393,13 +394,3 @@ class SignalitiqueImmeuble(models.Model):
 
     # travaux
     travaux_ids = fields.One2many('repeir.general', 'signalitic_id', string='Travaux')
-
-    @api.onchange('building_id')
-    def _onchange_check_exist(self):
-        if self.search([('building_id', '=', self.building_id.id)]):
-            return {'warning': {'message': 'Attention: Ce bâtiment à deja une fiche signalitique'}}
-        return {}
-
-    _sql_constraints = [
-        ('model_id_field_id_uniq', 'unique (building_id)', ("Ce bâtiment à deja une fiche signalitique!",))
-    ]

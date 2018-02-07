@@ -1,35 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-		<!--tree view -->
-		<record model="ir.ui.view" id="tree_building_signalitic">
-			<field name="name">signalitic tree view</field>
-			<field name="model">building.signalitic</field>
-			<field name="arch" type="xml">
-				<tree create="false" edit="false" delete="false">
-					<field name="name"/>
-				</tree>
-			</field>
-		</record>
-
-		<record model="ir.ui.view" id="search_building_signalitic">
-			<field name="name">signalitic tree view</field>
-			<field name="model">building.signalitic</field>
-			<field name="arch" type="xml">
-				<search>
-					<field name="name"/>
-				</search>
-			</field>
-		</record>
-
 		<record model="ir.ui.view" id="form_building_signalitic">
 			<field name="name">Letter form view</field>
-			<field name="model">building.signalitic</field>
+			<field name="model">syndic.building.signalitic</field>
 			<field name="arch" type="xml">
 				<form create="false" delete="false">
-                    <h1>
-                        <field name="num" class="oe_inline" readonly="True" placeholder="Numéros d'immeuble"/> -
-                        <field name="name" class="oe_inline" readonly="True" placeholder="Nom d'immeuble"/>
-                    </h1>
                     <notebook colspan="4">
                         <page string="Information générale" >
 							<group>
@@ -392,11 +367,9 @@
 		<record model="ir.actions.act_window" id="action_signalitic">
 			<field name="name">Fiche signalitique immeuble</field>
 			<field name="type">ir.actions.act_window</field>
-			<field name="res_model">building.signalitic</field>
+			<field name="res_model">syndic.building.signalitic</field>
 			<field name="view_type">form</field>
-			<field name="view_mode">tree,form</field>
+			<field name="view_mode">form</field>
 		</record>
 
-    <menuitem name="Fiche signalitique immeuble" id="building_signalitic"
-              parent="syndic_base.syndic" action="action_signalitic"/>
 </odoo>

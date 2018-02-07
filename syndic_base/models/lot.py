@@ -15,6 +15,15 @@ class Lot(models.Model):
     quotities = fields.Float('Quotitées')
     type_id = fields.Many2one('syndic.type_lot', 'Type de lot')
 
+    def open_mutation(self):
+        self.ensure_one()
+        action = self.env.ref('syndic_base.wizard_action_mutation').read()[0]
+        action['context'] = {
+            'default_old_owner_ids': self.owner_ids.ids,
+            'default_lot_ids': self.ids,
+        }
+        return action
+
 
 class TypeLot(models.Model):
     _name = 'syndic.type_lot'

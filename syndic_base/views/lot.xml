@@ -26,6 +26,7 @@
                     <field name="owner_ids" widget="many2many_tags"/>
                     <field name="loaner_ids"  widget="many2many_tags"/>
                     <field name="type_id"/>
+					<button string="Mutation" type="object" name="open_mutation"/>
 				</tree>
 			</field>
 		</record>
