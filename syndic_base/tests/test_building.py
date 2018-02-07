@@ -60,5 +60,5 @@ class TestEventFlow(TestSyndicCommon):
         self.Lot.sudo(self.sandrine).create(vals)
         self.Lot.sudo(self.florence).create(vals)
 
-        # recheck read on a building where I am the owner
-        self.Building.browse(self.gemini).sudo(self.serge).read()
+        # recheck read on a building where I am the owner (we don't have access to the signalitic field)
+        self.Building.browse(self.gemini).sudo(self.serge).read(['name', 'num'])
