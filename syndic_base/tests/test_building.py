@@ -2,6 +2,7 @@
 
 from odoo.addons.syndic_base.tests.common import TestSyndicCommon
 from odoo.exceptions import ValidationError, UserError, AccessError
+import datetime
 
 
 class TestEventFlow(TestSyndicCommon):
@@ -47,7 +48,6 @@ class TestEventFlow(TestSyndicCommon):
             self.aloys.sudo(self.sandrine).unlink()
         self.adfl.sudo(self.florence).unlink()
 
-
     def test_01_lot(self):
         vals = {
             'name': 'A1',
@@ -62,3 +62,17 @@ class TestEventFlow(TestSyndicCommon):
 
         # recheck read on a building where I am the owner (we don't have access to the signalitic field)
         self.Building.browse(self.gemini).sudo(self.serge).read(['name', 'num'])
+
+    def test_02_mutation(self):
+        mutation = self.env['syndic.mutation'].create({
+            'mutation_date': datetime.datetime.now(),
+            'old_owner_ids': [(4, self.sgimmo)],
+            'new_owner_ids': [(0, 0, {'name': 'New Owner'})],
+            'lot_ids': [(4, self.A1)],
+        })
+        mutation.mutation()
+
+        self.assertIn('New Owner', self.env['syndic.lot'].browse(self.A1).owner_ids.mapped('name'))
+        sgimmo = self.env['res.partner'].browse(self.sgimmo)
+        self.assertTrue(sgimmo.is_old)
+        self.assertFalse(sgimmo.is_proprietaire)

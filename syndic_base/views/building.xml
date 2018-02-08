@@ -96,7 +96,7 @@
                                 </tree>
                             </field>
                         </page>
-                        <page string="Fiche technique" name="fiche_technique">
+                        <page string="Corps de métier" name="fiche_technique">
                             <field name="supplier_ids"
                                    attrs="{'readonly': [('is_lock', '=', True)]}"
                                    context="{'default_supplier': True, 'form_view_ref': 'syndic_base.view_fournisseur_form'}"/>

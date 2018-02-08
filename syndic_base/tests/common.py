@@ -23,3 +23,9 @@ class TestSyndicCommon(common.TransactionCase):
 
         # building
         self.gemini = self.env['ir.model.data'].xmlid_to_res_id('syndic_base.syndic_demo_building_gemini')
+
+        # owner
+        self.sgimmo = self.env['ir.model.data'].xmlid_to_res_id('syndic_base.syndic_partner_gemini_owner')
+
+        # Lot
+        self.A1 = self.env['ir.model.data'].xmlid_to_res_id('syndic_base.syndic_gemini_lot1')

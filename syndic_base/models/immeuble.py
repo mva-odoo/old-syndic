@@ -18,7 +18,7 @@ class Immeuble(models.Model):
     compte = fields.Char('Compte en banque')
 
     city_id = fields.Many2one('res.partner.city', 'Commune', required=True)
-    supplier_ids = fields.Many2many('res.partner', string="Fiche technique")
+    supplier_ids = fields.Many2many('res.partner', string="Corps de métier")
     total_quotites = fields.Float(compute='_get_quotity', string='Total des Quotitées')
 
     lot_ids = fields.One2many('syndic.lot', 'building_id', 'Lots')

@@ -39,7 +39,6 @@ class Partner(models.Model):
     loaner_building_ids = fields.Many2many('syndic.building', compute='_get_building',
                                            search='_search_loaner_building', string='Immeuble(Locataire)')
 
-
     @api.depends('lot_ids')
     def _get_number_lot(self):
         for partner in self:
@@ -64,30 +63,31 @@ class Partner(models.Model):
     @api.depends('lot_ids')
     def _get_building(self):
         for partner in self:
-             partner.building_ids = partner.lot_ids.mapped('building_id')
-             partner.loaner_building_ids = partner.loaner_lot_ids.mapped('building_id')
+            partner.building_ids = partner.lot_ids.mapped('building_id')
+            partner.loaner_building_ids = partner.loaner_lot_ids.mapped('building_id')
 
     @api.model
     def create(self, vals):
-       partner = super(Partner, self).create(vals)
-       if not vals.get('partner_id'):
-           self.env['res.users']._signup_create_user({
-               'partner_id': partner.id,
-               'name': partner.name,
-               'login': '%s - %s' % (partner.name, partner.id),
-           })
+        partner = super(Partner, self).create(vals)
+        self.env['res.users']._signup_create_user({
+            'partner_id': partner.id,
+            'name': partner.name,
+            'login': '%s - %s' % (partner.name, partner.id),
+        })
+        return partner
 
-       return partner
-
-
-    @api.depends('lot_ids', 'loaner_lot_ids', 'lot_ids.building_id.active', 'old_lot_ids')
+    @api.depends(
+        'lot_ids', 'loaner_lot_ids', 'loaner_lot_ids.building_id.active', 'lot_ids.building_id.active', 'old_lot_ids')
     def _get_partner_type(self):
         for partner in self:
-            building = partner.lot_ids.mapped('building_id') if partner.lot_ids else self.env['syndic.building']
-            if building:
-                partner.is_proprietaire = True if partner.lot_ids and any(building.mapped('active')) else False
-                partner.is_old = True if partner.old_lot_ids or False in building.mapped('active') else False
-            partner.is_locataire = True if partner.loaner_lot_ids else False
+            if partner.lot_ids.filtered(lambda s: s.building_id.active):
+                partner.is_proprietaire = True
+
+            if partner.lot_ids.filtered(lambda s: not s.building_id.active) or partner.old_lot_ids:
+                partner.is_old = True
+
+            if partner.loaner_lot_ids and partner.loaner_lot_ids.mapped('building_id').active:
+                partner.is_locataire = True
 
     def action_lot(self):
         self.ensure_one()
@@ -106,6 +106,7 @@ class Partner(models.Model):
         action = self.env.ref('syndic_base.action_lot').read()[0]
         action['domain'] = [('id', 'in', self.old_lot_ids.ids)]
         return action
+
 
 class ResPartnerJob(models.Model):
     _name = 'res.partner.job'
