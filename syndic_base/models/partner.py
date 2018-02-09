@@ -69,7 +69,7 @@ class Partner(models.Model):
     @api.model
     def create(self, vals):
         partner = super(Partner, self).create(vals)
-        self.env['res.users']._signup_create_user({
+        self.env['res.users'].with_context(nocreate_user=True).create({
             'partner_id': partner.id,
             'name': partner.name,
             'login': '%s - %s' % (partner.name, partner.id),
