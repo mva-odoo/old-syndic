@@ -7,6 +7,4 @@ class Users(models.Model):
 
     @api.model
     def create(self, vals):
-        if self.env.context.get('nocreate_user'):
-            return self.env['res.users']
-        return super(Users, self).create(vals)
+        return super(Users, self.with_context(normal_create=True)).create(vals)
