@@ -88,8 +88,8 @@
                             <field name="lot_ids" attrs="{'readonly': [('is_lock', '=', True)]}">
                                 <tree string="Lot" editable="bottom">
                                     <field name="name"/>
-                                    <field name="owner_ids" widget="many2many_tags"/>
-                                    <field name="loaner_ids" widget="many2many_tags"/>
+                                    <field name="owner_ids" widget="many2many_tags" domain="[('is_proprietaire', '=', True)]"/>
+                                    <field name="loaner_ids" widget="many2many_tags" domain="[('is_locataire', '=', True)]"/>
                                     <field name="quotities" sum="Sommes des quotities"/>
                                     <field name="type_id"/>
                                     <button string="Mutation" type="object" name="open_mutation"/>
@@ -99,6 +99,7 @@
                         <page string="Corps de métier" name="fiche_technique">
                             <field name="supplier_ids"
                                    attrs="{'readonly': [('is_lock', '=', True)]}"
+                                   domain="[('supplier', '=', True)]"
                                    context="{'default_supplier': True, 'form_view_ref': 'syndic_base.view_fournisseur_form'}"/>
                         </page>
                         <page string="Notes" name="notes">

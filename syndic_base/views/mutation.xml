@@ -36,7 +36,7 @@
         <field name="model">syndic.mutation</field>
         <field name="type">form</field>
         <field name="arch" type="xml">
-            <form string="mutation" layout="manual" version="7.0">
+            <form>
             <header>
                 <button string="Mutation" name="mutation" type="object"
                         attrs="{'invisible':[('state','=','done')]}" />
@@ -73,7 +73,7 @@
         <field name="model">syndic.mutation</field>
         <field name="type">form</field>
         <field name="arch" type="xml">
-            <form string="mutation" layout="manual" version="7.0">
+            <form>
                 <group>
                     <field name="name" invisible="True"/>
                     <field name="mutation_date" required="True"/>
@@ -95,7 +95,7 @@
                     </field>
                 </group>
                 <footer>
-                    <button string="Mutation" name="mutation" type="object"/>
+                    <button string="Mutation" name="mutation" type="object" context="{'no_mutation': True}"/>
                 </footer>
             </form>
         </field>

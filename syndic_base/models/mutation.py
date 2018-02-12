@@ -32,19 +32,24 @@ class Mutation(models.Model):
 
     @api.multi
     def mutation(self):
-        for mutation in self:
-            mutation.old_owner_ids.write({'old_lot_ids': [(4, lot_id.id) for lot_id in mutation.lot_ids]})
-            mutation.lot_ids.write({'owner_ids': [(6, 0, self.new_owner_ids.ids)]})
+        if not self.env.context.get('no_mutation', False):
+            for mutation in self:
+                mutation.old_owner_ids.write({'old_lot_ids': [(4, lot_id.id) for lot_id in mutation.lot_ids]})
+                mutation.lot_ids.write({'owner_ids': [(6, 0, self.new_owner_ids.ids)]})
 
-            if not mutation.old_owner_ids.mapped('lot_ids.owner_ids'):
-                mutation.old_owner_ids.mapped('user_id').write({'active': False})
+                if not mutation.old_owner_ids.mapped('lot_ids.owner_ids'):
+                    mutation.old_owner_ids.mapped('user_id').write({'active': False})
 
-            mutation.write({'state': 'done'})
+                mutation.write({'state': 'done'})
 
-            mutation.lot_ids.message_post(
-                body=_('Mutation le %s: Ancien: %s - Nouveau %s' % (
-                    mutation.mutation_date,
-                    mutation.old_owner_ids.mapped('name'),
-                    mutation.new_owner_ids.mapped('name'),
-                ))
-            )
+                mutation.lot_ids.message_post(
+                    body=_('Mutation le %s: Ancien: %s - Nouveau %s' % (
+                        mutation.mutation_date,
+                        mutation.old_owner_ids.mapped('name'),
+                        mutation.new_owner_ids.mapped('name'),
+                    ))
+                )
+        else:
+            # just save in draft
+            return {}
+
