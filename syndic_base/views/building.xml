@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record model="ir.ui.view" id="search_building">
+        <field name="name">Syndic search immeuble</field>
+        <field name="model">syndic.building</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="BCE"/>
+                <field name="num"/>
+                <field name="street"/>
+                <field name="zip"/>
+                <field name="city_id"/>
+                <filter name="old_building" string="Anciens batiments" domain="[('active', '=', False)]"/>
+            </search>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="tree_building">
+        <field name="name">Syndic tree immeuble</field>
+        <field name="model">syndic.building</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="num"/>
+                <field name="name"/>
+                <field name="street"/>
+                <field name="city_id"/>
+                <field name="zip"/>
+                <field name="BCE"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="form_building">
+        <field name="name">Syndic form immeuble</field>
+        <field name="model">syndic.building</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="toggle_lock" string="Bloquer" type="object" icon="fa-lock"
+                                attrs="{'invisible': [('is_lock', '=', True)]}"/>
+                        <button name="toggle_lock" string="Débloquer" type="object" icon="fa-unlock"
+                                attrs="{'invisible': [('is_lock', '=', False)]}"/>
+                        <button string="Fiche Technique" icon="fa-folder-o" type="object" name="open_tech"/>
+                        <button class="oe_stat_button" type="object" name="action_lot" icon="fa-building">
+                            <field string="Lots" name="lot_count" widget="statinfo"/>
+                        </button>
+                        <button class="oe_stat_button" type="object" name="action_inhabitant" icon="fa-user-circle"
+                                context="{'inhabitant_type':'owner'}">
+                            <field string="Propriétaires" name="owner_count" widget="statinfo"/>
+                        </button>
+                        <button class="oe_stat_button" type="object" name="action_inhabitant" icon="fa-user-circle-o"
+                                context="{'inhabitant_type':'loaner'}">
+                            <field string="Locataires" name="loaner_count" widget="statinfo"/>
+                        </button>
+                        <button name="toggle_active" type="object" class="oe_stat_button" icon="fa-archive">
+                            <field name="active" widget="boolean_button" options='{"terminology": "active"}'/>
+                        </button>
+                    </div>
+                <h1>
+                    <field name="num" class="oe_inline" placeholder="Numéros d'immeuble"
+                           attrs="{'readonly': [('is_lock', '=', True)]}"/> -
+                    <field name="name" class="oe_inline" placeholder="Nom d'immeuble"
+                           attrs="{'readonly': [('is_lock', '=', True)]}"/>
+                </h1>
+
+                <field name="is_lock" invisible="1"/>
+
+                <group string="Adresse:" name="address">
+                    <field name="zip" widget="raw-field-integer" attrs="{'readonly': [('is_lock', '=', True)]}"/>
+                    <field name="city_id" context="{'default_zip': zip}" attrs="{'readonly': [('is_lock', '=', True)]}"/>
+                    <field name="street" attrs="{'readonly': [('is_lock', '=', True)]}"/>
+                </group>
+                <group>
+                    <group string="Information Divers:" name="divers">
+                        <field name="compte" attrs="{'readonly': [('is_lock', '=', True)]}"/>
+                        <field name="BCE" attrs="{'readonly': [('is_lock', '=', True)]}"/>
+                    </group>
+                     <group string="Date de l'Assemblée Générale" name="assemblee">
+                        <field name="sign_mois_rel" attrs="{'readonly': [('is_lock', '=', True)]}"/>
+                        <field name="sign_quizaine_rel" attrs="{'readonly': [('is_lock', '=', True)]}"/>
+                    </group>
+
+                </group>
+                    <notebook colspan="4">
+                        <page string="Lot" name="lot">
+                            <field name="lot_ids" attrs="{'readonly': [('is_lock', '=', True)]}">
+                                <tree string="Lot" editable="bottom">
+                                    <field name="name"/>
+                                    <field name="owner_ids" widget="many2many_tags" domain="[('is_proprietaire', '=', True)]"/>
+                                    <field name="loaner_ids" widget="many2many_tags" domain="[('is_locataire', '=', True)]"/>
+                                    <field name="quotities" sum="Sommes des quotities"/>
+                                    <field name="type_id"/>
+                                    <button string="Mutation" type="object" name="open_mutation"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Corps de métier" name="fiche_technique">
+                            <field name="supplier_ids"
+                                   attrs="{'readonly': [('is_lock', '=', True)]}"
+                                   domain="[('supplier', '=', True)]"
+                                   context="{'default_supplier': True, 'form_view_ref': 'syndic_base.view_fournisseur_form'}"/>
+                        </page>
+                        <page string="Notes" name="notes">
+                            <field name="note" attrs="{'readonly': [('is_lock', '=', True)]}"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="action_building">
+        <field name="name">Immeubles</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">syndic.building</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form,graph,pivot</field>
+        <field name="view_id" ref="tree_building" />
+        <field name="search_view_id" ref="search_building"/>
+    </record>
+
+        <record id="action_view_tree_immeuble" model="ir.actions.act_window.view">
+        <field name="act_window_id" ref="action_building"/>
+        <field name="sequence" eval="10"/>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="tree_building"/>
+    </record>
+
+    <record id="action_view_form_immeuble" model="ir.actions.act_window.view">
+        <field name="act_window_id" ref="action_building"/>
+        <field name="sequence" eval="20"/>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="form_building"/>
+    </record>
+
+    <menuitem name="Immeubles" id="simpl_immeubles" parent="syndic" action="action_building"/>
+</odoo>

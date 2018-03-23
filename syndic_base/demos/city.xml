@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record model="res.partner.city" id="syndic_demo_city_wavre">
+        <field name="name">Wavre</field>
+    </record>
+</odoo>
