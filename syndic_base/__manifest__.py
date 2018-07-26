@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 {
-    'name' : 'Syndic Base',
-    'version' : '2.0',
+    'name': 'Syndic Base',
+    'version': '2.0',
     'description': """
 Core mechanisms for the syndic modules.
     """,
     'category': 'Syndic',
-    'depends' : ['base', 'mail', 'syndic_web'],
+    'depends': ['base', 'mail', 'syndic_web'],
     'data': [
         'security/groups.xml',
         'security/ir.model.access.csv',
