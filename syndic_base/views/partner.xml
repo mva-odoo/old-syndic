@@ -37,8 +37,8 @@
             <tree>
                 <field name="name" string="Nom"/>
                 <field name="street" string="Adresse"/>
-                <field name="city_id" string="Ville"/>
                 <field name="zip" string="Code Postal"/>
+                <field name="city_id" string="Ville"/>
                 <field name="country_id" string="Pays"/>
                 <field name="phone" string="Téléphone"/>
                 <field name="email"/>
@@ -83,9 +83,9 @@
                             <group>
                                 <group string="Adresse">
                                     <field name="street"/>
-                                    <field name="city_id"/>
                                     <field name="zip"/>
-                                    <field name="country_id" options="{&quot;no_open&quot;: True, &quot;no_create&quot;: True}" />
+                                    <field name="city_id" attrs="{'readonly': [('zip', '=', False)]}"/>
+                                    <field name="country_id" options="{'no_open': True, 'no_create': True}" />
                                 </group>
 
                                 <group string="Contact Electronique">

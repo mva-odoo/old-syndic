@@ -22,11 +22,11 @@ class Partner(models.Model):
         ('email', 'Par Email')
     ], string='Convocation')
 
-    is_letter = fields.Boolean('Lettre')
-    is_email = fields.Boolean('Email')
+    is_letter = fields.Boolean('Par Lettre')
+    is_email = fields.Boolean('Par Email')
 
     lot_ids = fields.Many2many('syndic.lot', 'lot_proprietaire', string='Lots')
-    lot_count = fields.Integer('Lots', compute='_get_number_lot')
+    lot_count = fields.Integer('Quotitees Totales', compute='_get_number_lot')
 
     loaner_lot_ids = fields.Many2many('syndic.lot', 'lot_locataire', string='Lots(Locataire')
     loaner_lot_count = fields.Integer('Lots(Locataire)', compute='_get_number_lot_loaner')
@@ -38,6 +38,10 @@ class Partner(models.Model):
                                     search='_search_building', string='Immeuble')
     loaner_building_ids = fields.Many2many('syndic.building', compute='_get_building',
                                            search='_search_loaner_building', string='Immeuble(Locataire)')
+
+    country_id = fields.Many2one('res.country', default=lambda s: s.env.ref('base.be'))
+
+    building_ids = fields.Many2many('syndic.building', string="Immeubles")
 
     @api.depends('lot_ids')
     def _get_number_lot(self):
@@ -90,6 +94,12 @@ class Partner(models.Model):
             if partner.loaner_lot_ids and partner.loaner_lot_ids.mapped('building_id').active:
                 partner.is_locataire = True
 
+    @api.onchange('zip')
+    def _onchange_zip(self):
+        return {
+            'domain': {'city_id': [('zip', '=', self.zip)]}
+        }
+
     def action_lot(self):
         self.ensure_one()
         action = self.env.ref('syndic_base.action_lot').read()[0]
@@ -111,6 +121,7 @@ class Partner(models.Model):
 
 class ResPartnerJob(models.Model):
     _name = 'res.partner.job'
+    _description = 'Jobs'
     _order = 'name'
 
     name = fields.Char('Métier', requiered=True)

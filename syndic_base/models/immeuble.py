@@ -48,6 +48,12 @@ class Immeuble(models.Model):
         vals['is_lock'] = True
         return super(Immeuble, self).create(vals)
 
+    @api.onchange('zip')
+    def _onchange_zip(self):
+        return {
+            'domain': {'city_id': [('zip', '=', self.zip)]}
+        }
+
     @api.multi
     def toggle_active(self):
         self.ensure_one()

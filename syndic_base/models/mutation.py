@@ -27,7 +27,7 @@ class Mutation(models.Model):
     @api.onchange('old_owner_ids')
     def onchange_old_owner(self):
         return {
-            'domain': {'lot_ids': [('owner_ids', 'in',  self.old_owner_ids.ids)]}
+            'domain': {'lot_ids': [('owner_ids', 'in', self.old_owner_ids.ids)]}
         }
 
     @api.multi

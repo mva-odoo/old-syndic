@@ -9,5 +9,6 @@
     """,
     'depends': ['syndic_base'],
     'data': [
+        'views/letter.xml',
     ],
 }

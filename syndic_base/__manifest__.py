@@ -21,6 +21,7 @@ Core mechanisms for the syndic modules.
         'views/mutation.xml',
         'views/technical_field.xml',
         'views/res_config_setting_views.xml',
+        'datas/res.partner.city.csv',
     ],
     'demo': [
         'demos/users.xml',
