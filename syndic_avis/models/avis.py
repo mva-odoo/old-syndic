@@ -5,6 +5,7 @@ from odoo import models, fields, api, exceptions
 
 class LetterAvis(models.Model):
     _name = 'letter.avis'
+    _description = 'letter.avis'
     _order = 'create_date desc'
 
     name = fields.Char(u'Nom de l’avis', required=True)
@@ -30,5 +31,14 @@ class LetterAvis(models.Model):
 
 class TypeAvis(models.Model):
     _name = 'type.avis'
+    _description = 'type.avis'
 
     name = fields.Char('Type', required=True)
+
+
+class LetterModelAvis(models.Model):
+    _name = 'letter.avis.model'
+    _description = 'letter.avis.model'
+
+    name = fields.Char(u'Nom du modèle', required=True)
+    text = fields.Html('Avis')

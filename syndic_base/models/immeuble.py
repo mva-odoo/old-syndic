@@ -2,22 +2,35 @@
 
 from odoo import api, fields, models
 
+_MONTH = [
+    (1, 'Janvier'),
+    (2, 'Fevrier'),
+    (3, 'Mars'),
+    (4, 'Avril'),
+    (5, 'Mai'),
+    (6, 'Juin'),
+    (7, 'Juillet'),
+    (8, 'Aout'),
+    (9, 'Septembre'),
+    (10, 'Octobre'),
+    (11, 'Novembre'),
+    (12, 'Decembre')
+]
+
 
 class Immeuble(models.Model):
     _name = 'syndic.building'
     _description = 'Immeubles'
     _order = 'name asc'
 
-    name = fields.Char('Immeuble', required=True)
     active = fields.Boolean(default=True)
+    partner_id = fields.Many2one('res.partner', string='Partner',
+                                 required=True, ondelete="cascade", delegate=True)
 
     BCE = fields.Char('BCE')
     num = fields.Integer(u"N°", required=True)
-    street = fields.Char('Rue', required=True)
-    zip = fields.Integer('Code Postal', required=True)
     compte = fields.Char('Compte en banque')
 
-    city_id = fields.Many2one('res.partner.city', 'Commune', required=True)
     supplier_ids = fields.Many2many('res.partner', string="Corps de métier")
     total_quotites = fields.Float(compute='_get_quotity', string='Total des Quotitées')
 
@@ -35,13 +48,13 @@ class Immeuble(models.Model):
     manager_id = fields.Many2one('res.users', 'Manager',
                                  domain="[('groups_id.name','in',['Syndic/Employe','Syndic/Manager'])]")
 
-    is_private_gestion = fields.Boolean("Gestion Privative")
     is_lock = fields.Boolean('Bloquer')
 
-    signalitic_id = fields.Many2one('syndic.building.signalitic', string='Immeuble',
-                    required=True, ondelete="cascade", delegate=True)
-    sign_mois_rel = fields.Selection(string='Mois', related='signalitic_id.date_mois')
-    sign_quizaine_rel = fields.Selection(string='Quinzaine', related='signalitic_id.date_quizaine')
+    signalitic_id = fields.Many2one('syndic.building.signalitic', string='Immeuble')
+    meeting_month = fields.Selection(_MONTH, 'Mois')
+    meeting_week = fields.Selection([(1, '1'), (2, '2')], 'Quinzaine')
+
+    is_building = fields.Boolean('Est un immeuble', default=True)
 
     @api.model
     def create(self, vals):

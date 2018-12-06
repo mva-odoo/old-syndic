@@ -14,4 +14,5 @@ class ResConfigSettings(models.TransientModel):
     module_syndic_reunion = fields.Boolean('Assemblée générale')
     module_syndic_gestion_privative = fields.Boolean('Gérer les gestion privative')
     module_syndic_documents = fields.Boolean('Partager des documents')
-    module_syndic_caim = fields.Boolean('Gerer les sinistres')
+    module_syndic_claim = fields.Boolean('Gerer les sinistres')
+    module_syndic_dashboard = fields.Boolean('Dashboard')

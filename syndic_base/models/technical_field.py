@@ -1,9 +1,25 @@
 # -*- coding: utf-8 -*-
 from odoo import models, fields, api
 
+_MONTH = [
+    (1, 'Janvier'),
+    (2, 'Fevrier'),
+    (3, 'Mars'),
+    (4, 'Avril'),
+    (5, 'Mai'),
+    (6, 'Juin'),
+    (7, 'Juillet'),
+    (8, 'Aout'),
+    (9, 'Septembre'),
+    (10, 'Octobre'),
+    (11, 'Novembre'),
+    (12, 'Decembre')
+]
+
 
 class Desamientage(models.Model):
     _name = 'building.desamientage'
+    _description = 'building.desamientage'
     desamiente_par = fields.Many2one('res.partner', domain=[('supplier', '=', True)], string=u'Désamianté par')
     desamiente_le = fields.Date(u'Désamianté le')
     desamiente_niveau = fields.Char('au niveau de')
@@ -12,6 +28,7 @@ class Desamientage(models.Model):
 
 class DIU(models.Model):
     _name = 'building.diu'
+    _description = 'building.diu'
     diu_par = fields.Many2one('res.partner', domain=[('supplier', '=', True)], string='DIU par')
     diu_le = fields.Date('DIU le')
     diu_concerne = fields.Char('Concerne')
@@ -20,6 +37,7 @@ class DIU(models.Model):
 
 class ObservationFacade(models.Model):
     _name = 'building.facade'
+    _description = 'building.facade'
     observation = fields.Text('Observation')
     date_observation = fields.Date("Date d'observation")
     suivi = fields.Text("Suivi")
@@ -28,6 +46,7 @@ class ObservationFacade(models.Model):
 
 class RepeirFacade(models.Model):
     _name = 'facade.repair'
+    _description = 'facade.repair'
     facade_date_repeir = fields.Date(u'date de la réparation')
     facade_fournisseur_repeir = fields.Many2one('res.partner', domain=[('supplier', '=', True)], string='entreprise')
     facade_what_repeir = fields.Text(u'Objet de la réparation')
@@ -36,6 +55,7 @@ class RepeirFacade(models.Model):
 
 class Terasse(models.Model):
     _name = 'building.terasse'
+    _description = 'building.terasse'
     observation = fields.Text('Observation')
     date_observation = fields.Date("Date d'observation")
     suivi = fields.Text("suivi")
@@ -44,6 +64,7 @@ class Terasse(models.Model):
 
 class RepeirTerasse(models.Model):
     _name = 'building.repeir.terasse'
+    _description = 'building.repeir.terasse'
     terasse_date_repeir = fields.Date(u'date de la réparation')
     terasse_fournisseur_repeir = fields.Many2one('res.partner', domain=[('supplier', '=', True)], string='entreprise')
     terasse_what_repeir = fields.Text(u'Objet de la réparation')
@@ -52,6 +73,7 @@ class RepeirTerasse(models.Model):
 
 class ObservationToiture(models.Model):
     _name = 'observation.toiture'
+    _description = 'observation.toiture'
     observation_toiture = fields.Char('Observation')
     date_toiture = fields.Date("Date de l'observation")
     suivi_toiture = fields.Char('Suivi')
@@ -60,6 +82,7 @@ class ObservationToiture(models.Model):
 
 class RepeirToiture(models.Model):
     _name = 'repeir.toiture'
+    _description = 'repeir.toiture'
     entreprise = fields.Many2one('res.partner', domain=[('supplier', '=', True)], string='Fournisseur')
     date_repeir = fields.Date('Date')
     objet_repeir = fields.Char(u'Objet de la réparation')
@@ -68,6 +91,7 @@ class RepeirToiture(models.Model):
 
 class ObservationJardin(models.Model):
     _name = 'jardin.observation'
+    _description = 'jardin.observation'
     observation_jardin = fields.Char('Observation')
     date_jardin = fields.Date("Date de l'observation")
     suivi_jardin = fields.Char('Suivi')
@@ -76,6 +100,7 @@ class ObservationJardin(models.Model):
 
 class Ascensseur(models.Model):
     _name = 'ascensseurs'
+    _description = 'ascensseurs'
     name = fields.Char('Ascenseur')
     type = fields.Char('Type')
     vitesse = fields.Char('Vitesse')
@@ -88,6 +113,7 @@ class Ascensseur(models.Model):
 
 class RepeirAscensseur(models.Model):
     _name = 'repeir.ascensseur'
+    _description = 'repeir.ascensseur'
     entreprise = fields.Many2one('res.partner', domain=[('supplier', '=', True)], string='Fournisseur')
     date_repeir = fields.Date('Date')
     objet_repeir = fields.Char(u'Objet de la réparation')
@@ -96,6 +122,7 @@ class RepeirAscensseur(models.Model):
 
 class PieceChauffage(models.Model):
     _name = "piece.chauffage"
+    _description = "piece.chauffage"
     parties = fields.Selection([
                                ('crops', 'Corps de chauffe'),
                                ('bruleur', 'Bruleur'),
@@ -111,6 +138,7 @@ class PieceChauffage(models.Model):
 
 class RepeirChaudiere(models.Model):
     _name = 'repeir.chaudiere'
+    _description = 'repeir.chaudiere'
     entreprise = fields.Many2one('res.partner', domain=[('supplier', '=', True)], string='Fournisseur')
     date_repeir = fields.Date('Date')
     objet_repeir = fields.Char(u'Objet de la réparation')
@@ -119,6 +147,7 @@ class RepeirChaudiere(models.Model):
 
 class ObservationEgoutage(models.Model):
     _name = 'egoutage.observation'
+    _description = 'egoutage.observation'
     entreprise = fields.Many2one('res.partner', domain=[('supplier', '=', True)], string='Fournisseur')
     date_egoutage = fields.Date("Date de l'observation")
     suivi_egoutage = fields.Char(u'objet de la réparation')
@@ -127,6 +156,7 @@ class ObservationEgoutage(models.Model):
 
 class Extincteur(models.Model):
     _name = 'extincteur'
+    _description = 'extincteur'
     extincteur_marque = fields.Char('Marque')
     extincteur_contrat = fields.Many2one('res.partner', domain=[('supplier', '=', True)], string='Contrat d\'entretien')
     extincteur_contrat_date = fields.Date('date anniversaire du contrat')
@@ -135,6 +165,7 @@ class Extincteur(models.Model):
 
 class RepeirGarage(models.Model):
     _name = 'repeir.garage'
+    _description = 'repeir.garage'
     entreprise = fields.Many2one('res.partner', domain=[('supplier', '=', True)], string='Fournisseur')
     date_repeir = fields.Date('Date')
     objet_repeir = fields.Char(u'Objet de la réparation')
@@ -143,6 +174,7 @@ class RepeirGarage(models.Model):
 
 class RepeirGeneral(models.Model):
     _name = 'repeir.general'
+    _description = 'repeir.general'
     entreprise = fields.Many2one('res.partner', domain=[('supplier', '=', True)], string='Fournisseur')
     date_repeir = fields.Date('Date')
     objet_repeir = fields.Char(u'Objet de la réparation')
@@ -152,25 +184,19 @@ class RepeirGeneral(models.Model):
 
 class SignalitiqueImmeuble(models.Model):
     _name = 'syndic.building.signalitic'
+    _description = 'syndic.building.signalitic'
 
     # info general---------------------------------------
     building_ids = fields.One2many('syndic.building', 'signalitic_id', string='Immeubles')
     name = fields.Char('Nom', related='building_ids.name')
 
     construction_date = fields.Integer('Date de construction')
-    date_mois = fields.Selection([('janvier', 'Janvier'), ('fevrier', 'Fevrier'), ('mars', 'Mars'), ('avril', 'Avril'),
-                                  ('mai', 'Mai'), ('juin', 'Juin'), ('juillet', 'Juillet'), ('aout', 'Aout'),
-                                  ('septembre', 'Septembre'), ('octobre', 'Octobre'), ('novembre', 'Novembre'),
-                                  ('decembre', 'Decembre')], 'Mois')
+    date_mois = fields.Selection(_MONTH, 'Mois')
     date_quizaine = fields.Selection([('1', '1'), ('2', '2')], 'Quinzaine')
     lieu_assemble = fields.Char('Lieu de la tenue de l assemblee generale')
     compte = fields.Char('Compte bancaire')
     compta = fields.Selection([('trimestrielle', 'Trimestrielle'), ('annuelle', 'Annuelle')], 'Comptabilite')
-    date_cloture = fields.Selection(
-        [('janvier', 'Janvier'), ('fevrier', 'Fevrier'), ('mars', 'Mars'), ('avril', 'Avril'), ('mai', 'Mai'),
-         ('juin', 'Juin'), ('juillet', 'Juillet'), ('aout', 'Aout'), ('septembre', 'Septembre'),
-         ('octobre', 'Octobre'), ('novembre', 'Novembre'), ('decembre', 'Decembre')],
-        u'Date de cloture de la comptabilite')
+    date_cloture = fields.Selection(_MONTH, u'Date de cloture de la comptabilite')
     # acte de base
     notaire_building = fields.Char('Notaire')
     lieu_acte_building = fields.Char('Lieu de transcription')
@@ -328,10 +354,7 @@ class SignalitiqueImmeuble(models.Model):
 
     # compteur
     societe_compteur = fields.Many2one('res.partner', domain=[('supplier', '=', True)], string=u'Société')
-    date_compteur = fields.Selection(
-        [('janvier', 'Janvier'), ('fevrier', 'Fevrier'), ('mars', 'Mars'), ('avril', 'Avril'), ('mai', 'Mai'),
-         ('juin', 'Juin'), ('juillet', 'Juillet'), ('aout', 'Aout'), ('septembre', 'Septembre'),
-         ('octobre', 'Octobre'), ('novembre', 'Novembre'), ('decembre', 'Decembre')], 'mois')
+    date_compteur = fields.Selection(_MONTH, 'mois')
     date_contrat_compteur = fields.Date('Date anniversaire du contrat')
 
     # chauffage

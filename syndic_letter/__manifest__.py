@@ -8,7 +8,7 @@
     Syndic Lettre
     """,
     'author': 'SGImmo SPRL',
-    'depends': ['syndic_base', 'mail'],
+    'depends': ['syndic_base', 'mail', 'syndic_tools'],
     'website': 'https://sgimmo.be',
     'data': [
         'views/letter.xml',

@@ -4,8 +4,8 @@
                 inherit_id="web.assets_backend">
           <xpath expr="." position="inside">
               <link rel="stylesheet"
-                    href="/syndic_web/static/src/css/syndic.css"/>
-              <script type="text/javascript" src="/syndic_web/static/src/js/widget.js"></script>
+                    href="/syndic_base/static/src/css/syndic.css"/>
+              <script type="text/javascript" src="/syndic_base/static/src/js/widget.js"></script>
           </xpath>
       </template>
 

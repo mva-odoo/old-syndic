@@ -1,0 +1,2 @@
+"id","name","model_id:id","group_id:id","perm_read","perm_write","perm_create","perm_unlink"
+"acl_syndic_gestion_privative_employe","syndic Gestion Privative Employee","model_syndic_gestion_privative","syndic_base.syndic_employe",1,1,1,1

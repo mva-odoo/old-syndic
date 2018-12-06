@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from odoo import models, fields, api, exceptions
-# from openerp.addons.syndic_tools.syndic_tools import SyndicTools
+from odoo.addons.syndic_tools.syndic_tools import SyndicTools
 
 
 class PieceJointe(models.Model):
@@ -11,6 +11,7 @@ class PieceJointe(models.Model):
 
 class CreateLetter(models.Model):
     _name = 'letter.letter'
+    _description = 'letter.letter'
     _rec_name = 'sujet'
     _order = 'date desc'
 
@@ -23,12 +24,14 @@ class CreateLetter(models.Model):
                             'res_partner_owner_rel',
                             'id1',
                             'id2',
+                            domain=[('is_proprietaire', '=', True)],
                             string=u'Propriétaire')
     fourn_ids = fields.Many2many(
                             'res.partner',
                             'res_partner_supplier_rel',
                             'id1',
                             'id2',
+                            domain=[('supplier', '=', True)],
                             string='Fournisseurs')
     divers_ids = fields.Many2many(
                             'res.partner',
@@ -41,12 +44,14 @@ class CreateLetter(models.Model):
                             'res_partner_old_rel',
                             'id1',
                             'id2',
+                            domain=[('is_old', '=', True)],
                             string=u'Ancien Propriétaire')
     loc_ids = fields.Many2many(
                             'res.partner',
                             'res_partner_loaner_rel',
                             'id1',
                             'id2',
+                            domain=[('is_locataire', '=', True)],
                             string='Locataires')
     end_letter_id = fields.Many2one('letter.end', 'Fin de lettre', required=True)
     begin_letter_id = fields.Many2one('letter.begin', u'Début de lettre', required=True)
@@ -176,31 +181,28 @@ width="96" height="61"/>'"""
 
 class EndLetter(models.Model):
     _name = 'letter.end'
+    _description = 'letter.end'
 
     name = fields.Char('Fin de lettre', required=True)
 
 
 class BeginLetter(models.Model):
     _name = 'letter.begin'
+    _description = 'letter.begin'
 
     name = fields.Char('Debut de lettre', required=True)
 
 
 class LetterType(models.Model):
     _name = 'letter.type'
+    _description = 'letter.type'
 
     name = fields.Char('Type Letter', required=True)
 
 
 class LetterModel(models.Model):
     _name = 'letter.model'
+    _description = 'letter.model'
 
     name = fields.Char('Model Letter', required=True)
     text = fields.Html('Text', required=True)
-
-
-class LetterModelAvis(models.Model):
-    _name = 'letter.avis.model'
-
-    name = fields.Char(u'Nom du modèle', required=True)
-    text = fields.Html('Avis')

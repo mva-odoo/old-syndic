@@ -9,6 +9,7 @@ Core mechanisms for the syndic modules.
     'depends': ['syndic_base'],
     'data': [
         'views/gestion_privative.xml',
+        'security/ir.model.access.csv',
     ],
     'demo': [
     ],
