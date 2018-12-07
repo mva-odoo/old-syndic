@@ -109,14 +109,14 @@
                                 <field name="divers_ids" colspan="1"/>
                             </page>
                             <page string="Personnes jointes">
-                                <!-- <field name="partner_address_ids" colspan="1">
-                                    <tree>
+                                <!-- <field name="partner_address_ids" colspan="1"> -->
+                                    <!-- <tree>
                                         <field name="name"/>
                                         <field name="add_parent_id_owner"/>
                                         <field name="add_parent_id_supplier"/>
                                         <field name="add_parent_id_loaner"/>
-                                    </tree>
-                                </field> -->
+                                    </tree> -->
+                                <!-- </field> -->
                             </page>
 
                         </notebook>

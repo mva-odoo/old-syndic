@@ -80,8 +80,8 @@
                         <field name="manager_id" attrs="{'readonly': [('is_lock', '=', True)]}"/>
                     </group>
                      <group string="Date de l'Assemblée Générale" name="assemblee">
-                        <field name="meeting_month" attrs="{'readonly': [('is_lock', '=', True)]}"/>
-                        <field name="meeting_week" attrs="{'readonly': [('is_lock', '=', True)]}"/>
+                        <field name="date_mois" attrs="{'readonly': [('is_lock', '=', True)]}"/>
+                        <field name="date_quizaine" attrs="{'readonly': [('is_lock', '=', True)]}"/>
                     </group>
 
                 </group>

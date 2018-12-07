@@ -67,8 +67,8 @@ class CreateLetter(models.Model):
     create_date = fields.Datetime(u'Date de création')
     date = fields.Date(u'Date de création', default=lambda *a: fields.date.today(), copy=False)
     date_fr = fields.Char(string='Date', compute='_compute_date', store=True)
-    # partner_address_ids = fields.Many2many('partner.address', String="Personne Jointe",
-    #                                        compute='_compute_join_address', store=True)
+    partner_address_ids = fields.Many2many('partner.address', String="Personne Jointe",
+                                            compute='_compute_join_address')
     state = fields.Selection([('not_send', 'Pas envoyé'), ('send', 'Envoyé')], string='State', default='not_send')
     mail_server = fields.Many2one('ir.mail_server', 'Serveur email')
 
@@ -112,7 +112,7 @@ class CreateLetter(models.Model):
 
     @api.depends('propr_ids', 'fourn_ids', 'loc_ids')
     def _compute_join_address(self):
-        partner_address = self.env['partner.address']
+        partner_address = self.env['res.partner']
 
         partner_address |= self.propr_ids.mapped('address_ids').filtered(lambda s: s.is_letter)
         partner_address |= self.fourn_ids.mapped('address_ids').filtered(lambda s: s.is_letter)

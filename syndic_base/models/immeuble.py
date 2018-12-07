@@ -50,9 +50,8 @@ class Immeuble(models.Model):
 
     is_lock = fields.Boolean('Bloquer')
 
-    signalitic_id = fields.Many2one('syndic.building.signalitic', string='Immeuble')
-    meeting_month = fields.Selection(_MONTH, 'Mois')
-    meeting_week = fields.Selection([(1, '1'), (2, '2')], 'Quinzaine')
+    signalitic_id = fields.Many2one('syndic.building.signalitic',
+                                    required=True, ondelete="cascade", delegate=True, string='Immeuble')
 
     is_building = fields.Boolean('Est un immeuble', default=True)
 

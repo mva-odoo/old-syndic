@@ -11,19 +11,19 @@ class OrderRoute(http.Controller):
         current_month = datetime.now().month
         buildings = http.request.env['syndic.building'].search(
             [
-                ('meeting_month', '!=', False),
-                ('meeting_month', '<=', int(current_month) + 3),
-                ('meeting_month', '>=', int(current_month) - 2),
+                ('date_mois', '!=', False),
+                ('date_mois', '<=', int(current_month) + 3),
+                ('date_mois', '>=', int(current_month) - 2),
 
             ],
-            order='meeting_month'
+            order='date_mois'
         )
 
         events = []
         for month in range(int(current_month) - 2, int(current_month) + 3):
             events.append({
                 'date': '%s' % (month),
-                'content': ', '.join(buildings.filtered(lambda s: s.meeting_month == month).mapped('name')),
+                'content': ', '.join(buildings.filtered(lambda s: s.date_mois == month).mapped('name')),
             })
 
         return {

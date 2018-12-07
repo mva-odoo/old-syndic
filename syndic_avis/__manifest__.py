@@ -7,7 +7,7 @@
     Syndic conseil de copropriete
     """,
     'author': 'SGImmo SPRL',
-    'depends': ['syndic_base'],
+    'depends': ['syndic_letter'],
     'website': 'https://sgimmo.be',
     'data': [
             'views/avis.xml',

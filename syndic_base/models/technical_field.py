@@ -188,7 +188,6 @@ class SignalitiqueImmeuble(models.Model):
 
     # info general---------------------------------------
     building_ids = fields.One2many('syndic.building', 'signalitic_id', string='Immeubles')
-    name = fields.Char('Nom', related='building_ids.name')
 
     construction_date = fields.Integer('Date de construction')
     date_mois = fields.Selection(_MONTH, 'Mois')
