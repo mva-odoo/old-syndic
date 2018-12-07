@@ -30,14 +30,15 @@
         <template t-name="letter" id="letter">
                 <div class="row">
 
-                    <div class="col-xs-6"><br/><br/>
+                    <div class="col-md-6"><br/><br/>
                         <t t-if="o.is_fax">
                             FAX: <span t-field="prop_id.fax" style="font-size:16px;"/>
                         </t>
                         <br/><span t-field="o.letter_type_id.name" style="font-size:18px;"/>
                         <br/>
                     </div>
-                    <div class="col-xs-6" style="font-size:16px;">
+
+                    <div class="col-md-6" style="font-size:16px;">
                         <span t-field="prop_id.title.name"/> <span t-field="prop_id.name"/><br/>
                         <span t-field="prop_id.street"/><br/>
                         <span t-field="prop_id.zip"/> <span t-field="prop_id.city_id.name"/><br/>
@@ -45,23 +46,25 @@
                         <br/>
                         Bruxelles, le <span t-field="o.date_fr"/><br/>
                     </div>
+                  </div>
+                  <div class="row">
 
-
-                    <div class="col-xs-2" style="font-size:16px;">
+                    <div class="col-md-2" style="font-size:16px;">
                         <br/>Concerne:<br/><br/><br/>
                         BCE:<br/><br/>
                         Objet:
                     </div>
-                    <div class="col-xs-10" style="font-size:16px;">
+                    <div class="col-md-10" style="font-size:16px;">
                         <br/><span t-field="o.immeuble_id.name"/><br/>
                         <span t-field="o.immeuble_id.street"/><br/>
                         <span t-esc="o.immeuble_id.zip"/> <span t-field="o.immeuble_id.city_id.name"/><br/>
                         <span t-field="o.immeuble_id.BCE"/><br/><br/>
                         <span t-field="o.sujet"/><br/>
                     </div>
+                  </div>
+                    <div class="row">
 
-
-                    <div class="col-xs-12" style="font-size:16px;">
+                    <div class="col-md-12" style="font-size:16px;">
                         <br/><br/>
                         <span t-field="o.begin_letter_id.name"/>
                         <br/>
@@ -85,7 +88,7 @@
 
         <template id="letter_qweb">
             <t t-call="web.html_container">
-                <!-- <t t-set="docs" t-value="docs.with_context({'lang':'fr_BE'})" /> -->
+                <t t-set="docs" t-value="docs.with_context({'lang':'fr_BE'})" />
 
                 <t t-name="letter_qweb">
                     <t t-foreach="docs" t-as="o">

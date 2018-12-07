@@ -25,7 +25,7 @@ var Dashboard = AbstractAction.extend(ControlPanelMixin, {
 	},
 
 	_render_timeline: function(){
-  		// console.log(template_timeline);
+
 		this.$('.my-timeline').roadmap(this.stats.myEvents, {
 			eventTemplate: '<div class="event">' + '<div class="event__date">####DATE###</div>' + '<div class="event__content">####CONTENT###</div>' + '</div>',
 			eventsPerSlide: 5,
