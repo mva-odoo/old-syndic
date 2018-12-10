@@ -94,10 +94,13 @@ class Partner(models.Model):
             if partner.loaner_lot_ids and partner.loaner_lot_ids.mapped('building_id').active:
                 partner.is_locataire = True
 
-    @api.onchange('zip')
+    @api.onchange('zip', 'country_id')
     def _onchange_zip(self):
+        domain = [('country_id', '=', self.country_id.id)]
+        if self.country_id.id == self.env.ref('base.be').id:
+            domain.append(('zip', '=', self.zip))
         return {
-            'domain': {'city_id': [('zip', '=', self.zip)]}
+            'domain': {'city_id': domain}
         }
 
     def action_lot(self):
