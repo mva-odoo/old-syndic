@@ -2,7 +2,17 @@
 <templates id="timeline" xml:space="preserve">
 
 	<div t-name="dashboardTimeline">
-	   <div class="my-timeline"></div>
+
+		 <div class="container" style='display: unset;'>
+	 	 <div class="row">
+	 		 <div class="col-8">
+	 			  <div class="my-timeline"/>
+	 		 </div>
+	 		 <div class="col-4">
+	 			 <h1>Mes Immeubles</h1>
+	 		 </div>
+	 	 </div>
+	 	 </div>
 	</div>
 
 

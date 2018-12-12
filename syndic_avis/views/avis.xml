@@ -65,6 +65,14 @@
             </field>
         </record>
 
+        <record model="ir.actions.act_window" id="avis_type_model">
+          <field name="name">Type d'avis</field>
+          <field name="type">ir.actions.act_window</field>
+          <field name="res_model">type.avis</field>
+          <field name="view_type">form</field>
+          <field name="view_mode">tree,form</field>
+        </record>
+
 
         <record model="ir.actions.act_window" id="action_model_avis">
             <field name="name">Modèle d avis</field>
@@ -85,6 +93,8 @@
         <menuitem name="Avis" id="menu_action_avis" parent="syndic_letter.menu_sub_letter" action="action_avis" sequence="3"/>
         <menuitem name="Modèle d avis" id="menu_action_model_avis" parent="syndic_letter.menu_configuration_letter"
                   action="action_model_avis" sequence="2"/>
+        <menuitem name="Type d'avis" id="menu_avis_type" parent="syndic_letter.menu_configuration_letter" action="avis_type_model" />
+
 
     </data>
 </openerp>
