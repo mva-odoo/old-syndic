@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from odoo import models, fields, api, exceptions
-# from openerp.addons.syndic_tools.syndic_tools import SyndicTools
+from odoo.addons.syndic_tools.syndic_tools import SyndicTools
 
 
 class LetterAvis(models.Model):

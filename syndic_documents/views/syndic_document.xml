@@ -15,7 +15,7 @@
 				</search>
 			</field>
 		</record>
-        
+
 		<!--tree view -->
 		<record model="ir.ui.view" id="tree_doc">
 			<field name="name">Claim tree view</field>
@@ -58,7 +58,7 @@
 				</form>
 			</field>
 		</record>
-		
+
 		<!--action -->
 		<record model="ir.actions.act_window" id="action_syndic_document">
 			<field name="name">documents</field>
@@ -71,8 +71,7 @@
 
 
 		<!--menu -->
-		<menuitem name="Documents" id="docu"/>
-		<menuitem name="Documents" id="menu_sub_docu" parent="docu"/>
+		<menuitem name="Documents" id="menu_sub_docu" parent="syndic_base.master_syndic" sequence="50"/>
 		<menuitem name="Documents" id="menu_action_docu" parent="menu_sub_docu" action="action_syndic_document"/>
 
 	</data>

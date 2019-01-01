@@ -40,10 +40,14 @@
         <field name="view_mode">tree,form</field>
     </record>
 
+    <record model='ir.ui.menu' id='mail.menu_root_discuss'>
+      <field name="group_ids" eval="[[6, 0,[ref('base.group_system')]]]"/>
+    </record>
+
     <menuitem name="Syndic" id="master_syndic" web_icon="syndic_base,static/description/icon.png"/>
-    <menuitem name="Syndic" id="syndic" parent="master_syndic" sequence="10"/>
-    <menuitem name="Configurations" id="setting_syndic" parent="master_syndic" 
-        sequence="90" 
+    <menuitem name="Syndic" id="syndic" parent="master_syndic" sequence="20"/>
+    <menuitem name="Configurations" id="setting_syndic" parent="master_syndic"
+        sequence="90"
         groups="syndic_base.syndic_manager"/>
 
     <menuitem name="Métiers" id="jobs" parent="setting_syndic" action="job_action" sequence="20"/>

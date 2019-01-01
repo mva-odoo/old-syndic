@@ -2,6 +2,7 @@
 
 from odoo import api, fields, models
 
+
 class SubLot(models.Model):
     _inherit = 'syndic.lot'
 

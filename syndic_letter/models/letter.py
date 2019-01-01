@@ -66,9 +66,11 @@ class CreateLetter(models.Model):
     piece_jointe_ids = fields.One2many('ir.attachment', 'letter_id', string='Piece Jointe')
     create_date = fields.Datetime(u'Date de création')
     date = fields.Date(u'Date de création', default=lambda *a: fields.date.today(), copy=False)
-    date_fr = fields.Char(string='Date', compute='_compute_date', store=True)
-    partner_address_ids = fields.Many2many('partner.address', String="Personne Jointe",
-                                            compute='_compute_join_address')
+    date_fr = fields.Char(string='Date', compute='_compute_date')
+    partner_address_ids = fields.Many2many(
+        'partner.address',
+        String="Personne Jointe",
+        compute='_compute_join_address')
     state = fields.Selection([('not_send', 'Pas envoyé'), ('send', 'Envoyé')], string='State', default='not_send')
     mail_server = fields.Many2one('ir.mail_server', 'Serveur email')
 
