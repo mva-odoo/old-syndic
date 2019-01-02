@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<openerp>
-    <data>
+<odoo>
         <!--search -->
         <record model="ir.ui.view" id="search_letter">
             <field name="name">Letter search</field>
@@ -236,5 +235,4 @@
         <menuitem name="Debut de lettre" id="menu_begin_letter" parent="menu_configuration_letter" action="begin_letter" sequence="4"/>
         <menuitem name="Fin de lettre" id="menu_end_letter" parent="menu_configuration_letter" action="end_letter" sequence="5"/>
         <menuitem name="Courriel" id="email_letter" parent="menu_configuration_letter" action="mail_letter" sequence="6"/>
-    </data>
-</openerp>
+</odoo>

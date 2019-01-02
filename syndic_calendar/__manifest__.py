@@ -10,8 +10,8 @@
     'depends': ['calendar', 'syndic_base'],
     'website': 'http://www.openerp.com',
     'data': [
-        # 'views/calendar.xml',
-        # 'views/backend.xml',
+        'views/calendar.xml',
+        'views/backend.xml',
         # 'security/ir.model.access.csv',
         ],
 }
