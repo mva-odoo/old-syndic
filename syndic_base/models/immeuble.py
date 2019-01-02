@@ -29,7 +29,6 @@ class Immeuble(models.Model):
 
     BCE = fields.Char('BCE')
     num = fields.Integer(u"N°", required=True)
-    compte = fields.Char('Compte en banque')
 
     supplier_ids = fields.Many2many('res.partner', string="Corps de métier")
     total_quotites = fields.Float(compute='_get_quotity', string='Total des Quotitées')

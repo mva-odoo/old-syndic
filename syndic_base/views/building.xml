@@ -75,7 +75,6 @@
                 </group>
                 <group>
                     <group string="Information Divers:" name="divers">
-                        <field name="compte" attrs="{'readonly': [('is_lock', '=', True)]}"/>
                         <field name="BCE" attrs="{'readonly': [('is_lock', '=', True)]}"/>
                         <field name="manager_id" attrs="{'readonly': [('is_lock', '=', True)]}"/>
                     </group>
@@ -102,6 +101,17 @@
                                    attrs="{'readonly': [('is_lock', '=', True)]}"
                                    domain="[('supplier', '=', True)]"
                                    context="{'default_supplier': True, 'form_view_ref': 'syndic_base.view_fournisseur_form'}"/>
+                        </page>
+                        <page string="Comptabilite">
+                          <group>
+                            <field name="bank_ids" attrs="{'readonly': [('is_lock', '=', True)]}">
+                              <tree editable="top">
+                                <field name="acc_number"/>
+                                <field name="acc_type"/>
+                                <field name="bank_id"/>
+                              </tree>
+                            </field>
+                          </group>
                         </page>
                         <page string="Notes" name="notes">
                             <field name="note" attrs="{'readonly': [('is_lock', '=', True)]}"/>
