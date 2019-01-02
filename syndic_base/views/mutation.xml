@@ -25,6 +25,7 @@
                 <field name="mutation_date"/>
                 <field name="name"/>
                 <field name="immeuble_id"/>
+                <field name="lot_ids" widget="many2many_tags"/>
             </tree>
         </field>
     </record>
