@@ -41,7 +41,7 @@ class Partner(models.Model):
 
     country_id = fields.Many2one('res.country', default=lambda s: s.env.ref('base.be'))
 
-    building_ids = fields.Many2many('syndic.building', string="Immeubles")
+    building_ids = fields.One2many('res.partner.contractual', 'partner_id', string="Immeubles")
 
     @api.depends('lot_ids')
     def _get_number_lot(self):

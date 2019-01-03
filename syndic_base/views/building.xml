@@ -97,10 +97,19 @@
                             </field>
                         </page>
                         <page string="Corps de métier" name="fiche_technique">
-                            <field name="supplier_ids"
-                                   attrs="{'readonly': [('is_lock', '=', True)]}"
-                                   domain="[('supplier', '=', True)]"
-                                   context="{'default_supplier': True, 'form_view_ref': 'syndic_base.view_fournisseur_form'}"/>
+                            <field name="supplier_ids" attrs="{'readonly': [('is_lock', '=', True)]}">
+                              <tree editable="top">
+                                <field name="partner_id"
+                                  context="{'default_supplier': True, 'form_view_ref': 'syndic_base.view_fournisseur_form'}"
+                                  required="1"/>
+                                <field name="partner_street"/>
+                                <field name="partner_zip"/>
+                                <field name="partner_city_id"/>
+                                <field name="partner_phone"/>
+                                <field name="partner_email"/>
+                                <field name="is_contractual"/>
+                              </tree>
+                            </field>
                         </page>
                         <page string="Comptabilite">
                           <group>

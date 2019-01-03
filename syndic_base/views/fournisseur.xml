@@ -20,11 +20,20 @@
         <field name="arch" type="xml">
             <field name="title" position="after">
                 <field name="job_ids" widget="many2many_tags"/>
-                <field
-                  name="building_ids"
-                  widget="many2many_tags" 
-                  options="{'no_create': True}"/>
             </field>
+
+            <xpath expr="//page[@name='contact']" position='after'>
+              <page string="Immeubles">
+                <field name='building_ids'>
+                  <tree editable="top">
+                    <field name="building_id"
+                      options="{'no_open': True, 'no_create': True}"
+                      required="1"/>
+                    <field name="is_contractual"/>
+                  </tree>
+                </field>
+              </page>
+            </xpath>
         </field>
     </record>
 

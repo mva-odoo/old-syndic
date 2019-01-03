@@ -31,3 +31,4 @@
 "syndic_extincteur_employe","syndic extincteur","model_extincteur","syndic_base.syndic_employe",1,1,1,1
 "syndic_repeir_garage_employe","syndic repeir_garage","model_repeir_garage","syndic_base.syndic_employe",1,1,1,1
 "syndic_repeir_general_employe","syndic repeir_general","model_repeir_general","syndic_base.syndic_employe",1,1,1,1
+"syndic_contractual_employe","syndic repeir_general","model_res_partner_contractual","syndic_base.syndic_employe",1,1,1,1

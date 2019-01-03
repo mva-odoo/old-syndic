@@ -30,7 +30,6 @@ class Immeuble(models.Model):
     BCE = fields.Char('BCE')
     num = fields.Integer(u"N°", required=True)
 
-    supplier_ids = fields.Many2many('res.partner', string="Corps de métier")
     total_quotites = fields.Float(compute='_get_quotity', string='Total des Quotitées')
 
     lot_ids = fields.One2many('syndic.lot', 'building_id', 'Lots')
@@ -53,6 +52,10 @@ class Immeuble(models.Model):
                                     required=True, ondelete="cascade", delegate=True, string='Immeuble')
 
     is_building = fields.Boolean('Est un immeuble', default=True)
+
+    supplier_ids = fields.One2many('res.partner.contractual',
+                                   'building_id',
+                                   'Corps de métier')
 
     @api.model
     def create(self, vals):
@@ -111,3 +114,42 @@ class Immeuble(models.Model):
         action = self.env.ref('syndic_base.action_signalitic').read()[0]
         action['res_id'] = self.signalitic_id.id
         return action
+
+
+class Contractual(models.Model):
+    _name = 'res.partner.contractual'
+    _description = 'Contractual'
+
+    is_contractual = fields.Boolean('Contractuelle')
+    partner_id = fields.Many2one('res.partner', 'Partner',
+                                 domain=[('supplier', '=', True)])
+    building_id = fields.Many2one('syndic.building', 'Immeuble')
+    partner_street = fields.Char(related='partner_id.street', string='Adresse')
+    partner_zip = fields.Char(related='partner_id.zip', string='Code Postal')
+    partner_city_id = fields.Many2one(related='partner_id.city_id',
+                                      string='Ville')
+    partner_phone = fields.Char(related='partner_id.phone', string='Téléphone')
+    partner_email = fields.Char(related='partner_id.email', string='Email')
+
+    @api.onchange('partner_id')
+    def onchange_partner(self):
+        print('partner---'+str(self.building_id.supplier_ids))
+        return {
+            'domain': {
+                'partner_id': [
+                    ('building_ids', 'not in', self.building_id.supplier_ids.ids),
+                    ('supplier', '=', True),
+                    ]
+                }
+        }
+
+    @api.onchange('building_id')
+    def onchange_building(self):
+        print('building---'+str(self.partner_id.building_ids.mapped('building_id').ids))
+        return {
+            'domain': {
+                'building_id': [
+                    ('id', 'not in', self.partner_id.building_ids.mapped('building_id').ids),
+                    ]
+                }
+        }
