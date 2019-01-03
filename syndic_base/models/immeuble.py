@@ -133,7 +133,6 @@ class Contractual(models.Model):
 
     @api.onchange('partner_id')
     def onchange_partner(self):
-        print('partner---'+str(self.building_id.supplier_ids))
         return {
             'domain': {
                 'partner_id': [
@@ -145,7 +144,6 @@ class Contractual(models.Model):
 
     @api.onchange('building_id')
     def onchange_building(self):
-        print('building---'+str(self.partner_id.building_ids.mapped('building_id').ids))
         return {
             'domain': {
                 'building_id': [
