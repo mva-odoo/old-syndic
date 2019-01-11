@@ -34,8 +34,8 @@ class Partner(models.Model):
     old_lot_ids = fields.Many2many('syndic.lot', 'old_prop_table', 'lot_id', 'old_proprio_id', string='Ancien lot')
     old_lot_count = fields.Integer('Ancien Lots', compute='_get_number_lot_old')
 
-    building_ids = fields.Many2many('syndic.building', compute='_get_building',
-                                    search='_search_building', string='Immeuble')
+    owner_building_ids = fields.Many2many('syndic.building', compute='_get_building',
+                                          search='_search_building', string='Immeuble')
     loaner_building_ids = fields.Many2many('syndic.building', compute='_get_building',
                                            search='_search_loaner_building', string='Immeuble(Locataire)')
 
@@ -64,10 +64,9 @@ class Partner(models.Model):
     def _search_loaner_building(self, operator, value):
         return [('loaner_lot_ids.building_id.name', operator, value)]
 
-    @api.depends('lot_ids')
     def _get_building(self):
         for partner in self:
-            partner.building_ids = partner.lot_ids.mapped('building_id')
+            partner.owner_building_ids = partner.lot_ids.mapped('building_id')
             partner.loaner_building_ids = partner.loaner_lot_ids.mapped('building_id')
 
     @api.model

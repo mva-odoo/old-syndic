@@ -40,8 +40,9 @@ class Immeuble(models.Model):
 
     note = fields.Text('Notes')
 
-    honoraire = fields.Float('Honoraire', groups='syndic_management.syndic_manager')
-    frais_admin = fields.Float('Frais Administratif', groups='syndic_management.syndic_manager')
+    honoraire = fields.Monetary('Honoraire', groups='syndic_base.syndic_manager')
+    frais_admin = fields.Monetary('Frais Administratif', groups='syndic_base.syndic_manager')
+    currency_id = fields.Many2one('res.currency', default=lambda self: self.env.ref('base.EUR'))
 
     manager_id = fields.Many2one('res.users', 'Manager',
                                  domain="[('groups_id.name','in',['Syndic/Employe','Syndic/Manager'])]")

@@ -7,7 +7,7 @@
         <field name="inherit_id" ref="search_partner"/>
         <field name="arch" type="xml">
             <field name="email" position="after">
-                <field name="building_ids"/>
+                <field name="owner_building_ids"/>
             </field>
         </field>
     </record>
@@ -19,7 +19,7 @@
         <field name="inherit_id" ref="tree_partner"/>
         <field name="arch" type="xml">
             <field name="email" position="after">
-                <field name="building_ids" widget="many2many_tags"/>
+                <field name="owner_building_ids" widget="many2many_tags"/>
             </field>
             <xpath expr="/tree" position="attributes">
                 <attribute name="create">false</attribute>
@@ -37,7 +37,7 @@
         <field name="arch" type="xml">
             <field name="name" position="after">
                 <field name="first_name"/>
-                <field name="building_ids" widget="many2many_tags"/>
+                <field name="owner_building_ids" widget="many2many_tags"/>
             </field>
             <field name="title" position="after">
                 <field name="convocation"/>

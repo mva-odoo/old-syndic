@@ -121,6 +121,13 @@
                               </tree>
                             </field>
                           </group>
+                          <group>
+                            <group>
+                              <field name="currency_id" invisible="1"/>
+                              <field name="honoraire" widget='monetary' options="{'currency_field': 'currency_id'}"/>
+                              <field name="frais_admin" widget='monetary' options="{'currency_field': 'currency_id'}"/>
+                            </group>
+                          </group>
                         </page>
                         <page string="Notes" name="notes">
                             <field name="note" attrs="{'readonly': [('is_lock', '=', True)]}"/>
