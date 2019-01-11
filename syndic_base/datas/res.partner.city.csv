@@ -57,13 +57,13 @@ id,zip,name,country_id/id
 56,4520,Antheit,base.be
 57,4160,Anthisnes,base.be
 58,7640,Antoing,base.be
-59,2000,Antwerpen 1,base.be
-60,2018,Antwerpen 1,base.be
-61,2020,Antwerpen 2,base.be
-62,2030,Antwerpen 3,base.be
-63,2040,Antwerpen 4,base.be
-64,2050,Antwerpen 5,base.be
-65,2060,Antwerpen 6,base.be
+59,2000,Antwerpen,base.be
+60,2018,Antwerpen,base.be
+61,2020,Antwerpen,base.be
+62,2030,Antwerpen,base.be
+63,2040,Antwerpen,base.be
+64,2050,Antwerpen,base.be
+65,2060,Antwerpen,base.be
 66,7910,Anvaing,base.be
 67,8570,Anzegem,base.be
 68,9200,Appels,base.be
@@ -378,45 +378,26 @@ id,zip,name,country_id/id
 377,5660,Brûly-de-Pesche,base.be
 378,7620,Brunehaut,base.be
 379,1785,Brussegem,base.be
-380,1000,Brussel 1,base.be
-381,1120,Brussel 12,base.be
-382,1130,Brussel 13,base.be
-383,1140,Brussel 14,base.be
-384,1150,Brussel 15,base.be
-385,1160,Brussel 16,base.be
-386,1170,Brussel 17,base.be
-387,1180,Brussel 18,base.be
-388,1190,Brussel 19,base.be
-389,1020,Brussel 2,base.be
-390,1200,Brussel 20,base.be
-391,1210,Brussel 21,base.be
-392,1030,Brussel 3,base.be
-393,1040,Brussel 4,base.be
-394,1050,Brussel 5,base.be
-395,1060,Brussel 6,base.be
-396,1070,Brussel 7,base.be
-397,1080,Brussel 8,base.be
-398,1090,Brussel 9,base.be
 399,3800,Brustem,base.be
-400,1000,Bruxelles 1,base.be
-401,1120,Bruxelles 12,base.be
-402,1130,Bruxelles 13,base.be
-403,1140,Bruxelles 14,base.be
-404,1150,Bruxelles 15,base.be
-405,1160,Bruxelles 16,base.be
-406,1170,Bruxelles 17,base.be
-407,1180,Bruxelles 18,base.be
-408,1190,Bruxelles 19,base.be
-409,1020,Bruxelles 2,base.be
-410,1200,Bruxelles 20,base.be
-411,1210,Bruxelles 21,base.be
-412,1030,Bruxelles 3,base.be
-413,1040,Bruxelles 4,base.be
-414,1050,Bruxelles 5,base.be
-415,1060,Bruxelles 6,base.be
-416,1070,Bruxelles 7,base.be
-417,1080,Bruxelles 8,base.be
-418,1090,Bruxelles 9,base.be
+400,1000,Bruxelles,base.be
+401,1120,Bruxelles,base.be
+402,1130,Bruxelles,base.be
+403,1140,Bruxelles,base.be
+404,1150,Bruxelles,base.be
+405,1160,Bruxelles,base.be
+406,1170,Bruxelles,base.be
+407,1180,Bruxelles,base.be
+408,1190,Bruxelles,base.be
+409,1020,Bruxelles,base.be
+410,1200,Bruxelles,base.be
+411,1210,Bruxelles,base.be
+412,1030,Bruxelles,base.be
+413,1040,Bruxelles,base.be
+414,1050,Bruxelles,base.be
+415,1060,Bruxelles,base.be
+416,1070,Bruxelles,base.be
+417,1080,Bruxelles,base.be
+418,1090,Bruxelles,base.be
 419,7641,Bruyelle,base.be
 420,6222,Brye,base.be
 421,3440,Budingen,base.be

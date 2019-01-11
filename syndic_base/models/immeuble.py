@@ -102,7 +102,6 @@ class Immeuble(models.Model):
         action['domain'] = [('id', '=', self.lot_ids.ids)]
         return action
 
-    @api.depends('lot_ids')
     def _get_quotity(self):
         for building in self:
             building.total_quotites = sum(building.mapped('lot_ids.quotities'))
