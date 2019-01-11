@@ -60,7 +60,23 @@
         <field name="view_mode">tree,form</field>
     </record>
 
-    <menuitem name="Gestion Privative" id="menu_gestion_privative" 
-        parent="syndic_base.syndic" 
+    <record model="ir.actions.act_window" id="action_gestion_privative_immeuble">
+        <field name="name">Immeuble Gestion Privative</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">syndic.building</field>
+        <field name="domain">[('lot_ids.gestion_id', '!=', False)]</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record model="ir.actions.act_window" id="syndic_base.action_building">
+        <field name="domain">['|', ('lot_ids.gestion_id', '=', False), ('lot_ids', '=', False)]</field>
+    </record>
+
+    <menuitem name="Gestion Privative" id="menu_gestion_privative"
+        parent="syndic_base.syndic"
         action="action_gestion_privative"/>
+
+    <menuitem name="Immeuble Gestion Privative" id="menu_immeuble_gestion_privative"
+        parent="syndic_base.syndic"
+        action="action_gestion_privative_immeuble"/>
 </odoo>
