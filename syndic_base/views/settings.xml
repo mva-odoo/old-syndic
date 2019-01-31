@@ -19,7 +19,7 @@
     <record model="ir.actions.act_window" id="ville_action">
         <field name="name">Villes</field>
         <field name="type">ir.actions.act_window</field>
-        <field name="res_model">res.partner.city</field>
+        <field name="res_model">res.city</field>
         <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
     </record>
@@ -41,7 +41,7 @@
     </record>
 
     <record model='ir.ui.menu' id='mail.menu_root_discuss'>
-      <field name="group_ids" eval="[[6, 0,[ref('base.group_system')]]]"/>
+      <field name="groups_id" eval="[[6, 0,[ref('base.group_system')]]]"/>
     </record>
 
     <menuitem name="Syndic" id="master_syndic" web_icon="syndic_base,static/description/icon.png"/>

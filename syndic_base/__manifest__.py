@@ -6,7 +6,12 @@
 Core mechanisms for the syndic modules.
     """,
     'category': 'Syndic',
-    'depends': ['base', 'mail', 'web'],
+    'depends': [
+        'base',
+        'base_address_city',
+        'mail',
+        'web',
+    ],
     'data': [
         'security/groups.xml',
         'security/ir.model.access.csv',
@@ -22,11 +27,10 @@ Core mechanisms for the syndic modules.
         'views/technical_field.xml',
         'views/res_config_setting_views.xml',
         'views/backend.xml',
-        'datas/res.partner.city.csv',
+        'datas/res.city.csv',
     ],
     'demo': [
         'demos/users.xml',
-        'demos/city.xml',
         'demos/building.xml',
     ],
     'application': True,

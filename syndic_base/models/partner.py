@@ -9,7 +9,6 @@ class Partner(models.Model):
     is_proprietaire = fields.Boolean('Propriétaire', compute='_get_partner_type', store=True)
     is_old = fields.Boolean('Ancien propriétaire', compute='_get_partner_type', store=True)
 
-    city_id = fields.Many2one('res.partner.city', 'Ville')
     mobile = fields.Char('GSM')
     fax = fields.Char('fax')
 
@@ -97,7 +96,7 @@ class Partner(models.Model):
     def _onchange_zip(self):
         domain = [('country_id', '=', self.country_id.id)]
         if self.country_id.id == self.env.ref('base.be').id:
-            domain.append(('zip', '=', self.zip))
+            domain.append(('zipcode', '=', self.zip))
         return {
             'domain': {'city_id': domain}
         }

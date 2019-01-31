@@ -1,4 +1,4 @@
-id,zip,name,country_id/id
+id,zipcode,name,country_id/id
 1,9420,Aaigem,base.be
 2,8511,Aalbeke,base.be
 3,9300,Aalst,base.be

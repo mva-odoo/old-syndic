@@ -5,7 +5,7 @@
         <field name="num">1</field>
         <field name="zip">1300</field>
         <field name="street">Rue du test</field>
-        <field name="city_id" ref="syndic_demo_city_wavre"/>
+        <field name="city_id" ref="syndic_base.2150"/>
     </record>
 
     <record model="res.partner" id="syndic_partner_gemini_owner">

@@ -10,8 +10,8 @@
 "syndic_mutation","syndic mutation","model_syndic_mutation","syndic_manager",1,1,1,1
 "syndic_mutation_employe","syndic mutation","model_syndic_mutation","syndic_employe",1,1,1,0
 "syndic_res_partner_job_employe","syndic res_partner_job","model_res_partner_job","syndic_employe",1,1,1,1
-"syndic_city","syndic city","model_res_partner_city","syndic_manager",1,1,1,1
-"syndic_city_employe","syndic city","model_res_partner_city","syndic_employe",1,0,1,0
+"syndic_city","syndic city","base_address_city.model_res_city","syndic_manager",1,1,1,1
+"syndic_city_employe","syndic city","base_address_city.model_res_city","syndic_employe",1,0,1,0
 "syndic_signalitic","syndic signalitic","model_syndic_building_signalitic","syndic_base.syndic_manager",1,1,1,1
 "syndic_signalitic_employe","syndic signalitic","model_syndic_building_signalitic","syndic_base.syndic_employe",1,1,1,0
 "syndic_building_desamientage_employe","syndic building desamientage","model_building_desamientage","syndic_base.syndic_employe",1,1,1,1

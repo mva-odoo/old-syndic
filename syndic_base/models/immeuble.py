@@ -66,7 +66,7 @@ class Immeuble(models.Model):
     @api.onchange('zip')
     def _onchange_zip(self):
         return {
-            'domain': {'city_id': [('zip', '=', self.zip)]}
+            'domain': {'city_id': [('zipcode', '=', self.zip)]}
         }
 
     @api.multi
