@@ -52,6 +52,7 @@
                 <form string="Letter">
                         <header>
                             <button string="Envoyer emails" name="send_email_lettre" type="object"/>
+                            <button string="Sauver comme Modèle" name="save_template" type="object"/>
                             <field name="state" widget="statusbar"/>
                         </header>
                         <group col="16" colspan="16">
@@ -108,22 +109,15 @@
                                 <field name="divers_ids" colspan="1"/>
                             </page>
                             <page string="Personnes jointes">
-                                <!-- <field name="partner_address_ids" colspan="1"> -->
-                                    <!-- <tree>
+                                <field name="partner_address_ids" colspan="1">
+                                    <tree>
                                         <field name="name"/>
-                                        <field name="add_parent_id_owner"/>
-                                        <field name="add_parent_id_supplier"/>
-                                        <field name="add_parent_id_loaner"/>
-                                    </tree> -->
-                                <!-- </field> -->
+                                    </tree>
+                                </field>
                             </page>
 
                         </notebook>
                         <group col="4" colspan="4">
-                            <field name="save_letter" colspan="2"/>
-                            <field name="name_template"
-                                   colspan="2"
-                                   attrs="{'required':[('save_letter','=',True)],'invisible':[('save_letter','=',False)]}"/>
                             <field name="begin_letter_id" colspan="4"/>
                             <field name="contenu" nolabel="1" colspan="4" widget="html"/>
                             <field name="end_letter_id" colspan="4"/>

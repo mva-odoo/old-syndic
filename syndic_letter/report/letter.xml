@@ -9,35 +9,47 @@
                 />
 
 
+        <template id="base_body">
+          <div class="row">
+            <div class="col-12">
+              <div t-field="o.contenu"/>
+              <br/>
+            </div>
+          </div>
+        </template>
+
+        <template id="base_address">
+          <div class="address row">
+              <div class="col-9">
+                <span t-field="partner.fax"/>
+                <span t-field="o.letter_type_id.name"/>
+              </div>
+
+              <div class="address col-3">
+                <address t-field="partner.user_ids.partner_id" t-options='{"widget": "contact", "fields": ["address", "name", "phone"], "no_marker": True, "phone_icons": True}'/>
+                <br/>
+              </div>
+            </div>
+
+            <div class="address row" style="height:40px">
+                <div class="col-7">
+                </div>
+
+                <div class="address col-5">
+                  Bruxelles, le <span t-field="o.date_fr"/>
+                </div>
+              </div>
+        </template>
+
         <template id="letter_qweb">
           <t t-call="web.html_container">
               <t t-call="web.external_layout">
               <t t-foreach="docs" t-as="o">
 
-                    <t t-foreach="o.propr_ids" t-as='partner'>
+                    <t t-foreach="o.all_partner_ids" t-as='partner'>
                       <div class="page">
                         <div class="oe_structure"/>
-                        <div class="address row">
-                            <div class="col-9">
-                              <span t-field="partner.fax"/>
-                              <span t-field="o.letter_type_id.name"/>
-                            </div>
-
-                            <div class="address col-3">
-                              <address t-field="partner.user_ids.partner_id" t-options='{"widget": "contact", "fields": ["address", "name", "phone"], "no_marker": True, "phone_icons": True}'/>
-                              <br/>
-                            </div>
-                          </div>
-
-                          <div class="address row" style="height:40px">
-                              <div class="col-7">
-                              </div>
-
-                              <div class="address col-5">
-                                Bruxelles, le <span t-field="o.date_fr"/>
-                              </div>
-                            </div>
-
+                          <t t-call="syndic_letter.base_address"/>
 
                           <div class="row">
                             <div class="col-3">
@@ -67,18 +79,15 @@
                             </div>
 
                           </div>
+
                           <div class="row">
                             <div class="col-12" style="height:40px;">
                               <div t-field="o.begin_letter_id.name"/>
                             </div>
                           </div>
 
-                          <div class="row">
-                            <div class="col-12">
-                              <div t-field="o.contenu"/>
-                              <br/>
-                            </div>
-                          </div>
+                          <t t-set="render_vals" t-value="partner._get_mako_template(o.contenu, {'partner': partner, 'letter': o})"/>
+                          <t t-raw="render_vals"/>
 
                           <div class="row" style="height:40px;">
                             <div class="col-12">

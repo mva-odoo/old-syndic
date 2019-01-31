@@ -53,14 +53,15 @@ class CreateLetter(models.Model):
                             'id2',
                             domain=[('is_locataire', '=', True)],
                             string='Locataires')
+
+    all_partner_ids = fields.Many2many('res.partner', string='All Partner',
+                                       compute='_get_all_partner')
     end_letter_id = fields.Many2one('letter.end', 'Fin de lettre', required=True)
     begin_letter_id = fields.Many2one('letter.begin', u'Début de lettre', required=True)
     letter_type_id = fields.Many2one('letter.type', 'Type de lettre', required=True)
     letter_model_id = fields.Many2one('letter.model', u'Modèle de lettre')
     contenu = fields.Html('contenu', required=True)
     ps = fields.Text('PS')
-    save_letter = fields.Boolean(u'Sauver la lettre comme modèle')
-    name_template = fields.Char(u'Nom du modèle de lettre')
     is_mail = fields.Boolean('Envoi par email')
     is_fax = fields.Boolean('Envoi par fax')
     piece_jointe_ids = fields.One2many('ir.attachment', 'letter_id', string='Piece Jointe')
@@ -74,6 +75,21 @@ class CreateLetter(models.Model):
     state = fields.Selection([('not_send', 'Pas envoyé'), ('send', 'Envoyé')], string='State', default='not_send')
     mail_server = fields.Many2one('ir.mail_server', 'Serveur email')
 
+    @api.multi
+    def _get_all_partner(self):
+        for letter in self:
+            letter.all_partner_ids = letter.propr_ids | letter.fourn_ids | letter.divers_ids | letter.loc_ids | letter.divers_ids | letter.partner_address_ids
+
+    @api.multi
+    def save_template(self):
+        return {
+            'name': 'Sauver comme modèle',
+            'type': 'ir.actions.act_window',
+            'res_model': 'syndic.template.mail',
+            'view_mode': 'form',
+            'target': 'new',
+        }
+
     @api.one
     @api.depends('date')
     def _compute_date(self):
@@ -83,10 +99,6 @@ class CreateLetter(models.Model):
     @api.model
     def create(self, vals):
         res = super(CreateLetter, self).create(vals)
-
-        # create letter template
-        if res.save_letter:
-                res.env['letter.model'].create({'name': res.name_template, 'text': res.contenu})
 
         for supplier_id in res.fourn_ids:
             values = {
@@ -114,13 +126,7 @@ class CreateLetter(models.Model):
 
     @api.depends('propr_ids', 'fourn_ids', 'loc_ids')
     def _compute_join_address(self):
-        partner_address = self.env['res.partner']
-
-        partner_address |= self.propr_ids.mapped('address_ids').filtered(lambda s: s.is_letter)
-        partner_address |= self.fourn_ids.mapped('address_ids').filtered(lambda s: s.is_letter)
-        partner_address |= self.loc_ids.mapped('address_ids').filtered(lambda s: s.is_letter)
-
-        self.partner_address_ids = partner_address
+        self.partner_address_ids = self.all_partner_ids.mapped('child_ids').filtered(lambda s: s.is_letter)
         self.is_fax = True if self.fourn_ids else False
 
     @api.one
@@ -167,7 +173,7 @@ width="96" height="61"/>'"""
             mail['email_to'] = div.email
             self.env['mail.mail'].create(mail)
 
-        for addr in self.propr_ids.mapped('address_ids').filtered(lambda s: s.email and s.is_email):
+        for addr in self.propr_ids.mapped('child_ids').filtered(lambda s: s.email and s.is_email):
             mail['email_to'] = addr.email
             self.env['mail.mail'].create(mail)
 
