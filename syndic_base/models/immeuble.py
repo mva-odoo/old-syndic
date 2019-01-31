@@ -29,7 +29,7 @@ class Immeuble(models.Model):
 
     BCE = fields.Char('BCE')
     num = fields.Integer(u"N°", required=True)
-
+    zip = fields.Char(default='')
     total_quotites = fields.Float(compute='_get_quotity', string='Total des Quotitées')
 
     lot_ids = fields.One2many('syndic.lot', 'building_id', 'Lots')
