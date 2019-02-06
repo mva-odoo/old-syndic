@@ -13,6 +13,7 @@
     'data': [
         'views/letter.xml',
         'wizard/template_mail.xml',
+        'report/layout.xml',
         'report/letter.xml',
         'security/ir.model.access.csv',
     ],

@@ -1,26 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<openerp>
-    <data>
+<odoo>
         <report
           id="reunion_print"
           string="Réunion"
           model="letter.reunion"
-          name="syndic_letter.rapport_reunion_print"
+          name="syndic_reunion.rapport_reunion_print"
           file="rapport_reunion"
           report_type="qweb-pdf"
         />
         <template id="rapport_reunion_print">
-            <t t-call="report.html_container">
+            <t t-call="web.html_container">
                 <t t-name="reunion_qweb">
                     <t t-set="docs" t-value="docs.with_context({'lang':'fr_BE'})" />
                     <t t-foreach="docs" t-as="o">
-                        <t t-call="report.external_layout">
+                        <t t-call="web.external_layout">
                             <div class="page">
                                 <br/>
                                 <div style="font-size:18px;">
                                     <span t-field="o.immeuble_id.name"/><br/>
-                                    <span t-field="o.immeuble_id.address_building"/><br/>
-                                    <span t-esc="o.immeuble_id.zip_building"/> <span t-field="o.immeuble_id.city_building.name"/><br/>
+                                    <span t-field="o.immeuble_id.street"/><br/>
+                                    <span t-esc="o.immeuble_id.zip"/> <span t-field="o.immeuble_id.city_id.name"/><br/>
                                     <tr><td  width="10%">BCE: </td><td  width="90%"> <span t-field="o.immeuble_id.BCE"/></td></tr>
                                     <div style="text-align:right;">
                                         <br/>
@@ -52,5 +51,4 @@
                 </t>
             </t>
         </template>
-    </data>
-</openerp>
+</odoo>

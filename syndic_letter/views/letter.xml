@@ -71,6 +71,7 @@
 
                             <field name="piece_jointe_ids"
                                    attrs="{'invisible':[('is_mail','=',False)]}"
+                                   widget="many2many_binary"
                                    colspan="8">
                                 <tree>
                                     <field name="datas_fname"/>

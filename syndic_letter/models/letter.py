@@ -3,12 +3,6 @@ from odoo import models, fields, api, exceptions
 from odoo.addons.syndic_tools.syndic_tools import SyndicTools
 
 
-class PieceJointe(models.Model):
-    _inherit = 'ir.attachment'
-
-    letter_id = fields.Many2one('letter.letter', string='Lettre')
-
-
 class CreateLetter(models.Model):
     _name = 'letter.letter'
     _description = 'letter.letter'
@@ -64,7 +58,7 @@ class CreateLetter(models.Model):
     ps = fields.Text('PS')
     is_mail = fields.Boolean('Envoi par email')
     is_fax = fields.Boolean('Envoi par fax')
-    piece_jointe_ids = fields.One2many('ir.attachment', 'letter_id', string='Piece Jointe')
+    piece_jointe_ids = fields.Many2many('ir.attachment', 'letter_id', string='Piece Jointe')
     create_date = fields.Datetime(u'Date de création')
     date = fields.Date(u'Date de création', default=lambda *a: fields.date.today(), copy=False)
     date_fr = fields.Char(string='Date', compute='_compute_date')
