@@ -24,7 +24,6 @@ Core mechanisms for the syndic modules.
         'views/locataire.xml',
         'views/fournisseur.xml',
         'views/mutation.xml',
-        'views/technical_field.xml',
         'views/res_config_setting_views.xml',
         'views/users.xml',
         'views/backend.xml',

@@ -43,7 +43,6 @@
                                 attrs="{'invisible': [('is_lock', '=', True)]}"/>
                         <button name="toggle_lock" string="Débloquer" type="object" icon="fa-unlock"
                                 attrs="{'invisible': [('is_lock', '=', False)]}"/>
-                        <button string="Fiche Technique" icon="fa-folder-o" type="object" name="open_tech"/>
                         <button class="oe_stat_button" type="object" name="action_lot" icon="fa-building">
                             <field string="Lots" name="lot_count" widget="statinfo"/>
                         </button>

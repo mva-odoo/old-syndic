@@ -24,8 +24,10 @@ class Immeuble(models.Model):
     _order = 'name asc'
 
     active = fields.Boolean(default=True)
-    partner_id = fields.Many2one('res.partner', string='Partner',
+    company_id = fields.Many2one('res.company', string='Company',
                                  required=True, ondelete="cascade", delegate=True)
+
+    city_id = fields.Many2one('res.city', 'Ville')
 
     BCE = fields.Char('BCE')
     num = fields.Integer(u"N°", required=True)
@@ -49,10 +51,10 @@ class Immeuble(models.Model):
 
     is_lock = fields.Boolean('Bloquer')
 
-    signalitic_id = fields.Many2one('syndic.building.signalitic',
-                                    required=True, ondelete="cascade", delegate=True, string='Immeuble')
-
     is_building = fields.Boolean('Est un immeuble', default=True)
+
+    date_mois = fields.Selection(_MONTH, 'Mois')
+    date_quizaine = fields.Selection([('1', '1'), ('2', '2')], 'Quinzaine')
 
     supplier_ids = fields.One2many('res.partner.contractual',
                                    'building_id',
@@ -108,12 +110,6 @@ class Immeuble(models.Model):
             building.lot_count = len(building.lot_ids)
             building.owner_count = len(building.mapped('lot_ids.owner_ids'))
             building.loaner_count = len(building.mapped('lot_ids.loaner_ids'))
-
-    def open_tech(self):
-        self.ensure_one()
-        action = self.env.ref('syndic_base.action_signalitic').read()[0]
-        action['res_id'] = self.signalitic_id.id
-        return action
 
 
 class Contractual(models.Model):

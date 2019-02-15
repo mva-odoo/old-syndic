@@ -71,13 +71,22 @@ class Partner(models.Model):
     @api.model
     def create(self, vals):
         partner = super(Partner, self).create(vals)
+        print(self._context)
         if not self._context.get('normal_create'):
             self.env['res.users'].with_context(normal_create=False).create({
                 'partner_id': partner.id,
                 'name': partner.name,
                 'login': '%s - %s' % (partner.name, partner.id),
+                'company_id': partner.company_id.id,
+                'company_ids': [(4, partner.company_id.id)],
             })
         return partner
+
+    @api.multi
+    def write(self, vals):
+        if vals.get('company_id') and vals['company_id'] != 1:
+            del vals['company_id']
+        return super().write(vals)
 
     @api.depends(
         'lot_ids', 'loaner_lot_ids', 'loaner_lot_ids.building_id.active', 'lot_ids.building_id.active', 'old_lot_ids')

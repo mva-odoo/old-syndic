@@ -16,3 +16,5 @@ class ResConfigSettings(models.TransientModel):
     module_syndic_documents = fields.Boolean('Partager des documents')
     module_syndic_claim = fields.Boolean('Gerer les sinistres')
     module_syndic_dashboard = fields.Boolean('Dashboard')
+    module_syndic_signalitic = fields.Boolean('Fiche Signalitique')
+    module_syndic_honoraire = fields.Boolean('Honoraire Immeuble')
