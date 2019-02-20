@@ -13,3 +13,11 @@
 "syndic_city","syndic city","base_address_city.model_res_city","syndic_manager",1,1,1,1
 "syndic_city_employe","syndic city","base_address_city.model_res_city","syndic_employe",1,0,1,0
 syndic_contractual_employe","syndic repeir_general","model_res_partner_contractual","syndic_base.syndic_employe",1,1,1,1
+syndic_res_partner_employe","syndic res partner","base.model_res_partner","syndic_base.syndic_employe",1,1,1,0
+syndic_res_partner","syndic res partner","base.model_res_partner","syndic_base.syndic_manager",1,1,1,1
+syndic_res_user_employe","syndic res user","base.model_res_users","syndic_base.syndic_employe",1,1,1,0
+syndic_res_user","syndic res user","base.model_res_users","syndic_base.syndic_manager",1,1,1,0
+syndic_res_company_employe","syndic res company","base.model_res_company","syndic_base.syndic_employe",1,1,1,0
+syndic_res_company","syndic res company","base.model_res_company","syndic_base.syndic_manager",1,1,1,1
+syndic_ir_property_employe","syndic syndic_ir_property","base.model_ir_property","syndic_base.syndic_employe",1,1,1,0
+syndic_syndic_ir_property","syndic syndic_ir_property","base.model_ir_property","syndic_base.syndic_manager",1,1,1,1

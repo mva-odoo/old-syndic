@@ -71,7 +71,6 @@ class Partner(models.Model):
     @api.model
     def create(self, vals):
         partner = super(Partner, self).create(vals)
-        print(self._context)
         if not self._context.get('normal_create'):
             self.env['res.users'].with_context(normal_create=False).create({
                 'partner_id': partner.id,

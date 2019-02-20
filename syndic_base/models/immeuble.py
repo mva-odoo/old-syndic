@@ -20,6 +20,7 @@ _MONTH = [
 
 class Immeuble(models.Model):
     _name = 'syndic.building'
+    _inherit = ['mail.thread']
     _description = 'Immeubles'
     _order = 'name asc'
 
@@ -42,10 +43,6 @@ class Immeuble(models.Model):
 
     note = fields.Text('Notes')
 
-    honoraire = fields.Monetary('Honoraire', groups='syndic_base.syndic_manager')
-    frais_admin = fields.Monetary('Frais Administratif', groups='syndic_base.syndic_manager')
-    currency_id = fields.Many2one('res.currency', default=lambda self: self.env.ref('base.EUR'))
-
     manager_id = fields.Many2one('res.users', 'Manager',
                                  domain="[('groups_id.name','in',['Syndic/Employe','Syndic/Manager'])]")
 
@@ -59,6 +56,11 @@ class Immeuble(models.Model):
     supplier_ids = fields.One2many('res.partner.contractual',
                                    'building_id',
                                    'Corps de métier')
+
+    @api.model
+    def _auto_init(self):
+        self.env.ref('base.res_company_rule_employee').write({'active': False})
+        res = super(Immeuble, self)._auto_init()
 
     @api.model
     def create(self, vals):

@@ -28,5 +28,7 @@
 
     <record id="syndic_layout" model='report.layout'>
       <field name="view_id" ref='syndic_letter.external_layout_syndic'/>
+      <field name="image">/syndic_letter/static/img/syndic_report.png</field>
+      <field name="pdf">/syndic_letter/static/pdf/syndic_report.pdf</field>
     </record>
 </odoo>

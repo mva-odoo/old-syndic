@@ -3,6 +3,7 @@ from odoo import models, api, fields
 
 class TemplateMail(models.TransientModel):
     _name = 'syndic.template.mail'
+    _description = 'syndic.template.mail'
 
     def _default_body(self):
         if self._context.get('active_id'):

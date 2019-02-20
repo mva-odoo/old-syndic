@@ -57,36 +57,28 @@
 				</header>
 				<sheet string="Sales Order" layout="auto">
 				<group col="4" colspan="4">
-				<field name="subject" />
-				<field name="type_id" />
-				<field name="main_owner"/>
-				<field name="phone"/>
-				<field name="email"/>
-				<field name="owner_ids" widget="many2many_tags"/>
-				<field name="loaner_ids" widget="many2many_tags"/>
-				<field name="supplier_ids" widget="many2many_tags"/>
-				<field name="other_ids" widget="many2many_tags"/>
-				<field name="building_id" options="{'no_open': True, 'no_create': True}"/>
-				<field name="manager_id" colspan="2" widget="selection"
-					   required="1"
-					   domain="[('groups_id.name','in',['Syndic/Employe','Syndic/Manager'])]"/>
-				<field name="importance" colspan="2" widget="priority"/>
-				<field name="claim_status_id" colspan="2"/>
-				<field name="color" colspan="2" invisible='1'/>
+
 				</group>
 				<notebook colspan="4">
                     <page string="Descriptions">
-                        <field name="description_ids" nolabel="1" colspan="4">
-                            <tree>
-                                <field name="description" />
-                                <field name="create_date" />
-                            </tree>
-							<form>
-								<group>
-									<field name="description" />
-								</group>
-							</form>
-                        </field>
+											<group col="4" colspan="4">
+												<field name="subject" />
+												<field name="type_id" />
+												<field name="main_owner"/>
+												<field name="phone"/>
+												<field name="email"/>
+												<field name="owner_ids" widget="many2many_tags"/>
+												<field name="loaner_ids" widget="many2many_tags"/>
+												<field name="supplier_ids" widget="many2many_tags"/>
+												<field name="other_ids" widget="many2many_tags"/>
+												<field name="building_id" options="{'no_open': True, 'no_create': True}"/>
+												<field name="manager_id" colspan="2" widget="selection"
+														 required="1"
+														 domain="[('groups_id.name','in',['Syndic/Employe','Syndic/Manager'])]"/>
+												<field name="importance" colspan="2" widget="priority"/>
+												<field name="claim_status_id" colspan="2"/>
+												<field name="color" colspan="2" invisible='1'/>
+										</group>
                     </page>
 
                     <page string="Details">
@@ -99,6 +91,10 @@
                     </page>
                 </notebook>
 				</sheet>
+				<div class="oe_chatter">
+						<field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+						<field name="message_ids" widget="mail_thread" />
+				</div>
 
 				</form>
 			</field>

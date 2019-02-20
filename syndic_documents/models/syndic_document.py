@@ -5,6 +5,7 @@ import random
 
 class Document(models.Model):
     _name = 'syndic.documents'
+    _description = 'syndic.documents'
     _rec_name = 'nom_document'
 
     nom_document = fields.Char('nom du document', required=True)
@@ -26,5 +27,6 @@ class Proprio(models.Model):
 
 class TypeDocument(models.Model):
     _name = 'syndic.type.document'
+    _description = 'syndic.type.document'
 
     name = fields.Char('name', required=True)

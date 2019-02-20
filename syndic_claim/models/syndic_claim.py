@@ -6,6 +6,7 @@ from datetime import date
 class Claim(models.Model):
     _name = 'syndic.claim'
     _description = 'syndic.claim'
+    _inherit = ['mail.thread']
     _rec_name = 'subject'
     _order = 'create_date desc'
 
@@ -33,7 +34,7 @@ class Claim(models.Model):
                                   string='Locataires')
     other_ids = fields.Many2many('res.partner', string='Divers')
     lot_ids = fields.Many2many('syndic.lot', string='Lot')
-    claim_status_id = fields.Many2one('claim.status', string='Status')
+    claim_status_id = fields.Many2one('claim.status', string='Status de la plainte')
     description_ids = fields.One2many('comment.history', 'claim_ids', string='historique')
     building_id = fields.Many2one('syndic.building', 'Immeuble')
     importance = fields.Selection([('0', 'pas important'),
@@ -108,8 +109,8 @@ class CommentHistory(models.Model):
 
     create_date = fields.Datetime(u'Date de création', readonly=True)
     write_date = fields.Datetime('Date de modification', readonly=True)
-    create_uid = fields.Many2one('res.users', string="User", readonly=True)
-    write_uid = fields.Many2one('res.users', string="User", readonly=True)
+    create_uid = fields.Many2one('res.users', string="Create User", readonly=True)
+    write_uid = fields.Many2one('res.users', string="Write User", readonly=True)
     description = fields.Text('Texte')
     current_status = fields.Many2one('claim.status', string='Current status')
     claim_ids = fields.Many2one('syndic.claim', string='Claim')
@@ -136,7 +137,7 @@ class OffreContrats(models.Model):
     date_reception = fields.Date('Date reception')
     transmition = fields.Boolean('Transmition')
     date_transmition = fields.Date('Date transmition')
-    acceptation = fields.Boolean('Acceptation')
+    acceptation = fields.Boolean('Acceptaté')
     accept = fields.Selection([('accepte', 'Accepté'),
                                ('non_accpet', 'Pas accepté')], 'Acceptation')
     date_acceptation = fields.Date('Date acceptation')

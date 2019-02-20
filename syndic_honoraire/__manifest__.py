@@ -8,8 +8,11 @@ Honoraire for building
     'category': 'Syndic',
     'depends': [
         'syndic_base',
+        'l10n_be',
     ],
     'data': [
+        'views/building.xml',
+        'wizard/honoraire.xml',
     ],
     'demo': [
 
