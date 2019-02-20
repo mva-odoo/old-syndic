@@ -222,7 +222,7 @@
         </record>
 
         <!--menu -->
-        <menuitem name="Lettre" id="menu_sub_letter" parent="syndic_base.master_syndic" sequence="30"/>
+        <menuitem name="Lettre" id="menu_sub_letter" parent="syndic_base.master_syndic" sequence="60"/>
         <menuitem name="Lettre" id="menu_action_new_letter" parent="menu_sub_letter" action="action_new_letter" sequence="2"/>
         <menuitem name="Configuration" id="menu_configuration_letter" parent="menu_sub_letter" sequence="2" groups="syndic_base.syndic_manager"/>
         <menuitem name="Modèle de lettre" id="menu_action_model" parent="menu_configuration_letter" action="action_model" sequence="1"/>

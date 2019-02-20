@@ -14,6 +14,7 @@
     </record>
 
     <menuitem name="Calendrier"
+              sequence="40"
               id="syndic_calendrier_menu"
               parent="syndic_base.master_syndic"
               action="calendar.action_calendar_event"/>

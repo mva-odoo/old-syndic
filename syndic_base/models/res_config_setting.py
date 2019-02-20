@@ -18,3 +18,4 @@ class ResConfigSettings(models.TransientModel):
     module_syndic_dashboard = fields.Boolean('Dashboard')
     module_syndic_signalitic = fields.Boolean('Fiche Signalitique')
     module_syndic_honoraire = fields.Boolean('Honoraire Immeuble')
+    module_syndic_calendar = fields.Boolean('Calendrier')

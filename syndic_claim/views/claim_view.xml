@@ -333,7 +333,7 @@
  		</record>
 
 		<!--menu -->
-		<menuitem name="Gestion d'immeuble" id="menu_sub_claim" parent="syndic_base.master_syndic" sequence="40"/>
+		<menuitem name="Gestion d'immeuble" id="menu_sub_claim" parent="syndic_base.master_syndic" sequence="50"/>
 		<menuitem name="Gestion d'immeuble" id="menu_action_claim" parent="menu_sub_claim" action="action_claim"/>
 		<menuitem name="Offre et contrat" id="menu_offre_contrat" parent="menu_sub_claim" action="action_offre_contrat"/>
 		<menuitem name="Bon de commande" id="menu_bon_commande" parent="menu_sub_claim" action="action_bon_commande"/>
