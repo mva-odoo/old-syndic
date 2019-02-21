@@ -89,7 +89,7 @@
                             </div>
                           </div>
 
-                          <t t-set="render_vals" t-value="partner._get_mako_template(o.contenu, {'partner': partner, 'letter': o})"/>
+                          <t t-set="render_vals" t-value="partner._get_jinja_template(o.contenu, {'partner': partner, 'letter': o})"/>
                           <t t-raw="render_vals"/>
 
                           <div class="row" style="height:40px;">
