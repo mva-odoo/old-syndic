@@ -38,7 +38,7 @@ class SuiviFacture(models.TransientModel):
            'year': self.year,
         }
 
-        immeubles = self.immeuble_ids if self.immeuble_ids else self.env['syndic.building'].search([])
+        immeubles = self.immeuble_ids if self.immeuble_ids else self.env['syndic.building'].search([('lot_ids.gestion_id', '=', False)])
 
         for immeuble in immeubles:
             vals['partner_id'] = immeuble.company_id.partner_id.id

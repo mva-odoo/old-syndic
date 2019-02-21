@@ -4,15 +4,27 @@
 	<div t-name="dashboardTimeline">
 
 		 <div class="container" style='display: unset;'>
-		 	 <div class="row">
-		 		 <div class="col-8">
+		 	 <!-- <div class="row">
+		 		 <div class="col-12">
 		 			  <div class="my-timeline"/>
 		 		 </div>
+		 	 </div> -->
+
+			 <div class="row">
 		 		 <div class="col-4">
+		 			 <h1>Mes Tickets</h1>
+					 <span class='my-claim'/>
+		 		 </div>
+				 <div class="col-4">
+		 			 <h1>Mes Lettres</h1>
+					 <span class='my-lettre'/>
+		 		 </div>
+				 <div class="col-4">
 		 			 <h1>Mes Immeubles</h1>
 					 <span class='my-buildings'/>
 		 		 </div>
 		 	 </div>
+
 	 	 </div>
 
 		 <div class="row meeting_date"/>
