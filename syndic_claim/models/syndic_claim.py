@@ -6,7 +6,7 @@ from datetime import date
 class Claim(models.Model):
     _name = 'syndic.claim'
     _description = 'syndic.claim'
-    _inherit = ['mail.thread']
+    _inherit = ['mail.thread', 'mail.activity.mixin']
     _rec_name = 'subject'
     _order = 'create_date desc'
 
