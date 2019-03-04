@@ -57,10 +57,16 @@ class Immeuble(models.Model):
                                    'building_id',
                                    'Corps de métier')
 
+    _sql_constraints = [
+        ('building_num_unique',
+         'UNIQUE(num)',
+         "Le numeros d'immeuble doit être unique"),
+    ]
+
     @api.model
     def _auto_init(self):
         self.env.ref('base.res_company_rule_employee').write({'active': False})
-        res = super(Immeuble, self)._auto_init()
+        return super(Immeuble, self)._auto_init()
 
     @api.model
     def create(self, vals):
