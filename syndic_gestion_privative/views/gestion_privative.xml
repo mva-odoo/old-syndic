@@ -86,10 +86,18 @@
     </record>
 
     <menuitem name="Gestion Privative" id="menu_gestion_privative"
-        parent="syndic_base.syndic"
-        action="action_gestion_privative"/>
+        web_icon="syndic_gestion_privative,static/description/icon.png"/>
+
+    <menuitem name="Gestion Privative" id="menu_gestion_privative_main"
+            parent="menu_gestion_privative"/>
+
+    <menuitem name="Gestion Privative" id="menu_gestion_privative_child"
+            parent="menu_gestion_privative_main"
+            sequence="10"
+            action="action_gestion_privative"/>
 
     <menuitem name="Immeuble Gestion Privative" id="menu_immeuble_gestion_privative"
-        parent="syndic_base.syndic"
+        parent="menu_gestion_privative_main"
+        sequence="20"
         action="action_gestion_privative_immeuble"/>
 </odoo>
