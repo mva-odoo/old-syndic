@@ -1,2 +1,14 @@
 "id","name","model_id:id","group_id:id","perm_read","perm_write","perm_create","perm_unlink"
 "syndic_signalitic","syndic signalitic","model_syndic_building_signalitic","syndic_base.syndic_employe",1,1,1,1
+"syndic_signalitic_acte","syndic signalitic acte de base","model_acte_base","syndic_base.syndic_employe",1,1,1,1
+"syndic_signalitic_acte_type","syndic signalitic acte de base type","model_acte_base_type","syndic_base.syndic_employe",1,1,1,1
+"syndic_signalitic_permis","syndic signalitic permis","model_permis_base","syndic_base.syndic_employe",1,1,1,1
+"syndic_signalitic_permis_type","syndic signalitic permis","model_permis_base_type","syndic_base.syndic_employe",1,1,1,1
+"syndic_signalitic_plan","syndic signalitic plan","model_plan_base","syndic_base.syndic_employe",1,1,1,1
+"syndic_signalitic_plan_type","syndic signalitic plan","model_plan_base_type","syndic_base.syndic_employe",1,1,1,1
+"syndic_signalitic_contrat_presta","syndic signalitic contrat prestations","model_contrat_prestations_base","syndic_base.syndic_employe",1,1,1,1
+"syndic_signalitic_contrat_presta_type","syndic signalitic contrat prestations type","model_contrat_prestations_base_type","syndic_base.syndic_employe",1,1,1,1
+"syndic_signalitic_contrat_fourn","syndic signalitic contrat fournitures","model_contrat_fournitures_base","syndic_base.syndic_employe",1,1,1,1
+"syndic_signalitic_contrat_fourn_type","syndic signalitic contrat fournitures type","model_contrat_fournitures_base_type","syndic_base.syndic_employe",1,1,1,1
+"syndic_signalitic_contrat_recettes","syndic signalitic contrat recettes","model_contrat_recettes_base","syndic_base.syndic_employe",1,1,1,1
+"syndic_signalitic_contrat_recettes_type","syndic signalitic contrat recettes type","model_contrat_recettes_base_type","syndic_base.syndic_employe",1,1,1,1

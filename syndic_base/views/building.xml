@@ -110,7 +110,7 @@
                               </tree>
                             </field>
                         </page>
-                        <page string="Comptabilite">
+                        <page string="Comptabilite" name="comptabilite">
                           <group>
                             <field name="bank_ids" attrs="{'readonly': [('is_lock', '=', True)]}">
                               <tree editable="top">

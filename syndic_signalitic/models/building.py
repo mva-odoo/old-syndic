@@ -6,17 +6,18 @@ from odoo import api, fields, models
 class Immeuble(models.Model):
     _inherit = 'syndic.building'
 
-    @api.model
-    def _auto_init(self):
-        buildings = self.search([('signalitic_id', '=', False)])
-        for building in buildings:
-            building.write({
-                'signalitic_id': self.env['syndic.building.signalitic'].create({}).id
-            })
-        return super()._auto_init()
-
-    signalitic_id = fields.Many2one(
-        'syndic.building.signalitic',
-        required=True, ondelete="cascade",
-        delegate=True, string='Immeuble'
-    )
+    acte_de_base_ids = fields.One2many('acte.base',
+                                       'immeuble_id', string='actes de base')
+    permis_ids = fields.One2many('permis.base',
+                                 'immeuble_id', string='Permis')
+    plan_ids = fields.One2many('plan.base',
+                               'immeuble_id', string='Plan')
+    contrat_prestation_ids = fields.One2many('contrat.prestations.base',
+                                             'immeuble_id',
+                                             string='Contrats prestations')
+    contrat_fournitures_ids = fields.One2many('contrat.fournitures.base',
+                                              'immeuble_id',
+                                              string='Contrats fournitures')
+    contrat_recettes_ids = fields.One2many('contrat.fournitures.base',
+                                           'immeuble_id',
+                                           string='Contrats recettes')

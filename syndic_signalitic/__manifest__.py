@@ -10,6 +10,7 @@ More information for building
         'syndic_signalitic_pre',
     ],
     'data': [
+        'views/building.xml',
         'security/ir.model.access.csv',
     ],
     'demo': [
