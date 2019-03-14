@@ -7,7 +7,7 @@ More information for building
     """,
     'category': 'Syndic',
     'depends': [
-        'syndic_signalitic_pre',
+        'syndic_base',
     ],
     'data': [
         'views/building.xml',
