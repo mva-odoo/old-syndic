@@ -21,3 +21,7 @@ class Immeuble(models.Model):
     contrat_recettes_ids = fields.One2many('contrat.fournitures.base',
                                            'immeuble_id',
                                            string='Contrats recettes')
+    cle_ids = fields.One2many('cle.base',
+                              'immeuble_id',
+                              string='cles')
+    diu_ids = fields.One2many('diu.base', 'immeuble_id', string="DIU")

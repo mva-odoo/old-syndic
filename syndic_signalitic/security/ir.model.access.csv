@@ -12,3 +12,7 @@
 "syndic_signalitic_contrat_fourn_type","syndic signalitic contrat fournitures type","model_contrat_fournitures_base_type","syndic_base.syndic_employe",1,1,1,1
 "syndic_signalitic_contrat_recettes","syndic signalitic contrat recettes","model_contrat_recettes_base","syndic_base.syndic_employe",1,1,1,1
 "syndic_signalitic_contrat_recettes_type","syndic signalitic contrat recettes type","model_contrat_recettes_base_type","syndic_base.syndic_employe",1,1,1,1
+"syndic_signalitic_cle","syndic signalitic cle","model_cle_base","syndic_base.syndic_employe",1,1,1,1
+"syndic_signalitic_cle_type","syndic signalitic cle type","model_cle_base_type","syndic_base.syndic_employe",1,1,1,1
+"syndic_signalitic_diu","syndic signalitic diu","model_diu_base","syndic_base.syndic_employe",1,1,1,1
+"syndic_signalitic_diu_type","syndic signalitic diu type","model_diu_base_type","syndic_base.syndic_employe",1,1,1,1
