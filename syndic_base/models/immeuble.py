@@ -71,6 +71,7 @@ class Immeuble(models.Model):
     @api.model
     def create(self, vals):
         vals['is_lock'] = True
+        vals['parent_id'] = self.env.ref('base.main_company').id
         return super(Immeuble, self).create(vals)
 
     @api.onchange('zip')
