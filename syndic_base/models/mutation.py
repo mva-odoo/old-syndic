@@ -42,12 +42,15 @@ class Mutation(models.Model):
 
                 mutation.write({'state': 'done'})
 
-                mutation.lot_ids.message_post(
-                    body=_('Mutation le %s: Ancien: %s - Nouveau %s' % (
-                        mutation.mutation_date,
-                        mutation.old_owner_ids.mapped('name'),
-                        mutation.new_owner_ids.mapped('name'),
-                    ))
+                old_owner_name = mutation.old_owner_ids.mapped('name')
+                new_owner_name = mutation.new_owner_ids.mapped('name')
+                for lot in mutation.lot_ids:
+                    lot.message_post(
+                        body=_('Mutation le %s: <b>Ancien:</b> %s - <b>Nouveau:</b> %s' % (
+                            mutation.mutation_date,
+                            ', '.join(old_owner_name),
+                            ', '.join(new_owner_name),
+                        ))
                 )
         else:
             # just save in draft
