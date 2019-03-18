@@ -29,6 +29,8 @@ Core mechanisms for the syndic modules.
         'views/backend.xml',
         'datas/res.city.csv',
         'datas/company.xml',
+        'datas/lot_type.xml',
+        'datas/quotite_type.xml',
     ],
     'demo': [
         'demos/users.xml',

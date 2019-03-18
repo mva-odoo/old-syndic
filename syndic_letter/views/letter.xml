@@ -87,7 +87,7 @@
                         </group>
                         <notebook colspan="4">
                             <page string="propriétaires">
-                                <field name="propr_ids">
+                                <field name="propr_ids" options="{'no_create': True}">
                                     <tree string="Fournisseur">
                                         <field name="name" string="Nom"/>
                                         <field name="street" string="Adresse"/>
@@ -104,7 +104,7 @@
                                 <field name="fourn_ids" />
                             </page>
                             <page string="locataires">
-                                <field name="loc_ids"/>
+                                <field name="loc_ids" options="{'no_create': True}"/>
                             </page>
                             <page string="Divers">
                                 <field name="divers_ids" colspan="1"/>

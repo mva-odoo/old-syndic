@@ -10,11 +10,33 @@ class Lot(models.Model):
 
     name = fields.Char('Nom du lot', required=True)
     building_id = fields.Many2one('syndic.building', 'Immeuble')
-    owner_ids = fields.Many2many('res.partner', 'lot_proprietaire', string='Propriétaires')
-    loaner_ids = fields.Many2many('res.partner', 'lot_locataire', string='Locataires')
-    quotities = fields.Float('Quotitées')
+    owner_ids = fields.Many2many('res.partner', 'lot_proprietaire', string='Propriétaires', domain=[
+        '|', 
+        '|', 
+        ('is_proprietaire', '=', True),
+        ('is_locataire', '=', True),
+        '|', 
+        ('is_old', '=', True),
+        ('supplier', '=', True),
+    ])
+    loaner_ids = fields.Many2many('res.partner', 'lot_locataire', string='Locataires', domain=[
+        '|', 
+        '|', 
+        ('is_proprietaire', '=', True),
+        ('is_locataire', '=', True),
+        '|', 
+        ('is_old', '=', True),
+        ('supplier', '=', True),
+    ])
     type_id = fields.Many2one('syndic.type_lot', 'Type de lot')
-
+    display_type = fields.Selection([
+        ('line_section', 'line_section'),
+        ('line_section', 'line_section'),
+    ], string='Display')
+    sequence = fields.Integer(string='Sequence')
+    quotity_ids = fields.Many2many('syndic.quotite', string='Quotitée')
+    quotity = fields.Integer('Quotitée')
+    
 
 class TypeLot(models.Model):
     _name = 'syndic.type_lot'
@@ -22,3 +44,47 @@ class TypeLot(models.Model):
     _order = 'name'
 
     name = fields.Char('Type de lot', required=True)
+
+
+class Quotitee(models.Model):
+    _name = 'syndic.quotite'
+    _description = 'Quotitée'
+
+    type_id = fields.Many2one('syndic.quotite.type', 'Quotitée')
+    building_id = fields.Many2one('syndic.building', 'Immeuble')
+    line_ids = fields.One2many('syndic.quotite.line', 'quotity_id', 'Quotitées')
+
+    @api.onchange('type_id')
+    def _onchange_quoity(self):
+        values = []
+        for lot in self.building_id.lot_ids:
+            values.append([0 , 0, {'lot_id': lot.id, 'value': lot.quotity}])
+        self.line_ids = values
+
+
+class QuotityLine(models.Model):
+    _name = 'syndic.quotite.line'
+    _description = 'Quotity Line'
+
+    quotity_id = fields.Many2one('syndic.quotite', 'Quotitée')
+    value = fields.Float('valeur')
+    lot_id = fields.Many2one('syndic.lot', 'Lot')
+    lot_name = fields.Char('Nom du Lot', related="lot_id.name")
+    lot_owner_ids = fields.Many2many('res.partner', string='Propriétaire', related="lot_id.owner_ids")
+
+    @api.multi
+    def write(self, values):
+        for quotity_line in self:
+            if values.get('value'):
+                quotity_line.lot_id.write({
+                    'quotity': values['value'],
+                })
+            
+        return super(QuotityLine, self).write(values)
+    
+
+class Quotitee_type(models.Model):
+    _name = 'syndic.quotite.type'
+    _description = 'syndic.quotite.type'
+
+    name = fields.Char(string='Name', required=True)
