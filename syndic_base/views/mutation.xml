@@ -48,6 +48,7 @@
                     <field name="mutation_date" attrs="{'readonly':[('state','=','done')]}" required="True"/>
                     <group>
                         <field name="old_owner_ids"
+                               options="{'no_create': True}"
                                attrs="{'readonly':[('state','=','done')]}"
                                domain="['|', ('is_proprietaire', '=', True), ('is_old', '=', True)]"
                                widget="many2many_tags"/>

@@ -20,6 +20,7 @@
         <field name="arch" type="xml">
             <field name="email" position="after">
                 <field name="owner_building_ids" widget="many2many_tags"/>
+                <field name="convocation"/>
             </field>
             <xpath expr="/tree" position="attributes">
                 <attribute name="create">false</attribute>

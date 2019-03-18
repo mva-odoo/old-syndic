@@ -50,6 +50,5 @@ class Mutation(models.Model):
                     ))
                 )
         else:
-            # just save in draft
             return {}
 

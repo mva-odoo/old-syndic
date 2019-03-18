@@ -33,7 +33,6 @@ class Immeuble(models.Model):
     BCE = fields.Char('BCE')
     num = fields.Integer(u"N°", required=True)
     zip = fields.Char(default='')
-    total_quotites = fields.Float(compute='_get_quotity', string='Total des Quotitées')
 
     lot_ids = fields.One2many('syndic.lot', 'building_id', 'Lots')
     lot_count = fields.Integer(compute='_get_quotity', string='Nombre de lots')
@@ -57,6 +56,8 @@ class Immeuble(models.Model):
                                    'building_id',
                                    'Corps de métier')
 
+    qutoty_ids = fields.One2many('syndic.quotite', 'building_id', string='Quotitée Principal')
+
     _sql_constraints = [
         ('building_num_unique',
          'UNIQUE(num)',
@@ -71,7 +72,14 @@ class Immeuble(models.Model):
     @api.model
     def create(self, vals):
         vals['is_lock'] = True
-        return super(Immeuble, self).create(vals)
+        res = super(Immeuble, self).create(vals)
+        
+        quotite = self.env['syndic.quotite'].create({
+            'building_id': res.id,
+            'type_id': self.env.ref('syndic_base.syndic_quotite_base').id
+        })
+        quotite._onchange_quoity()
+        return res
 
     @api.onchange('zip')
     def _onchange_zip(self):
@@ -96,8 +104,10 @@ class Immeuble(models.Model):
         loaner = self.mapped('lot_ids').mapped('loaner_ids')
         if self._context.get('inhabitant_type') == 'owner':
             action = self.env.ref('syndic_base.action_proprietaire').read()[0]
+            action['domain'] = [('id', 'in', owner.ids)]
         elif self._context.get('inhabitant_type') == 'loaner':
             action = self.env.ref('syndic_base.action_locataire').read()[0]
+            action['domain'] = [('id', 'in', loaner.ids)]
         else:
             action = self.env.ref('base.action_partner_form').read()[0]
             action['domain'] = [('id', 'in', (owner | loaner).ids)]
@@ -114,7 +124,6 @@ class Immeuble(models.Model):
 
     def _get_quotity(self):
         for building in self:
-            building.total_quotites = sum(building.mapped('lot_ids.quotities'))
             building.lot_count = len(building.lot_ids)
             building.owner_count = len(building.mapped('lot_ids.owner_ids'))
             building.loaner_count = len(building.mapped('lot_ids.loaner_ids'))

@@ -21,3 +21,6 @@ syndic_res_company_employe","syndic res company","base.model_res_company","syndi
 syndic_res_company","syndic res company","base.model_res_company","syndic_base.syndic_manager",1,1,1,1
 syndic_ir_property_employe","syndic syndic_ir_property","base.model_ir_property","syndic_base.syndic_employe",1,1,1,0
 syndic_syndic_ir_property","syndic syndic_ir_property","base.model_ir_property","syndic_base.syndic_manager",1,1,1,1
+syndic_syndic_quotity","syndic syndic_quotity","model_syndic_quotite","syndic_base.syndic_employe",1,1,1,1
+syndic_syndic_quotity_type","syndic syndic_quotity type","model_syndic_quotite_type","syndic_base.syndic_employe",1,1,1,1
+syndic_syndic_quotity_line","syndic syndic_quotity line","model_syndic_quotite_line","syndic_base.syndic_employe",1,1,1,1
