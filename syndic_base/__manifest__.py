@@ -31,6 +31,7 @@ Core mechanisms for the syndic modules.
         'datas/company.xml',
         'datas/lot_type.xml',
         'datas/quotite_type.xml',
+        'report/immeuble.xml',
     ],
     'demo': [
         'demos/users.xml',

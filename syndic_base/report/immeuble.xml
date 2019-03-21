@@ -1,0 +1,102 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+      <report
+        id="action_print_immeuble"
+        model="syndic.building"
+        string="Fiche Immeuble"
+        name="syndic_base.fiche_immeuble"
+        report_type="qweb-pdf"
+        />
+        <template id="fiche_immeuble">
+            <t t-call="web.html_container">
+              <t t-call="web.external_layout">
+                <t t-foreach="docs" t-as="o">
+                  <div class="page">
+                    <div class="title" style="text-align:center">
+                      <h1>FICHE IMMEUBLE – <span t-field="o.name"/></h1>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-6">
+                        <p>ADRESSE:</p>
+                      </div>
+                      <div class="col-6">
+                        <p>DATE DE L'ASSEMBLÉE GÉNÉRALE :</p>
+                      </div>
+                    </div>
+
+
+                     <div class="row">
+                      <div class="col-6">
+                        <span t-field="o.street"/> <span t-field="o.zip"/> <span t-field="o.city_id.name"/>
+                      </div>
+                      <div class="col-6">
+                        <p>Mois: <span t-field="o.date_mois"/></p> 
+                        <p>Quinzaine: <span t-field="o.date_quinzaine"/></p>
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-12">
+                        Information Divers:
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-6">
+                        <p>Gestionnaire: <span t-field="o.manager_id.name"/></p> 
+                      </div>
+                      <div class="col-6"> 
+                        <p>BCE: <span t-field="o.BCE"/></p>
+                        <p>
+                          Comptes: <t t-foreach="o.bank_ids" t-as="bank"> <span t-field="bank.acc_number"/></t>
+                        </p>
+                      </div>
+                    </div>
+
+
+                    <div class="row">
+                      <div class="col-12">
+                        FOURNISSEUR :
+
+                        <table>
+                          <thead>
+                            <th>Nom du fournisseur</th>
+                            <th>Adresse</th>
+                            <th>Ville</th>
+                            <th>Code postal</th>
+                            <th>Téléphone</th>
+                            <th>Email</th>
+                          </thead>
+
+                          <tbody>
+                            <t t-foreach="o.supplier_ids" t-as="fournisseur">
+                              <tr>
+                                <td><span t-field="fournisseur.partner_id.name"/></td>
+                                <td><span t-field="fournisseur.partner_street"/></td>
+                                <td><spant t-field="fournisseur.partner_zip"/></td>
+                                <td><span t-field="fournisseur.partner_city_id.name"/></td>
+                                <td><span t-field="fournisseur.partner_phone"/></td>
+                                <td><span t-field="fournisseur.partner_email"/></td>
+                              </tr>
+                            </t>
+                            <tr>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                            </tr>
+                          </tbody>
+                        </table>
+
+                      </div>
+                    </div>
+
+                  </div>
+                </t>
+              </t>
+            </t>
+        </template>
+</odoo>

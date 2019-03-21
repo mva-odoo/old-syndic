@@ -50,7 +50,7 @@ class Immeuble(models.Model):
     is_building = fields.Boolean('Est un immeuble', default=True)
 
     date_mois = fields.Selection(_MONTH, 'Mois')
-    date_quizaine = fields.Selection([('1', '1'), ('2', '2')], 'Quinzaine')
+    date_quinzaine = fields.Selection([('1', '1'), ('2', '2')], 'Quinzaine')
 
     supplier_ids = fields.One2many('res.partner.contractual',
                                    'building_id',
