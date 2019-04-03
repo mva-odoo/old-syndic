@@ -34,6 +34,7 @@ class SuiviFacture(models.TransientModel):
 
         vals = {
            'date': self.date,
+           'date_invoice': self.date,
            'trimestre': self.trimestre,
            'year': self.year,
         }
@@ -67,8 +68,8 @@ class SuiviFacture(models.TransientModel):
                })
             )
             vals['invoice_line_ids'] = lines
-
-            invoices |= self.env['account.invoice'].create(vals)
+            new_vals = vals.copy()
+            invoices |= self.env['account.invoice'].create(new_vals)
 
             immeuble.write({
                 'frais_admin': fraisadmin,
