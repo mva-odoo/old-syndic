@@ -10,6 +10,14 @@
                       <field name="currency_id" invisible="1"/>
                       <field name="honoraire" widget='monetary' options="{'currency_field': 'currency_id'}"/>
                       <field name="frais_admin" widget='monetary' options="{'currency_field': 'currency_id'}"/>
+                      <field name="is_merge"/>
+                      <field name="honoraire_ids">
+                        <tree editable="top">
+                            <field name="year_id"/>
+                            <field name="honoraire"/>
+                            <field name="frais_admin"/>
+                        </tree>
+                      </field>
                     </group>
                 </xpath>
 
@@ -18,7 +26,55 @@
                       <field name="count_invoice" widget="statinfo"/>
                   </button>
                 </xpath>
-
             </field>
     </record>
+    
+    <record id="syndic_honoraire_year_view_tree" model="ir.ui.view">
+      <field name="name">syndic.honoraire.year.view.tree</field>
+      <field name="model">syndic.honoraire.year</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="name"/>
+          <field name="index"/>
+        </tree>
+      </field>
+    </record>
+
+     <record id="syndic_honoraire_year_view_form" model="ir.ui.view">
+      <field name="name">syndic.honoraire.year.view.form</field>
+      <field name="model">syndic.honoraire.year</field>
+      <field name="arch" type="xml">
+        <form>
+        <header>
+          <button name='set_index' string="calculer les index" type='object'/>
+        </header>
+        <sheet>
+          <group>
+            <field name="name"/>
+            <field name="index"/>
+          </group>
+          <field name="honoraire_ids">
+            <tree>
+              <field name="honoraire"/>
+              <field name="frais_admin"/>
+              <field name="building_id"/>
+            </tree>
+          </field>
+          </sheet>
+        </form>
+      </field>
+    </record>
+
+
+    <!-- syndic.honoraire.year action window -->
+    <record id="model_name_action" model="ir.actions.act_window">
+      <field name="name">Index Par année</field>
+      <field name="type">ir.actions.act_window</field>
+      <field name="res_model">syndic.honoraire.year</field>
+      <field name="view_mode">tree,form</field>
+      <field name="view_type">form</field>
+    </record>
+
+    <!-- This Menu Item must have a parent and an action -->
+    <menuitem id="syndic_honoraire_year_menu_act" name="Index Honoraire et Frais admin." parent="syndic_base.setting_syndic" action="model_name_action"/>
 </odoo>
