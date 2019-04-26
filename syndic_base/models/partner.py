@@ -42,6 +42,8 @@ class Partner(models.Model):
 
     building_ids = fields.One2many('res.partner.contractual', 'partner_id', string="Immeubles")
 
+    quotity_line_ids = fields.Many2many('syndic.quotite.line', string='Quotitées')
+
     @api.depends('lot_ids')
     def _get_number_lot(self):
         for partner in self:

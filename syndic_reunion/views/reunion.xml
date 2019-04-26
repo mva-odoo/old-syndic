@@ -30,6 +30,8 @@
                             <field name="date_fr" />
 							<field name="immeuble_id"/>
 							<field name="type_id" />
+							<field name="owner_ids" widget="many2many_tags" options="{'no_create':True}"/>
+							<field name="percentage_present" widget="progressbar"/>
 		                </group>
 						<group string="Descriptif">
 							<field name="descriptif" nolabel="1"/>
@@ -47,13 +49,32 @@
 			<field name="model">reunion.point</field>
 			<field name="type">form</field>
 			<field name="arch" type="xml">
-				<form string="Reunion">
-					 <sheet string="Rapport reunion" layout="auto">
+				<form>
+					 <sheet>
 						<group>
 							<field name="name" />
 							<field name="sequence" />
-							<field name="descriptif" />
 		                </group>
+						<notebook>
+							<page string='Description'>
+								<field name="descriptif" />
+							</page>
+							<page string="Vote">
+								<group>
+									<field name="quotity_id"/>
+									<field name="acceptation_percentage"/>
+								</group>
+								<field name="vote_ids">
+									<tree editable='top' create="0">
+										<field name="owner_id" readonly="1"/>
+										<field name="lot_ids" widget="many2many_tags" readonly="1"/>
+										<field name="value" readonly="1"/>
+										<field name="quotity_percentage" readonly="1"/>
+										<field name="vote"/>
+									</tree>
+								</field>
+							</page>
+						</notebook>
 		            </sheet>
                 </form>
 			</field>

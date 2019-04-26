@@ -79,7 +79,7 @@ class Immeuble(models.Model):
             'building_id': res.id,
             'type_id': self.env.ref('syndic_base.syndic_quotite_base').id
         })
-        quotite._onchange_quoity()
+        quotite._onchange_quotity()
         return res
 
     @api.onchange('zip')

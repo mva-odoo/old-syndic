@@ -49,28 +49,34 @@ class TypeLot(models.Model):
 class Quotitee(models.Model):
     _name = 'syndic.quotite'
     _description = 'Quotitée'
+    _rec_name = 'type_id'
 
-    type_id = fields.Many2one('syndic.quotite.type', 'Quotitée')
+    type_id = fields.Many2one('syndic.quotite.type', 'Quotitée', required=True)
     building_id = fields.Many2one('syndic.building', 'Immeuble')
     line_ids = fields.One2many('syndic.quotite.line', 'quotity_id', 'Quotitées')
 
     @api.onchange('type_id')
-    def _onchange_quoity(self):
+    def _onchange_quotity(self):
         values = []
         for lot in self.building_id.lot_ids:
-            values.append([0 , 0, {'lot_id': lot.id, 'value': lot.quotity}])
+            values.append([0 , 0, {'lot_id': lot.id, 'lot_owner_ids': [(6,0 , lot.owner_ids.ids)],'value': lot.quotity}])
         self.line_ids = values
 
 
 class QuotityLine(models.Model):
     _name = 'syndic.quotite.line'
     _description = 'Quotity Line'
+    _rec_name = 'lot_id'
 
     quotity_id = fields.Many2one('syndic.quotite', 'Quotitée')
     value = fields.Float('valeur')
     lot_id = fields.Many2one('syndic.lot', 'Lot')
     lot_name = fields.Char('Nom du Lot', related="lot_id.name")
-    lot_owner_ids = fields.Many2many('res.partner', string='Propriétaire', related="lot_id.owner_ids")
+    lot_owner_ids = fields.Many2many('res.partner', string='Propriétaire')
+
+    @api.onchange('lot_id')
+    def _onchange_lot_id(self):
+        self.lot_owner_ids = self.lot_id.owner_ids
 
     @api.multi
     def write(self, values):

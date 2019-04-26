@@ -126,8 +126,8 @@
                                         <field name="type_id"/>
                                         <field name="line_ids">
                                             <tree editable="top" create="0">
-                                                <field name="lot_name" readonly="1"/>
-                                                <field name="lot_owner_ids" readonly="1" widget="many2many_tags"/>
+                                                <field name="lot_id" readonly="1" force_save="1"/>
+                                                <field name="lot_owner_ids" readonly="1" widget="many2many_tags" force_save="1"/>
                                                 <field name="value" sum="Quotitées totales"/>
                                             </tree>
                                         </field>

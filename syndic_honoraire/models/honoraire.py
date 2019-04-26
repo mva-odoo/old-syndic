@@ -14,7 +14,7 @@ class SyndicHonoraire(models.Model):
     building_id = fields.Many2one('syndic.building', string='Immeuble')
 
 
-class SyndicHonoraire(models.Model):
+class SyndicHonoraireYear(models.Model):
     _name = 'syndic.honoraire.year'
     _description = 'Honoraire Year'
 
