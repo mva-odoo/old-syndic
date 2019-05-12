@@ -57,7 +57,7 @@ class Quotitee(models.Model):
 
     @api.onchange('type_id')
     def _onchange_quotity(self):
-        values = []
+        values = [(6,0, [])]
         for lot in self.building_id.lot_ids:
             values.append([0 , 0, {'lot_id': lot.id, 'lot_owner_ids': [(6,0 , lot.owner_ids.ids)],'value': lot.quotity}])
         self.line_ids = values

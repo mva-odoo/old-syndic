@@ -61,7 +61,7 @@
 							</page>
 							<page string="Vote">
 								<group>
-									<field name="quotity_id"/>
+									<field name="quotity_id" options="{'no_create':True, 'no_open':True}"/>
 									<field name="acceptation_percentage"/>
 								</group>
 								<field name="vote_ids">

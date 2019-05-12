@@ -74,24 +74,27 @@ class ReunionPoint(models.Model):
 
     vote_ids = fields.One2many('syndic.vote', 'point_id', 'Votes')
 
-    @api.onchange('reunion_id')
+    @api.onchange('reunion_id', 'name')
     def _onchange_reunion(self):
         return {
             'domain': {
-                'quotity_id': [('building_id', '=', self.reunion_id.building_id.id)]
+                'quotity_id': [('building_id', '=', self.reunion_id.immeuble_id.id)]
             }
         }
 
     @api.onchange('quotity_id')
     def _onchange_vote(self):
-        values = []
+        values = [(6,0, [])]
         for owner in self.quotity_id.line_ids.mapped('lot_owner_ids'):
             if owner in self.reunion_id.owner_ids:
-                lots = owner.quotity_line_ids.mapped('lot_id').filtered(lambda s: s.building_id == self.reunion_id.immeuble_id)
+                quotity_lines = owner.quotity_line_ids.filtered(lambda s:s.quotity_id == self.quotity_id)
+                
+                lots = quotity_lines.mapped('lot_id').filtered(lambda s: s.building_id == self.reunion_id.immeuble_id)
+               
                 values.append([0, 0, {
                     'owner_id': owner.id,
                     'lot_ids': lots.ids,
-                    'value': sum(lots.mapped('quotity')),
+                    'value': sum(quotity_lines.mapped('value')),
                     'vote': 'nok',
                 }])
 
@@ -108,7 +111,7 @@ class VotePerson(models.Model):
     lot_ids = fields.Many2many('syndic.lot', string='Lots')
 
     value = fields.Float('Quotitées')
-    quotity_percentage = fields.Float('Quotitées', compute="_get_quotity_percentage")
+    quotity_percentage = fields.Float('Quotitées Pourcentage', compute="_get_quotity_percentage")
 
     vote = fields.Selection([
         ('ok', 'ok'),
