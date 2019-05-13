@@ -1,0 +1,23 @@
+.header-month{
+    color: #ffffff;
+    background: #7C7BAD;
+}
+.col-centered{
+    text-align: center;
+}
+.premiere_quinzaine{
+    background: #7C7BAD;
+    color: white;
+}
+.deuxieme_quinzaine{
+    background: white;
+    color: #7C7BAD;
+}
+.premier{
+    background: white;
+    color: #7C7BAD;
+}
+.deuxieme{
+    background: #7C7BAD;
+    color: white;
+}
