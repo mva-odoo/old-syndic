@@ -2,6 +2,10 @@
     color: #ffffff;
     background: #7C7BAD;
 }
+.row{
+    margin-right: 0px !important;
+    margin-left: 0px !important;
+}
 .col-centered{
     text-align: center;
 }
