@@ -11,15 +11,15 @@
 		 	 </div> -->
 
 			 <div class="row">
-		 		 <div class="col-4">
+		 		 <div class="col-4 col-centered">
 		 			 <h1>Mes Tickets</h1>
 					 <span class='my-claim'/>
 		 		 </div>
-				 <div class="col-4">
+				 <div class="col-4 col-centered">
 		 			 <h1>Mes Lettres</h1>
 					 <span class='my-lettre'/>
 		 		 </div>
-				 <div class="col-4">
+				 <div class="col-4 col-centered">
 		 			 <h1>Mes Immeubles</h1>
 					 <span class='my-buildings'/>
 		 		 </div>
@@ -27,8 +27,23 @@
 
 	 	 </div>
 
-		 <div class="row meeting_date"/>
-		 <div class="row meeting_building"/>
+		 <div class="row meeting_date">
+		 	<div class="col-2 quinzaine">Quinzaine</div>
+		 </div>
+		 <div class="row meeting_building1">
+		 	<div class="col-2 premiere_quinzaine">
+			 	1ère
+			 </div>
+		 	
+		 </div>
+		 <div class="row meeting_building2">
+		 	<div class="col-2 deuxieme_quinzaine">
+			 	2ème
+			 </div>
+		 	
+		 </div>
+
+
 
 	</div>
 

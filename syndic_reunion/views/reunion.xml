@@ -15,7 +15,17 @@
 			</field>
 		</record>
 
-
+		<!-- letter.reunion search view -->
+		<record id="letter_reunion_view_search" model="ir.ui.view">
+			<field name="name">letter.reunion.view.search</field>
+			<field name="model">letter.reunion</field>
+			<field name="arch" type="xml">
+				<search>
+					<field name="immeuble_id"/>
+					<field name="type_id"/>
+				</search>
+			</field>
+		</record>
 		<!--form -->
 		<record model="ir.ui.view" id="form_rapport_reunion">
 			<field name="name">Rapport Reunion form view</field>
@@ -25,7 +35,7 @@
 				<form string="Reunion">
 					<sheet string="Rapport reunion" layout="auto">
 						<group>
-							<field name="name"/>
+							<field name="name" invisible="1"/>
                         
 							<group>
 								<field name="immeuble_id" options="{'no_create':True}"/>
@@ -44,7 +54,13 @@
 							<field name="descriptif" nolabel="1"/>
 						</group>
 						<group string="Points">
-							<field name="point_ids" nolabel="1"/>
+							<field name="point_ids" nolabel="1">
+								<tree>
+									<field name="sequence" widget="handle"/>
+									<field name="name"/>
+									<field name="final_vote"/>
+								</tree>
+							</field>
 						</group>
 		            </sheet>
                 </form>
@@ -70,13 +86,28 @@
 								<group>
 									<field name="quotity_id" options="{'no_create':True, 'no_open':True}"/>
 									<field name="acceptation_percentage"/>
+									<field name="ok_vote" invisible="1"/>
+									<field name="final_vote" invisible="1"/>
 								</group>
+
+								<group class="oe_edit_only" attrs="{'invisible': [('final_vote', '=', True)]}">
+									<div class="alert alert-danger" role="alert">
+										Ce point est refusé
+									</div>
+								</group>
+
+								<group class="oe_edit_only" attrs="{'invisible': [('final_vote', '=', False)]}">
+									<div class="alert alert-info" role="alert">
+										Ce point est accepté
+									</div>
+								</group>
+
 								<field name="vote_ids">
-									<tree editable='top' create="0">
-										<field name="owner_id" readonly="1"/>
-										<field name="lot_ids" widget="many2many_tags" readonly="1"/>
-										<field name="value" readonly="1"/>
-										<field name="quotity_percentage" readonly="1"/>
+									<tree editable='top' create="0" decoration-danger="vote=='nok'" decoration-success="vote=='ok'" decoration-warning="vote=='abstention'">
+										<field name="owner_id" readonly="1" force_save="1"/>
+										<field name="lot_ids" widget="many2many_tags" readonly="1" force_save="1"/>
+										<field name="value" readonly="1" force_save="1"/>
+										<field name="quotity_percentage" readonly="1" force_save="1"/>
 										<field name="vote"/>
 									</tree>
 								</field>

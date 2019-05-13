@@ -41,12 +41,10 @@ class OrderRoute(http.Controller):
 
         events = []
         for month in dates:
-            content = ''
-            for building in buildings.filtered(lambda s: s.date_mois == month.month):
-                content += '<br/>%s (%s)' % (building.name, building.date_quinzaine)
             events.append({
                 'date': '%s - %s' % (month.year, Mois_fr.get(month.month)),
-                'content': content,
+                'premier': buildings.filtered(lambda s: s.date_mois == month.month and s.date_quinzaine == '1').mapped('name'),
+                'deuxieme': buildings.filtered(lambda s: s.date_mois == month.month and s.date_quinzaine == '2').mapped('name'),
             })
 
         return {

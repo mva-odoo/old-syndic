@@ -34,18 +34,9 @@ var Dashboard = AbstractAction.extend(ControlPanelMixin, {
 
         return superDef.then(
 					this._updateControlPanel()).then(
-						this._render_timeline.bind(this)).then(
 							this._render_building.bind(this)).then(
 								this._render_meetings.bind(this)
 							);
-	},
-
-	_render_timeline: function(){
-		this.$('.my-timeline').roadmap(this.stats.myEvents, {
-			eventTemplate: '<div class="event">' + '<div class="event__date">####DATE###</div>' + '<div class="event__content">####CONTENT###</div>' + '</div>',
-			eventsPerSlide: 5,
-			orientation: 'horizontal'
-		});
 	},
 
 	_render_building: function(){
@@ -60,16 +51,25 @@ var Dashboard = AbstractAction.extend(ControlPanelMixin, {
 		var new_this = this;
 
 		this.stats.myEvents.forEach(function(value) {
-			console.log(value);
 			var $div = $("<div>", {id: value.date, "class": "col-2"}).css('text-align', 'center');
-			$div.html('<h2>'+value.date+'</h2>');
+			$div.html('<h2 class="header-month">'+value.date+'</h2>');
 			new_this.$('.row.meeting_date').append($div);
+			
+			var $body_premier = $("<div>", {id: "premier"+value.date, "class": "col-2"}).css('text-align', 'center');
+			new_this.$('.row.meeting_building1').append($body_premier);
 
-			var $building = $('<div>', {id: value.content,'class':"col-2"}).css('text-align', 'center');
-			$building.html(value.content);
-			new_this.$('.row.meeting_building').append($building);
+			value.premier.forEach(function(element) {
+				$body_premier.html('<h3 class="premier">'+element+'</h3>');
+				new_this.$('.row.meeting_building1').append($body_premier);
+			});
 
-			// var buildings = new_this.$('.my-buildings').append('<p><a href="javascript:;" class="building_btn" data-id='+values.id+'>'+values.name+'</a></p>');
+			var $body_deuxieme = $("<div>", {id: "deuxieme"+value.date, "class": "col-2"}).css('text-align', 'center');
+			new_this.$('.row.meeting_building2').append($body_deuxieme);
+
+			value.deuxieme.forEach(function(element) {
+				$body_deuxieme.html('<h3 class="deuxieme">'+element+'</h3>');
+				new_this.$('.row.meeting_building2').append($body_deuxieme);
+			});
 		});
 
 	},

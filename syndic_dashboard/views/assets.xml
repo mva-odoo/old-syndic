@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-   <template id="assets_backend" name="awesome tshirt assets backend" inherit_id="web.assets_backend">
+   <template id="syndicassets_backend" name="syndic dashboard assets backend" inherit_id="web.assets_backend">
         <xpath expr="." position="inside">
-        	<link href="/syndic_dashboard/static/Dynamic-Animated-Timeline-Slider/dist/jquery.roadmap.min.css" rel="stylesheet"/>
-        	<script src="/syndic_dashboard/static/Dynamic-Animated-Timeline-Slider/dist/jquery.roadmap.min.js" type="text/javascript"/>
+            <link rel="stylesheet" href="/syndic_dashboard/static/src/css/style.css"/>
             <script type="text/javascript" src="/syndic_dashboard/static/src/js/dashboard.js"/>
-
         </xpath>
     </template>
 </odoo>

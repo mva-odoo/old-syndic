@@ -8,7 +8,7 @@ class LetterReunion(models.Model):
     _description = 'letter.reunion'
     _order = 'create_date desc'
 
-    name = fields.Char(u'Réunion', required=True)
+    name = fields.Char(u'Réunion', compute="_get_name")
     immeuble_id = fields.Many2one('syndic.building', 'Immeuble', required=True)
     descriptif = fields.Html('Descriptif')
     point_ids = fields.One2many('reunion.point', 'reunion_id', 'Points')
@@ -22,6 +22,10 @@ class LetterReunion(models.Model):
     percentage_present = fields.Float('Pourcentage de participation', compute="_get_percentage")
     percentage_quotity_present = fields.Float('Pourcentage de participation par quotitée', compute="_get_percentage_quotity")
     present_quotity = fields.Float('Quotitée Totale', compute="_get_percentage_quotity")
+
+    def _get_name(self):
+        for reunion in self:
+            reunion.name = '%s %s %s' % (reunion.type_id.name, reunion.immeuble_id.name, reunion.date_fr)
 
     @api.depends('owner_ids')
     def _get_percentage_quotity(self):
@@ -79,12 +83,25 @@ class ReunionPoint(models.Model):
 
     acceptation_percentage = fields.Selection([
         ('50', '50%'),
-        ('2-3', '2/3'),
-        ('4-5', '4/5'),
+        ('67', '2/3'),
+        ('80', '4/5'),
         ('100', '100%'),
     ])
 
     vote_ids = fields.One2many('syndic.vote', 'point_id', 'Votes')
+
+    ok_vote = fields.Float('Vote OK', compute="_get_vote")
+    final_vote = fields.Boolean('Vote final', compute="_get_final_vote")
+
+    @api.depends('vote_ids')
+    def _get_vote(self):
+        for point in self:
+            point.ok_vote = sum(point.vote_ids.filtered(lambda s:s.vote == "ok").mapped('quotity_percentage'))
+
+    @api.depends('vote_ids', 'acceptation_percentage')
+    def _get_final_vote(self):
+        for point in self:
+            point.final_vote = point.ok_vote > float(point.acceptation_percentage)
 
     @api.onchange('reunion_id', 'name')
     def _onchange_reunion(self):
