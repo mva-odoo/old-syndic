@@ -27,11 +27,13 @@
     list-style:none;
     background: white;
     color: #7C7BAD;
+    padding:4px;
 }
 .deuxiemeli{
     list-style:none;
     background: #7C7BAD;
     color: white;
+    padding:4px;
 }
 .fa-calendar-white{
     color: white;

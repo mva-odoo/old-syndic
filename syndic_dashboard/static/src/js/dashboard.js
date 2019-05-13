@@ -60,26 +60,26 @@ var Dashboard = AbstractAction.extend(ControlPanelMixin, {
 			$div.html('<h2 class="header-month">'+value.date+'</h2>');
 			new_this.$('.row.meeting_date').append($div);
 			
-			var $body_premier = $("<ul>", {id: "premier"+value.month, "class": "col-2"}).css('text-align', 'center');
+			var $body_premier = $("<ul>", {id: "premier"+value.month, "class": "col-2"});
 			new_this.$('.row.meeting_building1').append($body_premier);
 				
 			value.premier.forEach(function(element) {
-				var building_name = '<a href="javascript:;" class="building_btn premierli" data-id='+element["id"]+'>'+element['name']+'</a>';
+				var building_name = '<a href="javascript:;" class="building_btn premierli" data-id='+element["id"]+'>'+element['name']+'</a> ';
 				var calendar_icon = ' <a href="javascript:;" class="calendar_btn" data-building_id='+element["id"]+' data-name='+element["name"]+'><i class="fa fa-calendar"></i>';
-				var envelope_icon = '</a> <a href="javascript:;" class="letter_btn" data-building_id='+element["id"]+'><i class="fa fa-envelope"></i>';
-				var $building_html = '<li class="premierli">'+building_name+calendar_icon+envelope_icon+'</li></a>';
+				var envelope_icon = '</a> <a href="javascript:;" class="letter_btn" data-building_id='+element["id"]+'><i class="fa fa-envelope"></i> ';
+				var $building_html = '<li class="premierli">'+calendar_icon+envelope_icon+building_name+'</li></a>';
 				new_this.$("#premier"+value.month).append($building_html);
 			});
 
-			var $body_deuxieme = $("<ul>", {id: "deuxieme"+value.month, "class": "col-2"}).css('text-align', 'center');
+			var $body_deuxieme = $("<ul>", {id: "deuxieme"+value.month, "class": "col-2"});
 			new_this.$('.row.meeting_building2').append($body_deuxieme);
 			
 
 			value.deuxieme.forEach(function(element) {
-				var building_name = '<a href="javascript:;" class="building_btn deuxiemeli" data-id='+element["id"]+'>'+element['name']+'</a>';
+				var building_name = '<a href="javascript:;" class="building_btn deuxiemeli" data-id='+element["id"]+'>'+element['name']+'</a> ';
 				var calendar_icon = ' <a href="javascript:;" class="calendar_btn" data-building_id='+element["id"]+' data-name='+element["name"]+'><i class="fa fa-calendar fa-calendar-white"></i>';
-				var envelope_icon = '</a> <a href="javascript:;" class="letter_btn" data-building_id='+element["id"]+'><i class="fa fa-envelope fa-envelope-white"></i>';			
-				var $building2_html = '<li class="deuxiemeli">'+building_name+calendar_icon+envelope_icon+'</li></a>';
+				var envelope_icon = '</a> <a href="javascript:;" class="letter_btn" data-building_id='+element["id"]+'><i class="fa fa-envelope fa-envelope-white"></i> ';			
+				var $building2_html = '<li class="deuxiemeli"> '+calendar_icon+envelope_icon+building_name+'</li></a>';
 	
 				new_this.$("#deuxieme"+value.month).append($building2_html);
 			});
