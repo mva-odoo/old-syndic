@@ -20,6 +20,18 @@ class LetterReunion(models.Model):
 
     owner_ids = fields.Many2many('res.partner', string='Liste de présence')
     percentage_present = fields.Float('Pourcentage de participation', compute="_get_percentage")
+    percentage_quotity_present = fields.Float('Pourcentage de participation par quotitée', compute="_get_percentage_quotity")
+    present_quotity = fields.Float('Quotitée Totale', compute="_get_percentage_quotity")
+
+    @api.depends('owner_ids')
+    def _get_percentage_quotity(self):
+        for reunion in self:
+            total = sum(reunion.immeuble_id.lot_ids.mapped('quotity'))
+            lots = reunion.immeuble_id.lot_ids & reunion.owner_ids.mapped('lot_ids')
+            partial = sum(lots.mapped('quotity'))
+            
+            reunion.present_quotity = partial
+            reunion.percentage_quotity_present = (partial/total)*100 if total else 0.00
 
     @api.depends('owner_ids')
     def _get_percentage(self):
@@ -122,5 +134,7 @@ class VotePerson(models.Model):
     @api.depends('value')
     def _get_quotity_percentage(self):
         for vote in self:
-            percentage = vote.point_id.reunion_id.percentage_present
-            vote.quotity_percentage = vote.value + ((vote.value * 100-percentage)/100)/len(self.point_id.vote_ids)
+            total = vote.point_id.reunion_id.present_quotity
+            partial = vote.value
+
+            vote.quotity_percentage = (partial/total)*100 if total else 0.00
