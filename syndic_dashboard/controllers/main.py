@@ -44,8 +44,8 @@ class OrderRoute(http.Controller):
             events.append({
                 'month': month.month,
                 'date': '%s - %s' % (month.year, Mois_fr.get(month.month)),
-                'premier': buildings.filtered(lambda s: s.date_mois == month.month and s.date_quinzaine == '1').mapped('name'),
-                'deuxieme': buildings.filtered(lambda s: s.date_mois == month.month and s.date_quinzaine == '2').mapped('name'),
+                'premier': buildings.filtered(lambda s: s.date_mois == month.month and s.date_quinzaine == '1').read(['id', 'name']),
+                'deuxieme': buildings.filtered(lambda s: s.date_mois == month.month and s.date_quinzaine == '2').read(['id', 'name']),
             })
 
         return {
@@ -55,9 +55,10 @@ class OrderRoute(http.Controller):
     @http.route('/dashboard/buildings', type='json', auth='user')
     def get_buildings(self):
         uid = http.request.env['syndic.building']._context.get('uid')
-        return {
-            'buildings': http.request.env['syndic.building'].search_read(
+        buildings = http.request.env['syndic.building'].search_read(
                 [('manager_id', '=', uid)],
                 ['name']
-            )
+        )
+        return {
+            'buildings': buildings,
         }

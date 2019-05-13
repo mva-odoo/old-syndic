@@ -10,7 +10,10 @@ var Dashboard = AbstractAction.extend(ControlPanelMixin, {
 	template: 'dashboardTimeline',
 
 	events: {
-        'click .building_btn': '_openBuilding',
+		'click .building_btn': '_openBuilding',
+		'click .calendar_btn': '_openCalendar',
+		'click .letter_btn': '_openLetter',
+		'click .todo_btn': '_opentodo',
     },
 
 	willStart: function(){
@@ -19,9 +22,10 @@ var Dashboard = AbstractAction.extend(ControlPanelMixin, {
             self.stats = stats;
         });
 
-				var buildingsDef = this._rpc({route: '/dashboard/buildings'}).then(function (buildings) {
-					self.buildings = buildings;
-				});
+		var buildingsDef = this._rpc({route: '/dashboard/buildings'}).then(function (buildings) {
+			self.buildings = buildings;
+			self.buildings_len = buildings.buildings.length;
+		});
 
         var superDef = this._super.apply(this, arguments);
 
@@ -41,9 +45,10 @@ var Dashboard = AbstractAction.extend(ControlPanelMixin, {
 
 	_render_building: function(){
 		var new_this = this;
-		this.buildings.buildings.forEach(function(values, key) {
-			new_this.$('.my-buildings').append('<p><a href="javascript:;" class="building_btn" data-id='+values.id+'>'+values.name+'</a></p>');
-		})
+		new_this.$('.my-buildings').append('<p>Vous Avez '+this.buildings_len+ ' immeubles</p>');
+		// this.buildings.buildings.forEach(function(values, key) {
+		// 	new_this.$('.my-buildings').append('<p><a href="javascript:;" class="building_btn" data-id='+values.id+'>'+values.name+'</a></p>');
+		// })
 
 	},
 
@@ -59,7 +64,10 @@ var Dashboard = AbstractAction.extend(ControlPanelMixin, {
 			new_this.$('.row.meeting_building1').append($body_premier);
 				
 			value.premier.forEach(function(element) {
-				var $building_html = '<li class="premierli">'+element+'</li>'
+				var building_name = '<a href="javascript:;" class="building_btn premierli" data-id='+element["id"]+'>'+element['name']+'</a>';
+				var calendar_icon = ' <a href="javascript:;" class="calendar_btn" data-building_id='+element["id"]+' data-name='+element["name"]+'><i class="fa fa-calendar"></i>';
+				var envelope_icon = '</a> <a href="javascript:;" class="letter_btn" data-building_id='+element["id"]+'><i class="fa fa-envelope"></i>';
+				var $building_html = '<li class="premierli">'+building_name+calendar_icon+envelope_icon+'</li></a>';
 				new_this.$("#premier"+value.month).append($building_html);
 			});
 
@@ -68,7 +76,11 @@ var Dashboard = AbstractAction.extend(ControlPanelMixin, {
 			
 
 			value.deuxieme.forEach(function(element) {
-				var $building2_html = '<li class="deuxiemeli">'+element+'</li>'
+				var building_name = '<a href="javascript:;" class="building_btn deuxiemeli" data-id='+element["id"]+'>'+element['name']+'</a>';
+				var calendar_icon = ' <a href="javascript:;" class="calendar_btn" data-building_id='+element["id"]+' data-name='+element["name"]+'><i class="fa fa-calendar fa-calendar-white"></i>';
+				var envelope_icon = '</a> <a href="javascript:;" class="letter_btn" data-building_id='+element["id"]+'><i class="fa fa-envelope fa-envelope-white"></i>';			
+				var $building2_html = '<li class="deuxiemeli">'+building_name+calendar_icon+envelope_icon+'</li></a>';
+	
 				new_this.$("#deuxieme"+value.month).append($building2_html);
 			});
 		});
@@ -85,7 +97,53 @@ var Dashboard = AbstractAction.extend(ControlPanelMixin, {
 				type: 'ir.actions.act_window',
 				views: [[false, 'form']],
 		});
-},
+	
+	},
+	_opentodo: function (event){
+		return this.do_action({
+			name: 'TODO',
+			res_model: 'calendar.event',
+			type: 'ir.actions.act_window',
+			views: [[false, 'form']],
+			target: 'new',
+	});
+	},
+
+	_openCalendar: function (event) {
+		var name = $(event.currentTarget).data('name');
+		var building_id = $(event.currentTarget).data('building_id');
+
+		var context = {
+			default_building_id: building_id,
+			default_name: 'AG '+name,
+		};
+		return this.do_action({
+				name: 'Calendrier',
+				res_model: 'calendar.event',
+				type: 'ir.actions.act_window',
+				views: [[false, 'form']],
+				context: context,
+		});
+	
+	},
+
+	_openLetter: function (event) {
+		var building_id = $(event.currentTarget).data('building_id');
+
+		var context = {
+			default_immeuble_id: building_id,
+			default_all_immeuble: true,
+		}
+
+		return this.do_action({
+				name: 'Letter',
+				res_model: 'letter.letter',
+				type: 'ir.actions.act_window',
+				views: [[false, 'form']],
+				context: context,
+		});
+	
+	},
 
   do_show: function () {
       this._super.apply(this, arguments);
