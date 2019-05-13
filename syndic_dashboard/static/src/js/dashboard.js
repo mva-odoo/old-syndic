@@ -55,12 +55,14 @@ var Dashboard = AbstractAction.extend(ControlPanelMixin, {
 			$div.html('<h2 class="header-month">'+value.date+'</h2>');
 			new_this.$('.row.meeting_date').append($div);
 			
-			var $body_premier = $("<div>", {id: "premier"+value.date, "class": "col-2"}).css('text-align', 'center');
+			var $body_premier = $("<ul>", {id: "premier"+value.month, "class": "col-2"}).css('text-align', 'center');
+			
 			new_this.$('.row.meeting_building1').append($body_premier);
-
+			
+			
 			value.premier.forEach(function(element) {
-				$body_premier.html('<h3 class="premier">'+element+'</h3>');
-				new_this.$('.row.meeting_building1').append($body_premier);
+				var $building_html = '<li class="premierli">'+element+'</li>'
+				new_this.$("#premier"+value.month).append($building_html);
 			});
 
 			var $body_deuxieme = $("<div>", {id: "deuxieme"+value.date, "class": "col-2"}).css('text-align', 'center');
