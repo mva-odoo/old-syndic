@@ -41,13 +41,13 @@
 		 </div>
 		 <div class="row meeting_building1">
 		 	<div class="col-2 premiere_quinzaine">
-			 	<h3>1ère Quinzaine</h3>
+			 	<h3 class="vertical-center">1ère Quinzaine</h3>
 			 </div>
 		 	
 		 </div>
 		 <div class="row meeting_building2">
 		 	<div class="col-2 deuxieme_quinzaine">
-			 	<h3>2ème Quinzaine</h3>
+			 	<h3 class="vertical-center">2ème Quinzaine</h3>
 			 </div>
 		 	
 		 </div>

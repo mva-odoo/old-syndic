@@ -10,4 +10,5 @@
 "syndic_lettre_type_employe","syndic lettre type","model_letter_type","syndic_base.syndic_employe",1,0,1,0
 "syndic_lettre_model_employe","syndic lettre model","model_letter_model","syndic_base.syndic_employe",1,1,1,0
 "syndic_mail_alias","mail_alias","mail.model_mail_alias","syndic_base.syndic_employe",1,1,1,1
+"syndic_mail_send","mail_send","model_letter_send","syndic_base.syndic_employe",1,1,1,1
 "syndic_mail_alias_manager","mail_alias_manager","mail.model_mail_alias","syndic_base.syndic_manager",1,1,1,1

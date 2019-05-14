@@ -10,11 +10,9 @@
 				<search string="Invitee">
                     <field name="create_date" />
 					<field name="subject" />
-					<field name="email" />
-					<field name="phone" />
 					<field name="manager_id"/>
 					<field name="building_id"/>
-					<field name="status"/>
+					<field name="claim_status_id"/>
 					<group expand="0" string="Group By...">
 						<filter string="Immeuble" domain="[]" name="group_immeuble" context="{'group_by':'building_id'}"/>
 						<filter string="Manager de la plainte" domain="[]" name="group_manager" context="{'group_by':'manager_id'}"/>
@@ -32,9 +30,7 @@
 			<field name="arch" type="xml">
 				<tree string="Gestion d'immeuble">
 					<field name="create_date" />
-                    <field name="subject" />
-					<field name="email" />
-					<field name="phone" />
+					<field name="subject" />
 					<field name="manager_id"/>
 					<field name="building_id"/>
 					<field name="claim_status_id"/>
@@ -51,43 +47,55 @@
 			<field name="arch" type="xml">
 				<form string="Gestion d'immeuble" layout="manual" version="7.0">
 				<header>
-				<button string="Cloture" name="action_done" type="object" />
-				<button string="Réouvrir l'appel" name="action_reopen" type="object" />
-				<field name="status" widget="statusbar"/>
+					<field name="claim_status_id" widget="statusbar"/>
 				</header>
-				<sheet string="Sales Order" layout="auto">
-				<group col="4" colspan="4">
-
-				</group>
+				<sheet>
+					<div class="oe_button_box" name="button_box">
+						<button name="toggle_active" type="object" class="oe_stat_button" icon="fa-archive">
+							<field name="active" widget="boolean_button" options="{&quot;terminology&quot;: &quot;active&quot;}"/>
+						</button>
+					</div>
+					<h1>
+						<field name="subject" class="oe_inline" placeholder="Nom de la tâche"/>
+					</h1>
 				<notebook colspan="4">
                     <page string="Descriptions">
-											<group col="4" colspan="4">
-												<field name="subject" />
-												<field name="type_id" />
-												<field name="main_owner"/>
-												<field name="phone"/>
-												<field name="email"/>
-												<field name="owner_ids" widget="many2many_tags"/>
-												<field name="loaner_ids" widget="many2many_tags"/>
-												<field name="supplier_ids" widget="many2many_tags"/>
-												<field name="other_ids" widget="many2many_tags"/>
-												<field name="building_id" options="{'no_open': True, 'no_create': True}"/>
-												<field name="manager_id" colspan="2" widget="selection"
-														 required="1"
-														 domain="[('groups_id.name','in',['Syndic/Employe','Syndic/Manager'])]"/>
-												<field name="importance" colspan="2" widget="priority"/>
-												<field name="claim_status_id" colspan="2"/>
-												<field name="color" colspan="2" invisible='1'/>
-										</group>
+											
+											<group>
+												<group string="Contacts">
+													<field name="building_id" options="{'no_open': True, 'no_create': True}"/>
+													<field name="owner_ids" 
+																 widget="many2many_tags" 
+																 domain="[('is_proprietaire', '=', True), ('owner_building_ids', '=', building_id)]"
+																 options="{'no_open': True, 'no_create': True}"/>
+													<field name="loaner_ids" 
+																 widget="many2many_tags" 
+																 domain="[('is_proprietaire', '=', True), ('loaner_building_ids', '=', building_id)]"
+																 options="{'no_open': True, 'no_create': True}"/>
+													<field name="supplier_ids" widget="many2many_tags" options="{'no_open': True, 'no_create': True}"/>
+													<field name="other_ids" widget="many2many_tags"/> 
+												</group>
+												<group string="description">
+													<field name="type_id" />
+													
+													<field name="manager_id" colspan="2" widget="selection"
+															required="1"
+															domain="[('groups_id.name','in',['Syndic/Employe','Syndic/Manager'])]"/>
+													<field name="importance" colspan="2" widget="priority"/>
+													<field name="color" colspan="2" invisible='1'/>
+												</group>
+											</group>
+											<field name="description"/>
                     </page>
 
                     <page string="Details">
-						<group>
-							<field name="create_uid"/>
-							<field name="create_date"/>
-							<field name="write_uid"/>
-							<field name="write_date"/>
-						</group>
+											<group>
+												<field name="create_uid"/>
+												<field name="create_date"/>
+												<field name="write_uid"/>
+												<field name="write_date"/>
+											</group>
+						
                     </page>
                 </notebook>
 				</sheet>
@@ -290,7 +298,7 @@
 
 		<!--action -->
 		<record model="ir.actions.act_window" id="action_claim">
-			<field name="name">Gestion d'immeuble</field>
+			<field name="name">Tâches</field>
 			<field name="type">ir.actions.act_window</field>
 			<field name="res_model">syndic.claim</field>
 			<field name="view_type">form</field>
@@ -335,7 +343,7 @@
 
 		<!--menu -->
 		<menuitem name="Gestion d'immeuble" id="menu_sub_claim" parent="syndic_base.master_syndic" sequence="50"/>
-		<menuitem name="Gestion d'immeuble" id="menu_action_claim" parent="menu_sub_claim" action="action_claim"/>
+		<menuitem name="Tâches" id="menu_action_claim" parent="menu_sub_claim" action="action_claim"/>
 		<menuitem name="Offre et contrat" id="menu_offre_contrat" parent="menu_sub_claim" action="action_offre_contrat"/>
 		<menuitem name="Bon de commande" id="menu_bon_commande" parent="menu_sub_claim" action="action_bon_commande"/>
 

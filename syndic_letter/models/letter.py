@@ -9,6 +9,8 @@ class CreateLetter(models.Model):
     _rec_name = 'sujet'
     _order = 'date desc'
 
+    send_ids = fields.Many2many('letter.send', string='Type d\'envoi')
+
     name = fields.Char('ID de la lettre', readonly=True)
     sujet = fields.Char('Sujet', required=True)
     immeuble_id = fields.Many2one('syndic.building', string='Immeuble')
@@ -56,7 +58,7 @@ class CreateLetter(models.Model):
     letter_model_id = fields.Many2one('letter.model', u'Modèle de lettre')
     contenu = fields.Html('contenu', required=True)
     ps = fields.Text('PS')
-    is_mail = fields.Boolean('Envoi par email')
+    is_mail = fields.Boolean('Envoi par email', compute="_get_send_type")
     is_fax = fields.Boolean('Envoi par fax')
     piece_jointe_ids = fields.Many2many('ir.attachment', 'letter_id', string='Piece Jointe')
     create_date = fields.Datetime(u'Date de création')
@@ -68,6 +70,15 @@ class CreateLetter(models.Model):
         compute='_compute_join_address')
     state = fields.Selection([('not_send', 'Pas envoyé'), ('send', 'Envoyé')], string='State', default='not_send')
     mail_server = fields.Many2one('ir.mail_server', 'Serveur email')
+
+    @api.multi
+    @api.depends('send_ids')
+    def _get_send_type(self):
+        for letter in self:
+            if any(letter.send_ids.mapped('is_email')):
+                letter.is_mail = True
+            else:
+                letter.is_mail = False
 
     @api.multi
     def _get_all_partner(self):
@@ -83,6 +94,20 @@ class CreateLetter(models.Model):
             'view_mode': 'form',
             'target': 'new',
         }
+
+    def print_letter(self):
+        for letter in self:
+            for send_type in letter.send_ids:
+                if send_type.mycontext:
+                    mycontext = eval(send_type.mycontext)
+                    send_type = send_type.with_context(mycontext)
+
+                if send_type.is_email:
+                    template_id = send_type.mail_templale_id
+                if send_type.is_papper:
+                    action = send_type.action_id.report_action(letter)
+                
+            return action
 
     @api.one
     @api.depends('date')
@@ -208,3 +233,14 @@ class LetterModel(models.Model):
 
     name = fields.Char('Model Letter', required=True)
     text = fields.Html('Text', required=True)
+
+class LetterSend(models.Model):
+    _name = 'letter.send'
+    _description = 'letter.send'
+
+    name = fields.Char('Model Letter', required=True)
+    is_email = fields.Boolean('Email')
+    is_papper = fields.Boolean('Papier')
+    action_id = fields.Many2one('ir.actions.report', 'Action Rapport')
+    mail_templale_id = fields.Many2one('mail.template', 'Email Template')
+    mycontext = fields.Char('Context à passer')

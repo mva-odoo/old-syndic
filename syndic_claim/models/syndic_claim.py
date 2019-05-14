@@ -5,14 +5,14 @@ from datetime import date
 
 class Claim(models.Model):
     _name = 'syndic.claim'
-    _description = 'syndic.claim'
+    _description = 'Tache Syndic'
     _inherit = ['mail.thread', 'mail.activity.mixin']
     _rec_name = 'subject'
     _order = 'create_date desc'
 
+    active = fields.Boolean('Active', default=True)
     subject = fields.Char('Sujet', required=True)
-    email = fields.Char('Email')
-    phone = fields.Char('Telephone')
+    description = fields.Html('Description')
     create_date = fields.Datetime(string=u'Date de création', readonly=True)
     write_date = fields.Datetime(string='Update Date', readonly=True)
     create_uid = fields.Many2one('res.users', string="Createur", readonly=True)
@@ -20,12 +20,10 @@ class Claim(models.Model):
     manager_id = fields.Many2one('res.users', string='Manager de la plainte',
                                  domain=['!', ('groups_id.name', 'ilike', 'Syndic/Client')],
                                  default=lambda self: self.env.uid)
-    main_owner = fields.Many2one('res.partner',
-                                 domain=[('is_proprietaire', '=', True)],
-                                 string=u'Contact propriétaires')
+    
     owner_ids = fields.Many2many('res.partner',
                                  domain=[('is_proprietaire', '=', True)],
-                                 string=u'Autres propriétaires')
+                                 string=u'Propriétaires')
     supplier_ids = fields.Many2many('res.partner',
                                     domain=[('supplier', '=', True)],
                                     string='Fournisseurs')
@@ -33,9 +31,8 @@ class Claim(models.Model):
                                   domain=[('is_locataire', '=', True)],
                                   string='Locataires')
     other_ids = fields.Many2many('res.partner', string='Divers')
-    lot_ids = fields.Many2many('syndic.lot', string='Lot')
+
     claim_status_id = fields.Many2one('claim.status', string='Status de la plainte')
-    description_ids = fields.One2many('comment.history', 'claim_ids', string='historique')
     building_id = fields.Many2one('syndic.building', 'Immeuble')
     importance = fields.Selection([('0', 'pas important'),
                                    ('1', 'important'),
@@ -43,46 +40,41 @@ class Claim(models.Model):
                                    ('3', 'ultra important')],
                                   string='Importance')
     color = fields.Integer('Color')
-    status = fields.Selection([('draft', 'Ouvert'), ('done', 'Cloturer')], 'Status', default='draft')
+
     type_id = fields.Many2one('claim.type', 'Type')
-
-    @api.one
-    def action_done(self):
-        self.status = 'done'
-
-    @api.one
-    def action_reopen(self):
-        self.status = 'draft'
 
     @api.onchange('importance')
     def onchange_color(self):
         self.color = self.importance
 
-    @api.onchange('main_owner')
-    def on_change_partner(self):
-        self.email = self.main_owner.email
-        self.phone = self.main_owner.phone
+    @api.multi
+    def write(self, vals):
+        for res in self:
+            partners = res.owner_ids | res.supplier_ids | res.loaner_ids | res.manager_id.partner_id
+            res.message_subscribe(partner_ids=partners.ids)
+        return super(Claim, self).write(vals)
 
     @api.model
     def create(self, vals):
 
         res = super(Claim, self).create(vals)
-
+        partners = res.owner_ids | res.supplier_ids | res.loaner_ids | res.manager_id.partner_id
+        res.message_subscribe(partner_ids=partners.ids)
         if res.manager_id.id != res.create_uid.id:
-            body = """
-Bonjour,
-
+            
+            body = """Bonjour,
 une tâche t'attends sur : <a href='https://sgimmo.be/web#id=%i&view_type=form&model=syndic.claim&menu_id=128&action=119'>Odoo</a>
 """ % res.id
+            res.message_post(partner_ids= res.manager_id, body=body, subject="Une tâche t\'attends dans Odoo", message_type="email")
 
-            self.env['mail.mail'].create({
-                'mail_server_id':  self.env.user.server_mail_id.id or False,
-                'email_from': self.env.user.email,
-                'reply_to': self.env.user.email,
-                'body_html': body,
-                'subject': 'Une tâche t\'attends dans Odoo',
-                'email_to': self.env['res.users'].browse(vals.get('manager_id')).email
-            })
+            # self.env['mail.mail'].create({
+            #     'mail_server_id':  self.env.user.server_mail_id.id or False,
+            #     'email_from': self.env.user.email,
+            #     'reply_to': self.env.user.email,
+            #     'body_html': body,
+            #     'subject': 'Une tâche t\'attends dans Odoo',
+            #     'email_to': self.env['res.users'].browse(vals.get('manager_id')).email
+            # })
 
         return res
 

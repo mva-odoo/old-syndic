@@ -16,5 +16,6 @@
         'report/layout.xml',
         'report/letter.xml',
         'security/ir.model.access.csv',
+        'datas/send_type.xml',
     ],
 }

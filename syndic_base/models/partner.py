@@ -60,10 +60,14 @@ class Partner(models.Model):
             partner.old_lot_count = len(partner.old_lot_ids)
 
     def _search_building(self, operator, value):
-        return [('lot_ids.building_id.name', operator, value)]
+        field = 'lot_ids.building_id.name'
+        if isinstance(value, int):
+            field = 'lot_ids.building_id.id'
+        
+        return [(field, operator, value)]
 
     def _search_loaner_building(self, operator, value):
-        return [('loaner_lot_ids.building_id.name', operator, value)]
+        return [('loaner_lot_ids.building_id.id', operator, value)]
 
     def _get_building(self):
         for partner in self:

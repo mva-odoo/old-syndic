@@ -112,6 +112,9 @@
 									</tree>
 								</field>
 							</page>
+							<page string="Tâches">
+								<field name="task_ids"/>
+							</page>
 						</notebook>
 		            </sheet>
                 </form>

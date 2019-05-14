@@ -9,6 +9,13 @@
 .col-centered{
     text-align: center;
 }
+.vertical-center {
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+  }
 .premiere_quinzaine{
     background: #7C7BAD;
     color: white;

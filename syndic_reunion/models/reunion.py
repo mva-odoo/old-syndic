@@ -93,6 +93,8 @@ class ReunionPoint(models.Model):
     ok_vote = fields.Float('Vote OK', compute="_get_vote")
     final_vote = fields.Boolean('Vote final', compute="_get_final_vote")
 
+    task_ids = fields.Many2many('syndic.claim', string="Tasks")
+
     @api.depends('vote_ids')
     def _get_vote(self):
         for point in self:

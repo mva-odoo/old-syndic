@@ -49,30 +49,77 @@
             <field name="name">Letter form view</field>
             <field name="model">letter.letter</field>
             <field name="arch" type="xml">
-                <form string="Letter">
+                <form>
+                        
                         <header>
-                            <button string="Envoyer emails" name="send_email_lettre" type="object"/>
+                            <button string="Envoyer emails" name="send_email_lettre" type="object" attrs="{'invisible': [('is_mail', '=', False)]}"/>
+                            <button string="Imprimer" name="print_letter" type="object"/>
                             <button string="Sauver comme Modèle" name="save_template" type="object"/>
                             <field name="state" widget="statusbar"/>
                         </header>
-                        <group col="16" colspan="16">
-                            <field name="sujet" colspan="8"/>
-                            <field name="letter_type_id" colspan="8"/>
-                            <field name="letter_model_id" colspan="8"/>
-                            <field name="immeuble_id" colspan="4"/>
-                            <field name="all_immeuble" colspan="4"/>
-                            <field name="date" colspan="4"/>
-                            <field name="date_fr" colspan="4"/>
-                            <field name="is_mail" colspan="4"/>
-                            <field name="is_fax" colspan="4"/>
-                            <field name="mail_server"
-                                   colspan="8"
-                                   attrs="{'required':[('is_mail', '=', True)], 'invisible':[('is_mail', '=', False)]}"/>
+                        <h1>
+						    <field name="sujet" class="oe_inline" placeholder="Nom de la tâche"/>
+					    </h1>
+                                <notebook>
+                                    <page string="Description">
+                                        <group>
+                                            <group>
+                                                <field name="letter_type_id" />
+                                                <field name="immeuble_id" />
+                                                <field name="date"/>
+                                                <field name="date_fr"/>
+                                            </group>
+                                            <group>
+                                                <field name="send_ids" widget="many2many_checkboxes"/>
+                                            </group>
+                                        </group>
 
-                            <field name="piece_jointe_ids"
-                                   attrs="{'invisible':[('is_mail','=',False)]}"
-                                   widget="many2many_binary"
-                                   colspan="8">
+                                    </page>
+                                    <page string="Contacts">
+                                    <notebook colspan="4">
+                                    <page string="propriétaires">
+                                        <group>
+                                            <field name="all_immeuble" />
+                                        </group>
+                                        <field name="propr_ids" options="{'no_create': True}">
+                                            <tree string="Fournisseur">
+                                                <field name="name" string="Nom"/>
+                                                <field name="street" string="Adresse"/>
+                                                <field name="city_id" string="Ville"/>
+                                                <field name="country_id" string="Pays"/>
+                                                <field name="email"/>
+                                                <!-- <field name="building_store_ids"/> -->
+                                                <field name="convocation"/>
+                                            </tree>
+                                        </field>
+
+                                    </page>
+                                    <page string="fournisseurs">
+                                        <field name="fourn_ids" />
+                                    </page>
+                                    <page string="locataires">
+                                        <field name="loc_ids" options="{'no_create': True}"/>
+                                    </page>
+                                    <page string="Divers">
+                                        <field name="divers_ids" colspan="1"/>
+                                    </page>
+                                    <page string="Personnes jointes">
+                                        <field name="partner_address_ids" colspan="1">
+                                            <tree>
+                                                <field name="name"/>
+                                            </tree>
+                                        </field>
+                                    </page>
+
+                                </notebook>
+                            </page>
+
+                         <page string="Options">
+                            <group>
+                                <field name="is_mail" />
+                                <field name="letter_model_id" />
+                                <field name="piece_jointe_ids"
+                                       widget="many2many_binary">
                                 <tree>
                                     <field name="datas_fname"/>
                                 </tree>
@@ -84,48 +131,25 @@
                                     </group>
                                 </form>
                             </field>
-                        </group>
-                        <notebook colspan="4">
-                            <page string="propriétaires">
-                                <field name="propr_ids" options="{'no_create': True}">
-                                    <tree string="Fournisseur">
-                                        <field name="name" string="Nom"/>
-                                        <field name="street" string="Adresse"/>
-                                        <field name="city_id" string="Ville"/>
-                                        <field name="country_id" string="Pays"/>
-                                        <field name="email"/>
-                                        <!-- <field name="building_store_ids"/> -->
-                                        <field name="convocation"/>
-                                    </tree>
-                                </field>
-
-                            </page>
-                            <page string="fournisseurs">
-                                <field name="fourn_ids" />
-                            </page>
-                            <page string="locataires">
-                                <field name="loc_ids" options="{'no_create': True}"/>
-                            </page>
-                            <page string="Divers">
-                                <field name="divers_ids" colspan="1"/>
-                            </page>
-                            <page string="Personnes jointes">
-                                <field name="partner_address_ids" colspan="1">
-                                    <tree>
-                                        <field name="name"/>
-                                    </tree>
-                                </field>
-                            </page>
-
+                            </group>
+                         </page>
+                         <page string="Options Email" attrs="{'invisible': [('is_mail', '=', False)]}">
+                            <group>
+                                <field name="mail_server"/>
+                            </group>
+                         </page>
+                         <!-- <page string="Options Papier">
+                            <group>
+                                
+                            </group>
+                         </page> -->
                         </notebook>
-                        <group col="4" colspan="4">
-                            <field name="begin_letter_id" colspan="4"/>
-                            <field name="contenu" nolabel="1" colspan="4" widget="html"/>
-                            <field name="end_letter_id" colspan="4"/>
-                            <field name="ps" colspan="4"/>
-                        </group>
 
-
+                            <field name="begin_letter_id" nolabel="1"/>
+                            <field name="contenu" nolabel="1" widget="html"/>
+                            <field name="end_letter_id" />
+                            <field name="ps" />
+                        
                 </form>
             </field>
 
@@ -134,7 +158,7 @@
             <field name="name">Letter tree view</field>
             <field name="model">letter.letter</field>
             <field name="arch" type="xml">
-                <tree string="Letter">
+                <tree>
                     <field name="create_date"/>
                     <field name="sujet"/>
                     <field name="letter_type_id"  colspan="2"/>
@@ -221,13 +245,22 @@
             <field name="view_mode">tree,form</field>
         </record>
 
+        <record model="ir.actions.act_window" id="action_send_type">
+            <field name="name">Send Type</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">letter.send</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
         <!--menu -->
-        <menuitem name="Lettre" id="menu_sub_letter" parent="syndic_base.master_syndic" sequence="60"/>
-        <menuitem name="Lettre" id="menu_action_new_letter" parent="menu_sub_letter" action="action_new_letter" sequence="2"/>
+        <menuitem name="Lettres" id="menu_sub_letter" parent="syndic_base.master_syndic" sequence="60"/>
+        <menuitem name="Lettres" id="menu_action_new_letter" parent="menu_sub_letter" action="action_new_letter" sequence="2"/>
         <menuitem name="Configuration" id="menu_configuration_letter" parent="menu_sub_letter" sequence="2" groups="syndic_base.syndic_manager"/>
         <menuitem name="Modèle de lettre" id="menu_action_model" parent="menu_configuration_letter" action="action_model" sequence="1"/>
         <menuitem name="Type de lettre" id="menu_type_letter" parent="menu_configuration_letter" action="type_letter" sequence="3"/>
         <menuitem name="Debut de lettre" id="menu_begin_letter" parent="menu_configuration_letter" action="begin_letter" sequence="4"/>
         <menuitem name="Fin de lettre" id="menu_end_letter" parent="menu_configuration_letter" action="end_letter" sequence="5"/>
         <menuitem name="Courriel" id="email_letter" parent="menu_configuration_letter" action="mail_letter" sequence="6"/>
+        <menuitem name="Type Envois" id="menu_send_type_letter" parent="menu_configuration_letter" action="action_send_type" sequence="7"/>
 </odoo>
