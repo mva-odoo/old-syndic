@@ -14,6 +14,10 @@ class CreateLetter(models.Model):
     name = fields.Char('ID de la lettre', readonly=True)
     sujet = fields.Char('Sujet', required=True)
     immeuble_id = fields.Many2one('syndic.building', string='Immeuble')
+    user_from_id = fields.Many2one('res.users', 'From', 
+                                    required=True,
+                                    default=lambda self: self.env.user, 
+                                    domain="[('groups_id.name','in',['Syndic/Employe','Syndic/Manager'])]")
     all_immeuble = fields.Boolean('Immeuble entier')
     propr_ids = fields.Many2many(
                             'res.partner',
@@ -64,12 +68,11 @@ class CreateLetter(models.Model):
     create_date = fields.Datetime(u'Date de création')
     date = fields.Date(u'Date d\'envoi', default=lambda *a: fields.date.today(), copy=False)
     date_fr = fields.Char(string='Date', compute='_compute_date')
-    partner_address_ids = fields.Many2many(
-        'res.partner',
-        String="Personne Jointe",
-        compute='_compute_join_address')
+
     state = fields.Selection([('not_send', 'Pas envoyé'), ('send', 'Envoyé')], string='State', default='not_send')
     mail_server = fields.Many2one('ir.mail_server', 'Serveur email')
+
+    mail_ids = fields.One2many('mail.mail', 'letter_id', 'Emails')
 
     @api.multi
     @api.depends('send_ids')
@@ -81,9 +84,10 @@ class CreateLetter(models.Model):
                 letter.is_mail = False
 
     @api.multi
+    @api.depends('propr_ids', 'fourn_ids', 'divers_ids', 'loc_ids')
     def _get_all_partner(self):
         for letter in self:
-            letter.all_partner_ids = letter.propr_ids | letter.fourn_ids | letter.divers_ids | letter.loc_ids | letter.divers_ids | letter.partner_address_ids
+            letter.all_partner_ids = letter.propr_ids | letter.fourn_ids | letter.loc_ids | letter.divers_ids
 
     @api.multi
     def save_template(self):
@@ -94,20 +98,42 @@ class CreateLetter(models.Model):
             'view_mode': 'form',
             'target': 'new',
         }
+    @api.onchange('send_ids')
+    def onchange_send_type(self):
+        if len(self.send_ids.filtered('is_papper')) > 1:
+            return {
+                'warning': {
+                    'title': 'Warning',
+                    'message': 'Il ne peut y avoir qu\'un type d\'envoi de type papier',
+                }
+            }
+
 
     def print_letter(self):
         for letter in self:
+            res = {}
             for send_type in letter.send_ids:
+                mails = self.env['mail.mail']
                 if send_type.mycontext:
                     mycontext = eval(send_type.mycontext)
                     send_type = send_type.with_context(mycontext)
 
                 if send_type.is_email:
                     template_id = send_type.mail_templale_id
+                    if template_id:
+                        child_partners = self.all_partner_ids.mapped('child_ids').filtered(lambda s: s.is_email)
+                        
+                        for partner in letter.all_partner_ids.filtered(lambda s:s.email) | child_partners:
+                            mail_id = template_id.with_context(email_partner=partner).send_mail(letter.id)
+                            mail = self.env['mail.mail'].browse(mail_id)
+                            mail.write({
+                                'letter_id': letter.id, 
+                            })
+                            mails |= mail 
                 if send_type.is_papper:
-                    action = send_type.action_id.report_action(letter)
-                
-            return action
+                    res = send_type.action_id.report_action(letter)
+                res['context'] = {'mails': mails}
+            return res
 
     @api.one
     @api.depends('date')
@@ -142,11 +168,6 @@ class CreateLetter(models.Model):
     @api.onchange('immeuble_id', 'all_immeuble')
     def onchange_immeuble(self):
         self.propr_ids = self.immeuble_id.mapped('lot_ids.owner_ids') if self.all_immeuble else self.env['res.partner']
-
-    @api.depends('propr_ids', 'fourn_ids', 'loc_ids')
-    def _compute_join_address(self):
-        self.partner_address_ids = self.all_partner_ids.mapped('child_ids').filtered(lambda s: s.is_letter)
-        self.is_fax = True if self.fourn_ids else False
 
     @api.one
     def send_email_lettre(self):

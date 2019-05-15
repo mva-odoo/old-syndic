@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <data noupdate="1">
+    <record id="mail_template_letter" model="mail.template">
+        <field name="name">Letter Template</field>
+        <field name="model_id" ref="syndic_letter.model_letter_letter"/>
+        <field name="partner_to">${object.env.context.get('email_partner').id}</field>
+        <field name="subject">${object.sujet}</field>
+        <field name="email_from">${object.user_from_id.email|safe}</field>
+        <field name="body_html" type="html">
+<p>${object.begin_letter_id.name}</p>
+<p>${object.contenu|safe}</p>
+<p>${object.end_letter_id.name}</p>
+<p>${object.user_from_id.name}</p>
+        </field>
+      </record>
+    </data>
+</odoo>

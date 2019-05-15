@@ -97,18 +97,19 @@
                             </group>
 
                             <group string="Autres contacts">
-                                    <field name="child_ids" colspan="4" nolabel="1">
+                                    <field name="child_ids" colspan="4" nolabel="1" context="{'default_type': 'other'}">
                                         <tree string="Autres contacts" editable="top">
+                                            <field name="type" invisible="1"/>
                                             <field name="name"/>
                                             <field name="title"/>
-                                            <field name="street"/>
-                                            <field name="zip"/>
-                                            <field name="city_id"/>
+                                            <field name="street" attrs="{'required': [('is_letter', '=', True)]}"/>
+                                            <field name="zip" attrs="{'required': [('is_letter', '=', True)]}"/>
+                                            <field name="city_id" attrs="{'required': [('is_letter', '=', True)]}"/>
                                             <field name="country_id" string="Pays"/>
                                             <field name="phone" string="Téléphone"/>
                                             <field name="fax" string="Fax"/>
                                             <field name="mobile" string="GSM"/>
-                                            <field name="email"/>
+                                            <field name="email" attrs="{'required': [('is_email', '=', True)]}"/>
                                             <field name="is_email"/>
                                             <field name="is_letter"/>
                                         </tree>

@@ -4,10 +4,12 @@
         <record id="send_type_email" model="letter.send">
             <field name="name">Email</field>
             <field name="is_email" eval="1"/>
+            <field name="mail_template_id" ref="mail_template_letter"/>
         </record>
         <record id="send_type_papier" model="letter.send">
             <field name="name">Papier</field>
             <field name="is_papper" eval="1"/>
+            <field name="action_id" ref="letter_print"/>
         </record>
         <record id="send_type_fax" model="letter.send">
             <field name="name">FAX</field>

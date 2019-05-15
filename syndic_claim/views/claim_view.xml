@@ -59,7 +59,7 @@
 						<field name="subject" class="oe_inline" placeholder="Nom de la tâche"/>
 					</h1>
 				<notebook colspan="4">
-                    <page string="Descriptions">
+                    <page string="Descriptions" name="description">
 											
 											<group>
 												<group string="Contacts">
@@ -75,7 +75,7 @@
 													<field name="supplier_ids" widget="many2many_tags" options="{'no_open': True, 'no_create': True}"/>
 													<field name="other_ids" widget="many2many_tags"/> 
 												</group>
-												<group string="description">
+												<group string="description" name="description">
 													<field name="type_id" />
 													
 													<field name="manager_id" colspan="2" widget="selection"
