@@ -3,6 +3,7 @@ odoo.define('timeline.dashboard', function (require) {
 var AbstractAction = require('web.AbstractAction');
 var ControlPanelMixin = require('web.ControlPanelMixin');
 var core = require('web.core');
+var session = require('web.session');
 
 var qweb = core.qweb;
 
@@ -63,10 +64,15 @@ var Dashboard = AbstractAction.extend(ControlPanelMixin, {
 			new_this.$('.row.meeting_building1').append($body_premier);
 				
 			value.premier.forEach(function(element) {
+				var el_manager = '';
+				if (element.manager_id !== undefined && element.manager_id[0] == session.uid){
+					el_manager = 'el_manager'
+				}
+
 				var building_name = '<a href="javascript:;" class="building_btn premierli" data-id='+element["id"]+'>'+element['name']+'</a> ';
 				var calendar_icon = ' <a href="javascript:;" class="calendar_btn" data-building_id='+element["id"]+' data-name='+element["name"]+'><i class="fa fa-calendar"></i>';
 				var envelope_icon = '</a> <a href="javascript:;" class="letter_btn" data-building_id='+element["id"]+'><i class="fa fa-envelope"></i> ';
-				var $building_html = '<li class="premierli">'+calendar_icon+envelope_icon+building_name+'</li></a>';
+				var $building_html = '<li class="premierli '+el_manager+'">'+calendar_icon+envelope_icon+building_name+'</li></a>';
 				new_this.$("#premier"+value.month).append($building_html);
 			});
 
@@ -75,10 +81,15 @@ var Dashboard = AbstractAction.extend(ControlPanelMixin, {
 			
 
 			value.deuxieme.forEach(function(element) {
+				var el_manager = '';
+				if (element.manager_id !== undefined && element.manager_id[0] == session.uid){
+					el_manager = 'el_manager'
+				}
+
 				var building_name = '<a href="javascript:;" class="building_btn deuxiemeli" data-id='+element["id"]+'>'+element['name']+'</a> ';
 				var calendar_icon = ' <a href="javascript:;" class="calendar_btn" data-building_id='+element["id"]+' data-name='+element["name"]+'><i class="fa fa-calendar fa-calendar-white"></i>';
 				var envelope_icon = '</a> <a href="javascript:;" class="letter_btn" data-building_id='+element["id"]+'><i class="fa fa-envelope fa-envelope-white"></i> ';			
-				var $building2_html = '<li class="deuxiemeli"> '+calendar_icon+envelope_icon+building_name+'</li></a>';
+				var $building2_html = '<li class="deuxiemeli '+el_manager+'"> '+calendar_icon+envelope_icon+building_name+'</li></a>';
 	
 				new_this.$("#deuxieme"+value.month).append($building2_html);
 			});
