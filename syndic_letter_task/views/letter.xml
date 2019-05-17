@@ -11,6 +11,7 @@
                     <page string="Tache">
                         <group>
                             <field name="task_id"/>
+                            <button name="action_send_mail" string="Send Quotation" type="object"/>
                         </group>
                     </page>
                </xpath>

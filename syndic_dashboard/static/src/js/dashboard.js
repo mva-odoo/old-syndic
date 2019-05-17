@@ -56,11 +56,11 @@ var Dashboard = AbstractAction.extend(ControlPanelMixin, {
 		var new_this = this;
 
 		this.stats.myEvents.forEach(function(value) {
-			var $div = $("<div>", {id: value.date, "class": "col-2"}).css('text-align', 'center');
+			var $div = $("<div>", {id: value.date, "class": "col-md-2"}).css('text-align', 'center');
 			$div.html('<h2 class="header-month">'+value.date+'</h2>');
 			new_this.$('.row.meeting_date').append($div);
 			
-			var $body_premier = $("<ul>", {id: "premier"+value.month, "class": "col-2"});
+			var $body_premier = $("<ul>", {id: "premier"+value.month, "class": "col-md-2"});
 			new_this.$('.row.meeting_building1').append($body_premier);
 				
 			value.premier.forEach(function(element) {
@@ -71,7 +71,7 @@ var Dashboard = AbstractAction.extend(ControlPanelMixin, {
 				new_this.$("#premier"+value.month).append($building_html);
 			});
 
-			var $body_deuxieme = $("<ul>", {id: "deuxieme"+value.month, "class": "col-2"});
+			var $body_deuxieme = $("<ul>", {id: "deuxieme"+value.month, "class": "col-md-2"});
 			new_this.$('.row.meeting_building2').append($body_deuxieme);
 			
 

@@ -17,6 +17,9 @@
                         </group>
                     </page>
                </xpath>
+               <xpath expr="//field[@name='message_ids']" position="replace">
+                <field name="all_message_ids" widget="mail_thread" options="{'display_log_button': true}"/>
+               </xpath>
             </field>
         </record>
     </data>

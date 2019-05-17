@@ -12,6 +12,7 @@
     'website': 'https://sgimmo.be',
     'data': [
         'views/letter.xml',
+        'views/letter_type.xml',
         'wizard/template_mail.xml',
         'report/layout.xml',
         'report/letter.xml',

@@ -44,6 +44,11 @@ class Partner(models.Model):
 
     quotity_line_ids = fields.Many2many('syndic.quotite.line', string='Quotitées')
 
+    def _get_name(self):
+        if self._context.get('standard'):
+            return super(Partner, self)._get_name()
+        return self.name
+
     @api.depends('lot_ids')
     def _get_number_lot(self):
         for partner in self:

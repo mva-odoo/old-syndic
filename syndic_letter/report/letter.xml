@@ -8,6 +8,13 @@
                 report_type="qweb-pdf"
                 />
 
+        <report
+                id="letter_print_single"
+                model="letter.letter"
+                string="lettre Simple"
+                name="syndic_letter.letter_qweb_single"
+                report_type="qweb-pdf"
+                />
 
         <template id="base_body">
           <div class="row">
@@ -111,7 +118,71 @@
           </t>
         </template>
 
+        <template id="letter_qweb_single">
+          <t t-call="web.html_container">
+              <t t-call="web.external_layout">
+              <t t-foreach="docs" t-as="o">
 
+                      <div class="page">
+                        <div class="oe_structure"/>
+                          
+                          <t t-value='o.all_partner_ids' t-set='partner'/>
+                          <div class="row">
+                            <div class="col-3">
+                              Concerne:
+                            </div>
+                            <div class="col-9">
+                              <div t-field="o.immeuble_id.name"/>
+                              <div t-field="o.immeuble_id.street"/>
+                              <div t-field="o.immeuble_id.city_id.name"/>
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col-3">
+                              BCE:
+                            </div>
+                            <div class="col-9">
+                              <div t-field="o.immeuble_id.BCE"/>
+                            </div>
+
+                          </div>
+                          <div class="row" style="height:40px;">
+                            <div class="col-3">
+                              Objet:
+                            </div>
+                            <div class="col-9">
+                              <div t-field="o.sujet"/>
+                            </div>
+
+                          </div>
+
+                          <div class="row">
+                            <div class="col-12" style="height:40px;">
+                              <div t-field="o.begin_letter_id.name"/>
+                            </div>
+                          </div>
+
+                          <t t-set="render_vals" t-value="partner._get_jinja_template(o.contenu, {'partner': partner, 'letter': o})"/>
+                          <t t-raw="render_vals"/>
+
+                          <div class="row" style="height:40px;">
+                            <div class="col-12">
+                              <div t-field="o.end_letter_id.name"/>
+                            </div>
+                          </div>
+
+                          <div class="row" style="height:40px;">
+                            <div class="col-12">
+                              Le syndic
+                            </div>
+                          </div>
+                      </div>
+                      <p style="page-break-after:always;"/>
+
+                  </t>
+              </t>
+          </t>
+        </template>
 
         <report
           id="letter_avis_print"

@@ -55,6 +55,7 @@
                             <button string="Sauver comme Modèle" name="save_template" type="object"/>
                             <field name="state" widget="statusbar"/>
                         </header>
+                        <sheet>
                         <h1>
 						    <field name="sujet" class="oe_inline" placeholder="Nom de la tâche"/>
 					    </h1>
@@ -146,7 +147,12 @@
                             <field name="contenu" nolabel="1" widget="html"/>
                             <field name="end_letter_id" />
                             <field name="ps" />
-                        
+                        </sheet>
+                        <div class="oe_chatter">
+                            <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                            <field name="activity_ids" widget="mail_activity"/>
+                            <field name="message_ids" widget="mail_thread" />
+				        </div>
                 </form>
             </field>
 
@@ -158,17 +164,14 @@
                 <tree>
                     <field name="create_date"/>
                     <field name="sujet"/>
-                    <field name="letter_type_id"  colspan="2"/>
-                    <field name="letter_model_id" colspan="2"/>
+                    <field name="letter_type_id"/>
                     <field name="immeuble_id" />
                     <field name="date" string="Date de l'envoi"/>
-                    <field name="all_immeuble" />
-                    <field name="is_mail"/>
+                    <field name="send_ids" widget="many2many_tags"/>
                 </tree>
             </field>
 
         </record>
-
 
         <record model="ir.ui.view" id="form_model">
             <field name="name">Letter form view</field>
@@ -242,13 +245,6 @@
             <field name="view_mode">tree,form</field>
         </record>
 
-        <record model="ir.actions.act_window" id="action_send_type">
-            <field name="name">Send Type</field>
-            <field name="type">ir.actions.act_window</field>
-            <field name="res_model">letter.send</field>
-            <field name="view_type">form</field>
-            <field name="view_mode">tree,form</field>
-        </record>
 
         <!--menu -->
         <menuitem name="Lettres" id="menu_sub_letter" parent="syndic_base.master_syndic" sequence="60"/>
@@ -259,5 +255,5 @@
         <menuitem name="Debut de lettre" id="menu_begin_letter" parent="menu_configuration_letter" action="begin_letter" sequence="4"/>
         <menuitem name="Fin de lettre" id="menu_end_letter" parent="menu_configuration_letter" action="end_letter" sequence="5"/>
         <menuitem name="Courriel" id="email_letter" parent="menu_configuration_letter" action="mail_letter" sequence="6"/>
-        <menuitem name="Type Envois" id="menu_send_type_letter" parent="menu_configuration_letter" action="action_send_type" sequence="7"/>
+        
 </odoo>

@@ -22,6 +22,10 @@ odoo.define('odoo.pdf_viewer', function (require) {
                    this.url = '/report/pdf/'+context.report+'/'+context.active_id;
                 }
             }
+
+            if ((typeof context.multi_report !== "undefined") && (typeof context.active_id !== "undefined")){
+              this.url = 'multi_report/'+context.multi_report+'/'+context.active_id;
+            }
         },
         start: function(){
               var superDef = this._super.apply(this, arguments);
@@ -51,6 +55,10 @@ odoo.define('odoo.pdf_viewer', function (require) {
         var self = this;
 
         var context = action.context;
+        // debugger;
+        // if (context.reports !== undefined){
+        //   context.multi_report = context;
+        // }
         context.report = action.report_name;
 
         var actions = {

@@ -2,6 +2,8 @@ from random import randint
 import random
 import locale
 import logging
+import io
+from PyPDF2 import PdfFileWriter, PdfFileReader
 
 _logger = logging.getLogger(__name__)
 
@@ -30,3 +32,19 @@ class SyndicTools:
             _logger.error('Local not settable')
 
         return tr_date.strftime('%A %d %B %Y')
+
+    def merge_pdf(self, pdf_data):
+        ''' Merge a collection of PDF documents in one
+        :param list pdf_data: a list of PDF datastrings
+        :return: a unique merged PDF datastring
+        '''
+        writer = PdfFileWriter()
+        for document in pdf_data:
+            reader = PdfFileReader(io.BytesIO(document), strict=False)
+            for page in range(0, reader.getNumPages()):
+                writer.addPage(reader.getPage(page))
+        _buffer = io.BytesIO()
+        writer.write(_buffer)
+        merged_pdf = _buffer.getvalue()
+        _buffer.close()
+        return merged_pdf

@@ -2,14 +2,17 @@
 from odoo import models, fields, api, exceptions
 from odoo.addons.syndic_tools.syndic_tools import SyndicTools
 
+import base64
+
 
 class CreateLetter(models.Model):
     _name = 'letter.letter'
+    _inherit = ['mail.thread', 'mail.activity.mixin']
     _description = 'letter.letter'
     _rec_name = 'sujet'
     _order = 'date desc'
 
-    send_ids = fields.Many2many('letter.send', string='Type d\'envoi')
+    send_ids = fields.Many2many('letter.send', string='Type d\'envoi', required=True)
 
     name = fields.Char('ID de la lettre', readonly=True)
     sujet = fields.Char('Sujet', required=True)
@@ -56,8 +59,8 @@ class CreateLetter(models.Model):
 
     all_partner_ids = fields.Many2many('res.partner', string='All Partner',
                                        compute='_get_all_partner')
-    end_letter_id = fields.Many2one('letter.end', 'Fin de lettre', required=True)
-    begin_letter_id = fields.Many2one('letter.begin', u'Début de lettre', required=True)
+    end_letter_id = fields.Many2one('letter.end', 'Fin de lettre')
+    begin_letter_id = fields.Many2one('letter.begin', u'Début de lettre')
     letter_type_id = fields.Many2one('letter.type', 'Type de lettre', required=True)
     letter_model_id = fields.Many2one('letter.model', u'Modèle de lettre')
     contenu = fields.Html('contenu', required=True)
@@ -98,20 +101,22 @@ class CreateLetter(models.Model):
             'view_mode': 'form',
             'target': 'new',
         }
-    @api.onchange('send_ids')
-    def onchange_send_type(self):
-        if len(self.send_ids.filtered('is_papper')) > 1:
-            return {
-                'warning': {
-                    'title': 'Warning',
-                    'message': 'Il ne peut y avoir qu\'un type d\'envoi de type papier',
-                }
-            }
 
+    def _compose_message_vals(self, template_id):
+        child_partners = self.all_partner_ids.mapped('child_ids').filtered(lambda s: s.is_email)
+        partners = self.all_partner_ids.filtered(lambda s:s.email) | child_partners
+
+        return {
+            'model': 'letter.letter',
+            'res_id': self.id,
+            'template_id': template_id,
+            'composition_mode': 'comment',
+            'partner_ids': [(6, 0, partners.ids)],
+        }
 
     def print_letter(self):
         for letter in self:
-            res = {}
+            res = []
             for send_type in letter.send_ids:
                 mails = self.env['mail.mail']
                 if send_type.mycontext:
@@ -121,19 +126,15 @@ class CreateLetter(models.Model):
                 if send_type.is_email:
                     template_id = send_type.mail_templale_id
                     if template_id:
-                        child_partners = self.all_partner_ids.mapped('child_ids').filtered(lambda s: s.is_email)
-                        
-                        for partner in letter.all_partner_ids.filtered(lambda s:s.email) | child_partners:
-                            mail_id = template_id.with_context(email_partner=partner).send_mail(letter.id)
-                            mail = self.env['mail.mail'].browse(mail_id)
-                            mail.write({
-                                'letter_id': letter.id, 
-                            })
-                            mails |= mail 
+                        vals = letter._compose_message_vals(template_id.id)
+                        mail = self.env['mail.compose.message'].create(vals)
+                        mail.onchange_template_id_wrapper()
+                        mail.send_mail()
+                             
                 if send_type.is_papper:
-                    res = send_type.action_id.report_action(letter)
-                res['context'] = {'mails': mails}
-            return res
+                    res.append(send_type.action_id.id)
+
+            return send_type.action_id.with_context(multi_report=res).report_action(letter)
 
     @api.one
     @api.depends('date')
@@ -168,59 +169,6 @@ class CreateLetter(models.Model):
     @api.onchange('immeuble_id', 'all_immeuble')
     def onchange_immeuble(self):
         self.propr_ids = self.immeuble_id.mapped('lot_ids.owner_ids') if self.all_immeuble else self.env['res.partner']
-
-    @api.one
-    def send_email_lettre(self):
-        header = ''
-
-        mail = {
-            'mail_server_id': self.mail_server if self.mail_server else self.env.user.server_mail_id or False,
-            'email_from': self.env.user.email,
-            'reply_to': self.env.user.email,
-            'attachment_ids': [(6, 0, self.piece_jointe_ids.ids)],
-            'subject': self.immeuble_id.name + '-' + self.sujet if self.immeuble_id else self.sujet,
-        }
-
-        if self.immeuble_id:
-            header = "Concerne %s<br/>%s<br/>%s %s<br/><br/>" % (self.immeuble_id.name,
-                                                                 self.immeuble_id.address_building,
-                                                                 str(self.immeuble_id.zip_building),
-                                                                 str(self.immeuble_id.city_building.name))
-
-        body = "%s<br/>%s<br/>Cordialement.<br/><br/>" % (self.begin_letter_id.name, self.contenu)
-
-        footer = """<br/>L'&eacute;quipe SG IMMO<br/>
-Rue Fran&ccedil;ois Vander Elst, 38/1<br/>
-1950 Kraainem<br/>
-'<img src="https://lh6.googleusercontent.com/-7QA8bP7oscU/UUrXkQ1-rHI/AAAAAAAAAAk/WhbiGpLAUCQ/s270/Logo_SG%2520immo.JPG"
-width="96" height="61"/>'"""
-
-        mail['body_html'] = header + body + self.ps + '<br/>'+footer if self.ps else header + body + footer
-
-        for prop in self.propr_ids.filtered(lambda s: s.email):
-            mail['email_to'] = prop.email
-            self.env['mail.mail'].create(mail)
-
-        for fourn in self.fourn_ids.filtered(lambda s: s.email):
-            mail['email_to'] = fourn.email
-            self.env['mail.mail'].create(mail)
-
-        for loc in self.loc_ids.filtered(lambda s: s.email):
-            mail['email_to'] = loc.email
-            self.env['mail.mail'].create(mail)
-
-        for div in self.divers_ids.filtered(lambda s: s.email):
-            mail['email_to'] = div.email
-            self.env['mail.mail'].create(mail)
-
-        for addr in self.propr_ids.mapped('child_ids').filtered(lambda s: s.email and s.is_email):
-            mail['email_to'] = addr.email
-            self.env['mail.mail'].create(mail)
-
-        self.write({
-            'is_mail': True,
-            'state': 'send',
-        })
 
     @api.onchange('letter_model_id')
     def onchange_letter(self):
