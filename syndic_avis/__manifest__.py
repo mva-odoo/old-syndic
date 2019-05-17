@@ -10,8 +10,8 @@
     'depends': ['syndic_letter'],
     'website': 'https://sgimmo.be',
     'data': [
-            'views/avis.xml',
-            'report/avis.xml',
-            'security/ir.model.access.csv',
+            # 'views/avis.xml',
+            # 'report/avis.xml',
+            # 'security/ir.model.access.csv',
         ],
 }

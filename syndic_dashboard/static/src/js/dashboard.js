@@ -54,13 +54,12 @@ var Dashboard = AbstractAction.extend(ControlPanelMixin, {
 
 	_render_meetings: function(){
 		var new_this = this;
-
 		this.stats.myEvents.forEach(function(value) {
-			var $div = $("<div>", {id: value.date, "class": "col-md-2"}).css('text-align', 'center');
+			var $div = $("<div>", {id: value.date, "class": "col-2"}).css('text-align', 'center');
 			$div.html('<h2 class="header-month">'+value.date+'</h2>');
 			new_this.$('.row.meeting_date').append($div);
 			
-			var $body_premier = $("<ul>", {id: "premier"+value.month, "class": "col-md-2"});
+			var $body_premier = $("<ul>", {id: "premier"+value.month, "class": "col-2"});
 			new_this.$('.row.meeting_building1').append($body_premier);
 				
 			value.premier.forEach(function(element) {
@@ -71,7 +70,7 @@ var Dashboard = AbstractAction.extend(ControlPanelMixin, {
 				new_this.$("#premier"+value.month).append($building_html);
 			});
 
-			var $body_deuxieme = $("<ul>", {id: "deuxieme"+value.month, "class": "col-md-2"});
+			var $body_deuxieme = $("<ul>", {id: "deuxieme"+value.month, "class": "col-2"});
 			new_this.$('.row.meeting_building2').append($body_deuxieme);
 			
 
@@ -144,6 +143,18 @@ var Dashboard = AbstractAction.extend(ControlPanelMixin, {
 		});
 	
 	},
+  _get_my_building: function(event) {
+	var self = this;
+	var statsDef = this._rpc({route: '/timeline/statistics'}).then(function (stats) {
+		self.stats.myEvents.pop();
+		this._updateControlPanel().then(
+			this._render_building.bind(this)).then(
+				this._render_meetings.bind(this)
+			);
+		
+	});
+	
+  },
 
   do_show: function () {
       this._super.apply(this, arguments);
@@ -151,16 +162,16 @@ var Dashboard = AbstractAction.extend(ControlPanelMixin, {
   },
 
   _renderButtons: function () {
-      // this.$buttons = $(qweb.render('timeline.Buttons'));
-      // this.$buttons.on('click', '.o_new_orders_btn', this._get_timeline.bind(this));
+      this.$buttons = $(qweb.render('timeline.Buttons'));
+      this.$buttons.on('click', '.o_building_btn', this._get_my_building.bind(this));
   },
 
   _updateControlPanel: function () {
-      this.update_control_panel({
-          cp_content: {
-             $buttons: this.$buttons,
-          },
-      });
+    //   this.update_control_panel({
+    //       cp_content: {
+    //          $buttons: this.$buttons,
+    //       },
+    //   });
   },
 
 });

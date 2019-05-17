@@ -59,6 +59,7 @@
                         <h1>
 						    <field name="sujet" class="oe_inline" placeholder="Nom de la tâche"/>
 					    </h1>
+                        <field name="all_partner_ids" widget="many2many_tags"/>
                                 <notebook>
                                     <page string="Description" name="description">
                                         <group>

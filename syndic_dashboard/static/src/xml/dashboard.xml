@@ -56,10 +56,8 @@
 
 
 	<div t-name="timeline.Buttons">
-    <button class="btn btn-primary o_customers_btn">Customers</button>
-    <button class="btn btn-primary o_new_orders_btn">New Orders</button>
-    <button class="btn btn-primary o_cancelled_orders_btn">Cancelled Orders</button>
-</div>
+		<button class="btn btn-primary o_building_btn">Mes Immeubles</button>
+	</div>
 
 
 </templates>
