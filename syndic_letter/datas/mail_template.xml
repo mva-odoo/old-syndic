@@ -8,7 +8,7 @@
         <field name="subject">${object.sujet}</field>
         <field name="email_from">${object.user_from_id.email|safe}</field>
         <field name="report_template" ref="syndic_letter.letter_qweb_single"/>
-        <field name="report_name" ref="Courrier"/>
+        <field name="report_name">Courrier<field/>
         <field name="body_html" type="html">
 <p>${object.begin_letter_id.name}</p>
 <p>${object.contenu|safe}</p>
