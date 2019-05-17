@@ -140,8 +140,10 @@
 		</record>
 
 		<!--menu -->
-		<menuitem name="Type de rapport" id="menu_rapport_type" parent="syndic_letter.menu_configuration_letter" action="rapport_type_model" />
-		<menuitem name="Rapports de réunions" id="menu_rapport_reunion" parent="syndic_letter.menu_sub_letter" action="rapport_reunion" sequence="4"/>
+
+		<menuitem id="reunion_menu_root" name="Réunions" parent="syndic_base.master_syndic"/>
+		<menuitem name="Type de rapport" id="menu_rapport_type" parent="reunion_menu_root" action="rapport_type_model" />
+		<menuitem name="Rapports de réunions" id="menu_rapport_reunion" parent="reunion_menu_root" action="rapport_reunion" sequence="4"/>
 
 	</data>
 </openerp>
