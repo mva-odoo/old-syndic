@@ -30,7 +30,7 @@ odoo.define('odoo.pdf_viewer', function (require) {
         start: function(){
               var superDef = this._super.apply(this, arguments);
               return superDef.then(this._updateControlPanel());
-      	},
+        },
 
         do_show: function () {
             this._super.apply(this, arguments);

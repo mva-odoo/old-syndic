@@ -7,6 +7,7 @@ class CreateLetter(models.Model):
 
     building_id = fields.Many2one('syndic.building', string='Immeuble')
     attendee_string = fields.Char('Participants', compute='compute_participant')
+    is_ag = fields.Char('AG')
 
     @api.one
     def compute_participant(self):

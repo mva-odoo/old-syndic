@@ -4,7 +4,7 @@
 
         <div style="height:99%;width:100%;">
             <t t-if="widget.url">
-                <iframe width="100%" height="100%" t-attf-src="{{ widget.url }}"></iframe>
+                <embed t-attf-src="{{ widget.url }}" type="application/pdf" width="100%" height="100%"/>
             </t>
         </div>
     </t>
