@@ -5,12 +5,16 @@
             <field name="model">syndic.building</field>
             <field name="inherit_id" ref="syndic_base.form_building"/>
             <field name="arch" type="xml">
-                <xpath expr="//field[@name='bank_ids']" position="after">
-                  <group groups="syndic_base.syndic_manager">
+                <xpath expr="//field[@name='bank_ids']/.." position="after">
+                  <group groups="syndic_base.syndic_manager" string="Honoraires et Frais Admin." name="honoraire">
                       <field name="currency_id" invisible="1"/>
-                      <field name="honoraire" widget='monetary' options="{'currency_field': 'currency_id'}"/>
-                      <field name="frais_admin" widget='monetary' options="{'currency_field': 'currency_id'}"/>
-                      <field name="is_merge"/>
+                        <group>
+                          <field name="honoraire" widget='monetary' options="{'currency_field': 'currency_id'}"/>
+                          <field name="frais_admin" widget='monetary' options="{'currency_field': 'currency_id'}"/>
+                        </group>
+                      <group>
+                        <field name="is_merge"/>
+                      </group>
                       <field name="honoraire_ids">
                         <tree editable="top">
                             <field name="year_id"/>

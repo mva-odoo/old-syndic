@@ -135,9 +135,9 @@
                                 </form>
                             </field>
                         </page>
-                        <page string="Comptabilite" name="comptabilite">
-                          <group>
-                            <field name="bank_ids" attrs="{'readonly': [('is_lock', '=', True)]}">
+                        <page string="Comptabilité" name="comptabilite">
+                          <group string="Compte en Banque" name="bank">
+                            <field name="bank_ids" attrs="{'readonly': [('is_lock', '=', True)]}" nolabel="1">
                               <tree editable="top">
                                 <field name="acc_number"/>
                                 <field name="acc_type"/>

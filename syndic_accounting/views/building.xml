@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record model="ir.ui.view" id="syndic_honoraire_building_form">
+        <field name="name">Syndic honoraire Building</field>
+            <field name="model">syndic.building</field>
+            <field name="inherit_id" ref="syndic_base.form_building"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='bank_ids']/.." position="after">
+                  <group string="Comptabilité" name="accounting">
+                    <field name="period"/>
+                  </group>
+                </xpath>
+            </field>
+    </record>
+</odoo>
