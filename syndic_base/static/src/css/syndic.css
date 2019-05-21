@@ -19,9 +19,6 @@
     color: white;
     background-color: #7c7bad;
 }
-.o_data_cell{
-    color:#7c7bad;
-}
 .table-striped tbody tr:nth-of-type(odd) {
     background: #ddddec;
     color: black;
