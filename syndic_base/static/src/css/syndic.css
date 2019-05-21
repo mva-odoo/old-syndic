@@ -30,3 +30,16 @@
     background: #ddddec;
     color: black;
 }
+
+.o_field_widget.o_field_many2manytags .o_tag_color_0 {
+    background-color: white;
+    color: #7c7bad;
+    box-shadow: inset 0 0 0 2px #7c7bad;
+}
+.o_dropdown .dropdown-toggle:first-child {
+    color: white;
+    background: #7c7bad;
+}
+.o_searchview .o_searchview_more {
+    color: #7c7bad;
+}
