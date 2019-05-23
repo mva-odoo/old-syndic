@@ -15,16 +15,9 @@
     border-bottom: 0px;
     border-top: 0px;
 }
-
-.o_td_label {
-    color:#7c7bad;
-}
 .nav-tabs .nav-link.active, .nav-tabs .nav-item.show .nav-link {
     color: white;
     background-color: #7c7bad;
-}
-.o_data_cell{
-    color:#323179;
 }
 .table-striped tbody tr:nth-of-type(odd) {
     background: #ddddec;
