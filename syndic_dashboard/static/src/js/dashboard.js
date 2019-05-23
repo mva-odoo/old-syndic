@@ -58,9 +58,9 @@ var Dashboard = AbstractAction.extend(ControlPanelMixin, {
 		this.stats.myEvents.forEach(function(value) {
 			var $div2 = $("<div>", {"class": "col-md-2"});
 			var $row = $("<div>", {"class": "row month"});
-			var $month = $("<div>", {id: value.date, "class": "col-12"}).css('text-align', 'center');;
+			var $month = $("<div>", {id: value.date, "class": "col-12"}).css('text-align', 'center');
 			
-			$month.html('<h2 class="header-month">'+value.date+'</h2>');
+			$month.html('<h2 class="header-month">Debut:'+value.date+'</h2>');
 			
 			$div2.append($row);
 			$row.append($month);
@@ -86,6 +86,10 @@ var Dashboard = AbstractAction.extend(ControlPanelMixin, {
 				var $building_html = '<li class="premierli '+el_manager+'">'+calendar_icon+envelope_icon+building_name+date+'</li></a>';
 				new_this.$("#premier"+value.month).append($building_html);
 			});
+			
+			var $month2 = $("<div>", {id: value.date, "class": "col-12"}).css('text-align', 'center');;
+			$month2.html('<h3 class="header-month"> Deuxième Quinzaine</h3>');
+			$row.append($month2);
 
 			var $body_deuxieme = $("<ul>", {id: "deuxieme"+value.month, "class": "col-12"});
 			$row.append($body_deuxieme);
