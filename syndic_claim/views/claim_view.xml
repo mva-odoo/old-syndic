@@ -68,12 +68,7 @@
 																 widget="many2many_tags" 
 																 domain="[('is_proprietaire', '=', True), ('owner_building_ids', '=', building_id)]"
 																 options="{'no_open': True, 'no_create': True}"/>
-													<field name="loaner_ids" 
-																 widget="many2many_tags" 
-																 domain="[('is_proprietaire', '=', True), ('loaner_building_ids', '=', building_id)]"
-																 options="{'no_open': True, 'no_create': True}"/>
-													<field name="supplier_ids" widget="many2many_tags" options="{'no_open': True, 'no_create': True}"/>
-													<field name="other_ids" widget="many2many_tags"/> 
+													<field name="supplier_ids" widget="many2many_tags" options="{'no_open': True, 'no_create': True}"/> 
 												</group>
 												<group string="description" name="description">
 													<field name="type_id" />

@@ -56,12 +56,19 @@ var Dashboard = AbstractAction.extend(ControlPanelMixin, {
 	_render_meetings: function(){
 		var new_this = this;
 		this.stats.myEvents.forEach(function(value) {
-			var $div = $("<div>", {id: value.date, "class": "col-2"}).css('text-align', 'center');
-			$div.html('<h2 class="header-month">'+value.date+'</h2>');
-			new_this.$('.row.meeting_date').append($div);
+			var $div2 = $("<div>", {"class": "col-md-2"});
+			var $row = $("<div>", {"class": "row month"});
+			var $month = $("<div>", {id: value.date, "class": "col-12"}).css('text-align', 'center');;
 			
-			var $body_premier = $("<ul>", {id: "premier"+value.month, "class": "col-2"});
-			new_this.$('.row.meeting_building1').append($body_premier);
+			$month.html('<h2 class="header-month">'+value.date+'</h2>');
+			
+			$div2.append($row);
+			$row.append($month);
+
+			new_this.$('.row.allmonth').append($div2);
+			
+			var $body_premier = $("<ul>", {id: "premier"+value.month, "class": "col-md-12"});
+			$row.append($body_premier);
 				
 			value.premier.forEach(function(element) {
 				var el_manager = '';
@@ -80,10 +87,9 @@ var Dashboard = AbstractAction.extend(ControlPanelMixin, {
 				new_this.$("#premier"+value.month).append($building_html);
 			});
 
-			var $body_deuxieme = $("<ul>", {id: "deuxieme"+value.month, "class": "col-2"});
-			new_this.$('.row.meeting_building2').append($body_deuxieme);
+			var $body_deuxieme = $("<ul>", {id: "deuxieme"+value.month, "class": "col-12"});
+			$row.append($body_deuxieme);
 			
-
 			value.deuxieme.forEach(function(element) {
 				var el_manager = '';
 				var date = '';

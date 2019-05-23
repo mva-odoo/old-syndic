@@ -31,6 +31,7 @@ class OrderRoute(http.Controller):
         dates.append((today+relativedelta(months=0)))
         dates.append((today+relativedelta(months=1)))
         dates.append((today+relativedelta(months=2)))
+        dates.append((today+relativedelta(months=3)))
 
         buildings = http.request.env['syndic.building'].search(
             [

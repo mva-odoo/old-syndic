@@ -27,11 +27,7 @@ class Claim(models.Model):
     supplier_ids = fields.Many2many('res.partner',
                                     domain=[('supplier', '=', True)],
                                     string='Fournisseurs')
-    loaner_ids = fields.Many2many('res.partner',
-                                  domain=[('is_locataire', '=', True)],
-                                  string='Locataires')
-    other_ids = fields.Many2many('res.partner', string='Divers')
-
+   
     claim_status_id = fields.Many2one('claim.status', string='Status de la plainte')
     building_id = fields.Many2one('syndic.building', 'Immeuble')
     importance = fields.Selection([('0', 'pas important'),
