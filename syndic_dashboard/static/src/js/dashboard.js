@@ -47,9 +47,9 @@ var Dashboard = AbstractAction.extend(ControlPanelMixin, {
 	_render_building: function(){
 		var new_this = this;
 		new_this.$('.my-buildings').append('<p>Vous Avez '+this.buildings_len+ ' immeubles</p>');
-		// this.buildings.buildings.forEach(function(values, key) {
-		// 	new_this.$('.my-buildings').append('<p><a href="javascript:;" class="building_btn" data-id='+values.id+'>'+values.name+'</a></p>');
-		// })
+		this.buildings.buildings.forEach(function(values, key) {
+			new_this.$('.my-buildings').append('<p><a href="javascript:;" class="building_btn" data-id='+values.id+'>'+values.name+'</a></p>');
+		})
 
 	},
 
@@ -197,11 +197,11 @@ var Dashboard = AbstractAction.extend(ControlPanelMixin, {
   },
 
   _updateControlPanel: function () {
-    //   this.update_control_panel({
-    //       cp_content: {
-    //          $buttons: this.$buttons,
-    //       },
-    //   });
+      this.update_control_panel({
+          // cp_content: {
+          //    $buttons: this.$buttons,
+          // },
+      });
   },
 
 });

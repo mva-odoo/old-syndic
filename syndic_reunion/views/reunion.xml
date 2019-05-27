@@ -40,7 +40,7 @@
 							<group>
 								<field name="immeuble_id" options="{'no_create':True}"/>
 								<field name="type_id" />
-								<field name="owner_ids" widget="many2many_tags" options="{'no_create':True}" domain="[('owner_building_ids', '=', immeuble_id)]"/>
+								<!-- <field name="owner_ids" widget="many2many_tags" options="{'no_create':True}" domain="[('owner_building_ids', '=', immeuble_id)]"/> -->
 								<field name="percentage_present" widget="progressbar"/>
 							</group>
 							<group>
@@ -50,9 +50,23 @@
 							</group>
 													
 		                </group>
-						<group string="Descriptif">
-							<field name="descriptif" nolabel="1"/>
-						</group>
+
+						<notebook>
+							<page string="Liste de présence">
+								<field name="list_ids" nolabel="1">
+									<tree editable="top" create="0" delete="0">
+										<field name="partner_id" readonly="1" force_save="1"/>
+										<field name="is_present"/>
+										<field name="is_represente"/>
+										<field name="owner_id" attrs="{'readonly': [('is_represente', '!=', True)]}" options="{'no_create':True, 'no_open':True}"/>
+										<field name="description" attrs="{'readonly': [('is_represente', '!=', True)]}"/>
+									</tree>
+								</field>
+							</page>
+							<page string="Descriptif">
+								<field name="descriptif" nolabel="1"/>
+							</page>
+						</notebook>
 						<group string="Points">
 							<field name="point_ids" nolabel="1">
 								<tree>
@@ -73,7 +87,7 @@
 			<field name="type">form</field>
 			<field name="arch" type="xml">
 				<form>
-					 <sheet>
+					<sheet>
 						<group>
 							<field name="name" />
 							<field name="sequence" />
@@ -103,7 +117,7 @@
 								</group>
 
 								<field name="vote_ids">
-									<tree editable='top' create="0" decoration-danger="vote=='nok'" decoration-success="vote=='ok'" decoration-warning="vote=='abstention'">
+									<tree editable='top' delete="0" create="0" decoration-danger="vote=='nok'" decoration-success="vote=='ok'" decoration-warning="vote=='abstention'">
 										<field name="owner_id" readonly="1" force_save="1"/>
 										<field name="lot_ids" widget="many2many_tags" readonly="1" force_save="1"/>
 										<field name="value" readonly="1" force_save="1"/>

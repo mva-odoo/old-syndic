@@ -35,6 +35,7 @@ class Lot(models.Model):
     ], string='Display')
     sequence = fields.Integer(string='Sequence')
     quotity_ids = fields.Many2many('syndic.quotite', string='Quotitée')
+    quotity_line_ids = fields.One2many('syndic.quotite.line', 'lot_id', 'Ligne de Quotitée')
     quotity = fields.Integer('Quotitée')
     
 

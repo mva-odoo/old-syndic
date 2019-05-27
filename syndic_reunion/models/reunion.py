@@ -3,6 +3,19 @@ from odoo import models, fields, api, exceptions
 from odoo.addons.syndic_tools.syndic_tools import SyndicTools
 
 
+class ReunionListePresence(models.Model):
+    _name = 'letter.reunion.list'
+    _description = 'letter.reunion.list'
+    _rec_name = 'reunion_id'
+    
+    reunion_id = fields.Many2one('letter.reunion', 'Reunion')
+    partner_id = fields.Many2one('res.partner', 'Propriétaire')
+    is_present = fields.Boolean('Présent')
+    is_represente = fields.Boolean('Représenté')
+    owner_id = fields.Many2one('res.partner', 'Représenté par', domain="[('is_proprietaire', '=', True)]")
+    description = fields.Char('Description')
+
+
 class LetterReunion(models.Model):
     _name = 'letter.reunion'
     _description = 'letter.reunion'
@@ -22,6 +35,8 @@ class LetterReunion(models.Model):
     percentage_present = fields.Float('Pourcentage de participation', compute="_get_percentage")
     percentage_quotity_present = fields.Float('Pourcentage de participation par quotitée', compute="_get_percentage_quotity")
     present_quotity = fields.Float('Quotitée Totale', compute="_get_percentage_quotity")
+
+    list_ids = fields.One2many('letter.reunion.list', 'reunion_id', 'Liste de présence')
 
     def _get_name(self):
         for reunion in self:
@@ -47,11 +62,17 @@ class LetterReunion(models.Model):
 
     @api.onchange('immeuble_id')
     def _onchange_immeuble(self):
-        self.owner_ids = self.immeuble_id.lot_ids.mapped('owner_ids')
+        owners = self.immeuble_id.lot_ids.mapped('owner_ids')
+        self.owner_ids = owners
         
+        list_ids = [(6, 0, [])]
+        for partner in owners:
+            list_ids.append((0, 0, {'partner_id': partner.id}))
+
+        self.list_ids = list_ids
         return {
             'domain': {
-                'owner_ids': [('id', 'in', self.owner_ids.ids)],
+                'owner_ids': [('id', 'in', owners.ids)],
             }
         }
 
@@ -113,15 +134,34 @@ class ReunionPoint(models.Model):
             }
         }
 
+    # def _get_owner_lot(self, partners):
+    #     partner_lot = {}
+    #     for partner in partners:
+    #         partner_lot[partner] = 
+            
+
+    def _test(self):
+        partner_lot = {}
+        for lot in self.quotity_id.line_ids.mapped('lot_id'):
+            partner_lot[lot.owner_ids] = lot
+
+        return partner_lot
+
+        
+
     @api.onchange('quotity_id')
     def _onchange_vote(self):
         values = [(6,0, [])]
+        print(self._test())
+        # for quotity in self.quotity_id
+
         for owner in self.quotity_id.line_ids.mapped('lot_owner_ids'):
-            if owner in self.reunion_id.owner_ids:
+            
+            if owner in self.reunion_id.list_ids.mapped('partner_id'):
                 quotity_lines = owner.quotity_line_ids.filtered(lambda s:s.quotity_id == self.quotity_id)
                 
                 lots = quotity_lines.mapped('lot_id').filtered(lambda s: s.building_id == self.reunion_id.immeuble_id)
-               
+
                 values.append([0, 0, {
                     'owner_id': owner.id,
                     'lot_ids': lots.ids,

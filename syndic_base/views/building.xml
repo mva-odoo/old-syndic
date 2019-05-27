@@ -60,9 +60,9 @@
                     </div>
                 <h1>
                     <field name="num" class="oe_inline" placeholder="Numéros d'immeuble"
-                           attrs="{'readonly': [('is_lock', '=', True)]}"/> -
+                        attrs="{'readonly': [('is_lock', '=', True)]}"/> -
                     <field name="name" class="oe_inline" placeholder="Nom d'immeuble"
-                           attrs="{'readonly': [('is_lock', '=', True)]}"/>
+                        attrs="{'readonly': [('is_lock', '=', True)]}"/>
                 </h1>
 
                 <field name="is_lock" invisible="1"/>
@@ -77,7 +77,7 @@
                         <field name="BCE" attrs="{'readonly': [('is_lock', '=', True)]}"/>
                         <field name="manager_id" attrs="{'readonly': [('is_lock', '=', True)]}"/>
                     </group>
-                     <group string="Date de l'Assemblée Générale" name="assemblee">
+                    <group string="Date de l'Assemblée Générale" name="assemblee">
                         <field name="date_mois" attrs="{'readonly': [('is_lock', '=', True)]}"/>
                         <field name="date_quinzaine" attrs="{'readonly': [('is_lock', '=', True)]}"/>
                     </group>
@@ -103,20 +103,20 @@
                         </page>
                         <page string="Corps de métier" name="fiche_technique">
                             <field name="supplier_ids" attrs="{'readonly': [('is_lock', '=', True)]}">
-                              <tree editable="top">
-                                <field name="partner_id"
-                                  context="{'default_supplier': True, 'form_view_ref': 'syndic_base.view_fournisseur_form'}"
-                                  required="1"/>
-                                <field name="partner_street"/>
-                                <field name="partner_zip"/>
-                                <field name="partner_city_id"/>
-                                <field name="partner_phone"/>
-                                <field name="partner_email"/>
-                                <field name="is_contractual"/>
-                              </tree>
+                                <tree editable="top">
+                                    <field name="partner_id"
+                                        context="{'default_supplier': True, 'form_view_ref': 'syndic_base.view_fournisseur_form'}"
+                                        required="1"/>
+                                    <field name="partner_street"/>
+                                    <field name="partner_zip"/>
+                                    <field name="partner_city_id"/>
+                                    <field name="partner_phone"/>
+                                    <field name="partner_email"/>
+                                    <field name="is_contractual"/>
+                                </tree>
                             </field>
                         </page>
-                         <page string="Quotitées" name="quotity">
+                        <page string="Quotitées" name="quotity">
                             <field name="qutoty_ids">
                                 <tree>
                                     <field name="type_id"/>
@@ -125,7 +125,7 @@
                                     <group>
                                         <field name="type_id"/>
                                         <field name="line_ids">
-                                            <tree editable="top" create="0">
+                                            <tree editable="top" create="0" delete="0">
                                                 <field name="lot_id" readonly="1" force_save="1"/>
                                                 <field name="lot_owner_ids" readonly="1" widget="many2many_tags" force_save="1"/>
                                                 <field name="value" sum="Quotitées totales"/>
@@ -136,20 +136,16 @@
                             </field>
                         </page>
                         <page string="Comptabilité" name="comptabilite">
-                          <group string="Compte en Banque" name="bank">
-                            <field name="bank_ids" attrs="{'readonly': [('is_lock', '=', True)]}" nolabel="1">
-                              <tree editable="top">
-                                <field name="acc_number"/>
-                                <field name="acc_type"/>
-                                <field name="bank_id"/>
-                              </tree>
+                            <group string="Compte en Banque" name="bank">
+                                <field name="bank_ids" attrs="{'readonly': [('is_lock', '=', True)]}" nolabel="1">
+                                <tree editable="top">
+                                    <field name="acc_number"/>
+                                    <field name="acc_type"/>
+                                    <field name="bank_id"/>
+                                </tree>
                             </field>
-                          </group>
-                          <group>
-
-                          </group>
+                            </group>
                         </page>
-                       
                         <page string="Notes" name="notes">
                             <field name="note" attrs="{'readonly': [('is_lock', '=', True)]}"/>
                         </page>
