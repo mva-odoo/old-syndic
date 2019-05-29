@@ -65,7 +65,7 @@ var Dashboard = AbstractAction.extend(ControlPanelMixin, {
 			$div2.append($row);
 			$row.append($month);
 
-			new_this.$('.row.allmonth').append($div2);
+			new_this.$('.allmonth').append($div2);
 			
 			var $body_premier = $("<ul>", {id: "premier"+value.month, "class": "col-md-12"});
 			$row.append($body_premier);
@@ -88,7 +88,7 @@ var Dashboard = AbstractAction.extend(ControlPanelMixin, {
 			});
 			
 			var $month2 = $("<div>", {id: value.date, "class": "col-12"}).css('text-align', 'center');;
-			$month2.html('<h3 class="header-month"> Deuxième Quinzaine</h3>');
+			$month2.html('<h4 class="header-month"> Deuxième Quinzaine</h4>');
 			$row.append($month2);
 
 			var $body_deuxieme = $("<ul>", {id: "deuxieme"+value.month, "class": "col-12"});

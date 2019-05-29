@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <templates id="timeline" xml:space="preserve">
 
-	<div t-name="dashboardTimeline">
+	<div t-name="dashboardTimeline" class='container' style='display: unset;'>
 
-		 <div class="container" style='display: unset;'>
+		 <!-- <div class="container" style='display: unset;'> -->
 		 	 <!-- <div class="row">
 		 		 <div class="col-12">
 		 			  <div class="my-timeline"/>
 		 		 </div>
 		 	 </div> -->
 
-			 <div class="row">
+			 <!-- <div class="row"> -->
 		 		 <!-- <div class="col-4 col-centered premier">
 		 			 <h1>Mes Tickets</h1>
 					 <span class='my-claim'/>
@@ -32,15 +32,14 @@
 					 	<span class='my-buildings'/>
 					</div>
 		 		 </div> -->
-		 	 </div>
+		 	 <!-- </div>
 
-	 	 </div>
+	 	 </div> -->
 
 
-		<div class='row allmonth'>
-		
-		</div>
 
+			<div class='row allmonth'>
+			</div>
 
 		 	
 	</div>
