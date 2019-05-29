@@ -48,10 +48,10 @@
                     <field name="mutation_date" attrs="{'readonly':[('state','=','done')]}" required="True"/>
                     <group>
                         <field name="old_owner_ids"
-                               options="{'no_create': True}"
-                               attrs="{'readonly':[('state','=','done')]}"
-                               domain="['|', ('is_proprietaire', '=', True), ('is_old', '=', True)]"
-                               widget="many2many_tags"/>
+                            options="{'no_create': True}"
+                            attrs="{'readonly':[('state','=','done')]}"
+                            domain="['|', ('is_proprietaire', '=', True), ('is_old', '=', True)]"
+                            widget="many2many_tags"/>
                     </group>
                     <group>
                         <field name="new_owner_ids" attrs="{'readonly':[('state','=','done')]}" widget="many2many_tags"/>
@@ -81,8 +81,8 @@
                     <field name="mutation_date" required="True"/>
                     <group>
                         <field name="old_owner_ids"
-                               readonly="1"
-                               widget="many2many_tags"/>
+                            readonly="1"
+                            widget="many2many_tags"/>
                     </group>
                     <group>
                         <field name="new_owner_ids" widget="many2many_tags"/>

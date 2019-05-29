@@ -56,11 +56,11 @@ var Dashboard = AbstractAction.extend(ControlPanelMixin, {
 	_render_meetings: function(){
 		var new_this = this;
 		this.stats.myEvents.forEach(function(value) {
-			var $div2 = $("<div>", {"class": "col-md-2"});
+			var $div2 = $("<div>", {"class": "col-lg-2"});
 			var $row = $("<div>", {"class": "row month"});
 			var $month = $("<div>", {id: value.date, "class": "col-12"}).css('text-align', 'center');
 			
-			$month.html('<h2 class="header-month">Debut:'+value.date+'</h2>');
+			$month.html('<h2 class="header-month">'+value.date+'</h2>');
 			
 			$div2.append($row);
 			$row.append($month);

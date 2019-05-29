@@ -40,7 +40,6 @@
 							<group>
 								<field name="immeuble_id" options="{'no_create':True}"/>
 								<field name="type_id" />
-								<!-- <field name="owner_ids" widget="many2many_tags" options="{'no_create':True}" domain="[('owner_building_ids', '=', immeuble_id)]"/> -->
 								<field name="percentage_present" widget="progressbar"/>
 							</group>
 							<group>
@@ -49,7 +48,7 @@
 								<field name="percentage_quotity_present" widget="progressbar"/>
 							</group>
 													
-		                </group>
+						</group>
 
 						<notebook>
 							<page string="Liste de présence">
@@ -76,7 +75,7 @@
 								</tree>
 							</field>
 						</group>
-		            </sheet>
+					</sheet>
                 </form>
 			</field>
 		</record>

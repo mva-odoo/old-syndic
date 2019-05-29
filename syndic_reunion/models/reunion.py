@@ -62,7 +62,7 @@ class LetterReunion(models.Model):
 
     @api.onchange('immeuble_id')
     def _onchange_immeuble(self):
-        owners = self.immeuble_id.lot_ids.mapped('owner_ids')
+        owners = self.immeuble_id.lot_ids.mapped('owner_id')
         self.owner_ids = owners
         
         list_ids = [(6, 0, [])]
@@ -146,8 +146,6 @@ class ReunionPoint(models.Model):
             partner_lot[lot.owner_ids] = lot
 
         return partner_lot
-
-        
 
     @api.onchange('quotity_id')
     def _onchange_vote(self):

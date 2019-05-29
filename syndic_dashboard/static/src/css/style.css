@@ -1,14 +1,24 @@
 .header-month{
     color: #ffffff;
-    background: #676677;
+    background: #1D2939;
+    font-weight: normal;
+    padding: 10px;
+    border-radius: 3px;
+}
+.allmonth{
+    padding: 10px;
+    background: white;
+    box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.21);
+    margin: 10px;
 }
 .row{
     margin-right: 0px !important;
     margin-left: 0px !important;
 }
 .el_manager{
-    background: #3d3c88!important;
+    background: #0866C6!important;
     color: #ffffff!important;
+    border-radius: 3px;
 }
 .col-centered{
     text-align: center;

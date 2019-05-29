@@ -10,6 +10,20 @@ class Lot(models.Model):
 
     name = fields.Char('Nom du lot', required=True)
     building_id = fields.Many2one('syndic.building', 'Immeuble')
+    is_undivision = fields.Boolean('Indivision')
+    owner_id = fields.Many2one(
+        'res.partner',
+        'Propriétaire',
+        domain=[
+            '|',
+            '|',
+            ('is_proprietaire', '=', True),
+            ('is_locataire', '=', True),
+            '|',
+            ('is_old', '=', True),
+            ('supplier', '=', True),
+        ]
+    )
     owner_ids = fields.Many2many(
         'res.partner',
         'lot_proprietaire',
@@ -22,7 +36,8 @@ class Lot(models.Model):
             '|',
             ('is_old', '=', True),
             ('supplier', '=', True),
-        ])
+        ]
+    )
     loaner_ids = fields.Many2many(
         'res.partner',
         'lot_locataire',
@@ -49,6 +64,29 @@ class Lot(models.Model):
         'Ligne de Quotitée'
     )
     quotity = fields.Integer('Quotitée')
+
+    @api.onchange('is_undivision')
+    def onchangeundivision(self):
+        if self.is_undivision:
+            if not self.owner_ids:
+                domain = []
+            else:
+                domain = [('id', 'in', self.owner_ids.ids)]
+
+            return {
+                'domain': {
+                    'owner_id': domain,
+                }
+            }
+
+    @api.onchange('owner_id')
+    def onchange_owner(self):
+        self.owner_ids = self.owner_id
+
+    @api.onchange('owner_ids')
+    def onchange_owners(self):
+        if self.owner_id not in self.owner_ids:
+            self.owner_id = self.env['res.partner']
 
 
 class TypeLot(models.Model):
