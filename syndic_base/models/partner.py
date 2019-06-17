@@ -89,6 +89,7 @@ class Partner(models.Model):
                 'login': '%s - %s' % (partner.name, partner.id),
                 'company_id': partner.company_id.id,
                 'company_ids': [(4, partner.company_id.id)],
+                'groups_id': [(6, 0, [self.env.ref('base.group_portal').id])]
             })
         return partner
 

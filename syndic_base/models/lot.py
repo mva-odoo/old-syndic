@@ -113,7 +113,7 @@ class Quotitee(models.Model):
     @api.onchange('type_id')
     def _onchange_quotity(self):
         values = [(6, 0, [])]
-        for lot in self.building_id.lot_ids:
+        for lot in self.building_id.lot_ids.filtered(lambda s: s.display_type == False):
             values.append([
                 0,
                 0,

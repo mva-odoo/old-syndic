@@ -75,7 +75,9 @@
                 <group>
                     <group string="Information Divers:" name="divers">
                         <field name="BCE" attrs="{'readonly': [('is_lock', '=', True)]}"/>
-                        <field name="manager_id" attrs="{'readonly': [('is_lock', '=', True)]}"/>
+                        <field name="manager_id" 
+                               attrs="{'readonly': [('is_lock', '=', True)]}"
+                               options="{'no_open': True, 'no_create': True}"/>
                     </group>
                     <group string="Date de l'Assemblée Générale" name="assemblee">
                         <field name="date_mois" attrs="{'readonly': [('is_lock', '=', True)]}"/>
@@ -86,7 +88,8 @@
                     <notebook colspan="4">
                         <page string="Lot" name="lot">
                             <field name="lot_ids" attrs="{'readonly': [('is_lock', '=', True)]}" widget="section_and_note_one2many">
-                                <tree editable="top">
+                                <!-- <tree editable="top"> -->
+                                <tree>
                                     <control>
                                         <create string="Ajouter un Lot"/>
                                         <create string="Ajouter un étage" context="{'default_display_type': 'line_section'}"/>
@@ -95,12 +98,30 @@
                                     <field name="sequence" widget="handle"/>
                                     <field name="name" widget="section_and_note_text"/>
                                     <field name="owner_id"/>
-                                    <field name="is_undivision"/>
-                                    <field name="owner_ids" widget="many2many_tags" attrs="{'readonly': [('is_undivision', '=', False)]}"/>
                                     <field name="loaner_ids" widget="many2many_tags"/>
                                     <field name="quotity"/>
                                     <field name="type_id"/>
                                 </tree>
+                                
+                                <form>
+                                    <group>
+                                        <field name="display_type" invisible="1"/>
+                                        <field name="name" widget="section_and_note_text"/>
+                                    </group>
+                                    <group attrs="{'invisible': [('display_type', '!=', False)]}">
+                                        <group>
+                                            <field name="owner_id"/>
+                                            <field name="is_undivision"/>
+                                            <field name="owner_ids" widget="many2many_tags" attrs="{'readonly': [('is_undivision', '=', False)]}"/>
+                                            <field name="loaner_ids" widget="many2many_tags"/>
+                                        </group>
+                                        <group>
+                                            <field name="quotity"/>
+                                            <field name="type_id"/>
+                                        </group>
+                                    </group>
+                                </form>
+
                             </field>
                         </page>
                         <page string="Corps de métier" name="fiche_technique">

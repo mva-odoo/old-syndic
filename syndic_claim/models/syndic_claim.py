@@ -46,7 +46,7 @@ class Claim(models.Model):
     @api.multi
     def write(self, vals):
         for res in self:
-            partners = res.owner_ids | res.supplier_ids | res.loaner_ids | res.manager_id.partner_id
+            partners = res.owner_ids | res.supplier_ids | res.manager_id.partner_id
             res.message_subscribe(partner_ids=partners.ids)
         return super(Claim, self).write(vals)
 
@@ -54,7 +54,7 @@ class Claim(models.Model):
     def create(self, vals):
 
         res = super(Claim, self).create(vals)
-        partners = res.owner_ids | res.supplier_ids | res.loaner_ids | res.manager_id.partner_id
+        partners = res.owner_ids | res.supplier_ids | res.manager_id.partner_id
         res.message_subscribe(partner_ids=partners.ids)
         if res.manager_id.id != res.create_uid.id:
             

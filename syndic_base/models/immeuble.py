@@ -42,7 +42,7 @@ class Immeuble(models.Model):
 
     note = fields.Text('Notes')
 
-    manager_id = fields.Many2one('res.users', 'Manager',
+    manager_id = fields.Many2one('res.users', 'Gestionaire',
                                  domain="[('groups_id.name','in',['Syndic/Employe','Syndic/Manager'])]")
 
     is_lock = fields.Boolean('Bloquer')

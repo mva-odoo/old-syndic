@@ -6,6 +6,7 @@
     ],
     'data': [
         'views/building.xml',
+        'security/groups.xml',
     ],
     'installable': True,
 }

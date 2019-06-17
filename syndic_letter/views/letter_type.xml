@@ -13,6 +13,7 @@
                         <field name="action_id" domain="[('model', '=', 'letter.letter')]" options="{'no_create': True}"/>
                         <field name="mail_templale_id" domain="[('model_id', '=', 'letter.letter')]"/>
                         <field name="mycontext"/>
+                        <field name="model_id"/>
                     </group>
                 </form>
             </field>

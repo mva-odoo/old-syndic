@@ -97,24 +97,101 @@
                             </group>
 
                             <group string="Autres contacts">
-                                    <field name="child_ids" colspan="4" nolabel="1" context="{'default_type': 'other'}">
-                                        <tree string="Autres contacts" editable="top">
-                                            <field name="type" invisible="1"/>
-                                            <field name="name"/>
-                                            <field name="title"/>
-                                            <field name="street" attrs="{'required': [('is_letter', '=', True)]}"/>
-                                            <field name="zip" attrs="{'required': [('is_letter', '=', True)]}"/>
-                                            <field name="city_id" attrs="{'required': [('is_letter', '=', True)]}"/>
-                                            <field name="country_id" string="Pays"/>
-                                            <field name="phone" string="Téléphone"/>
-                                            <field name="fax" string="Fax"/>
-                                            <field name="mobile" string="GSM"/>
-                                            <field name="email" attrs="{'required': [('is_email', '=', True)]}"/>
-                                            <field name="is_email"/>
+                            <field name="child_ids" mode="kanban" nolabel="1">
+                                <kanban>
+                                    <field name="id"/>
+                                    <field name="color"/>
+                                    <field name="name"/>
+                                    <field name="title"/>
+                                    <field name="type"/>
+                                    <field name="email"/>
+                                    <field name="parent_id"/>
+                                    <field name="is_company"/>
+                                    <field name="function"/>
+                                    <field name="phone"/>
+                                    <field name="street"/>
+                                    <field name="street2"/>
+                                    <field name="zip"/>
+                                    <field name="city_id"/>
+                                    <field name="country_id"/>
+                                    <field name="mobile"/>
+                                    <field name="fax"/>
+                                    <field name="state_id"/>
+                                    <field name="image_small"/>
+                                    <field name="lang"/>
+                                    <!-- fields in form x2many view to diminish requests -->
+                                    <field name="comment"/>
+                                    <field name="customer"/>
+                                    <field name="display_name"/>
+                                    <field name="supplier"/>
+                                    <field name="is_letter"/>
+                                    <field name="is_email"/>
+                                    <templates>
+                                        <t t-name="kanban-box">
+                                            <t t-set="color" t-value="kanban_color(record.color.raw_value)"/>
+                                            <div t-att-class="color + (record.title.raw_value == 1 ? ' oe_kanban_color_alert' : '') + ' oe_kanban_global_click'">
+                                                <div class="o_kanban_image">
+                                                    <img alt="" t-if="record.image_small.raw_value" t-att-src="kanban_image('res.partner', 'image_small', record.id.raw_value)"/>
+                                                    <t t-if="!record.image_small.raw_value">
+                                                        <t t-if="record.type.raw_value !== 'invoice' &amp;&amp; record.type.raw_value !== 'delivery'">
+                                                            <img alt="Logo" t-if="record.is_company.raw_value === true" t-att-src="_s + &quot;/base/static/img/company_image.png&quot;"/>
+                                                            <img alt="Avatar" t-if="record.is_company.raw_value === false" t-att-src="_s + &quot;/base/static/img/avatar.png&quot;"/>
+                                                        </t>
+                                                    </t>
+                                                </div>
+                                                <div class="oe_kanban_details">
+                                                    <field name="name"/>
+                                                    <div t-if="record.street.raw_value"><field name="street"/></div>
+                                                    <div>
+                                                        <span t-if="record.city_id.raw_value"><field name="city_id"/></span>
+                                                        <span t-if="record.zip.raw_value"><field name="zip"/></span>
+                                                    </div>
+                                                    <div t-if="record.email.raw_value"><field name="email" widget="email"/></div>
+                                                    <div t-if="record.type.raw_value != 'contact'">
+                                                        <div>
+                                                            <field name="zip"/>
+                                                            <field name="city"/>
+                                                        </div>
+                                                        <field t-if="record.state_id.raw_value" name="state_id"/>
+                                                        <field name="country_id"/>
+                                                    </div>
+                                                    <div t-if="record.phone.raw_value">Téléphone: <field name="phone" widget="phone"/></div>
+                                                    <div t-if="record.mobile.raw_value">Mobile: <field name="mobile" widget="phone"/></div>
+                                                    <div t-if="record.fax.raw_value">Fax: <field name="fax"/></div>
+                                                    <div t-if="record.is_email.raw_value">Envoi par Email</div>
+                                                    <div t-if="record.is_letter.raw_value">Envoi par Lettre</div>
+                                                </div>
+                                            </div>
+                                        </t>
+                                    </templates>
+                                </kanban>
+                                <form>
+                                    <group colspan="4" col="4">
+                                        <field name="name" colspan="2"/>
+                                        <field name="title" colspan="2" string="Titre"/>
+                                    </group>
+
+                                    <group>
+                                        <group string="Adresse">
+                                            <field name="street"/>
+                                            <field name="zip"/>
+                                            <field name="city_id" attrs="{'readonly': [('zip', '=', False)]}"/>
+                                            <field name="country_id" options="{'no_open': True, 'no_create': True}" />
                                             <field name="is_letter"/>
-                                        </tree>
-                                    </field>
-                                </group>
+                                        </group>
+
+                                        <group string="Contact Electronique">
+                                            <field name="phone" string="Téléphone"/>
+                                            <field name="fax"/>
+                                            <field name="mobile"/>
+                                            <field name="email"/>
+                                            <field name="is_email"/>
+                                        </group>
+                                    </group>
+                                </form>
+                            </field>
+                                    
+                            </group>
                         </page>
                         <page string="Information Technique">
                             <group>

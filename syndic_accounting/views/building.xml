@@ -6,8 +6,9 @@
             <field name="inherit_id" ref="syndic_base.form_building"/>
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='bank_ids']/.." position="after">
-                  <group string="Comptabilité" name="accounting">
+                  <group string="Comptabilité" name="accounting" groups="syndic_accounting.syndic_comptable">
                     <field name="period"/>
+                    <field name="accountant_id" options="{'no_create': True, 'no_open': True}"/>
                   </group>
                 </xpath>
             </field>

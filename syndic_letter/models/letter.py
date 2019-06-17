@@ -86,6 +86,12 @@ class CreateLetter(models.Model):
             else:
                 letter.is_mail = False
 
+    @api.onchange('send_ids')
+    def onchange_send_ids(self):
+        self.letter_model_id = False
+        for send_type in self.send_ids:
+            self.letter_model_id = send_type.model_id
+
     @api.multi
     @api.depends('propr_ids', 'fourn_ids', 'divers_ids', 'loc_ids')
     def _get_all_partner(self):
@@ -110,6 +116,7 @@ class CreateLetter(models.Model):
             'model': 'letter.letter',
             'res_id': self.id,
             'template_id': template_id,
+            'mail_server_id': self.user_from_id.server_mail_id.id,
             'composition_mode': 'comment',
             'partner_ids': [(6, 0, partners.ids)],
         }
@@ -130,7 +137,7 @@ class CreateLetter(models.Model):
                         mail = self.env['mail.compose.message'].create(vals)
                         mail.onchange_template_id_wrapper()
                         mail.send_mail()
-                             
+
                 if send_type.is_papper:
                     res.append(send_type.action_id.id)
 
@@ -152,14 +159,14 @@ class CreateLetter(models.Model):
                 'fournisseur_id': supplier_id.id,
                 'immeuble_id': res.immeuble_id.id,
             }
+            if not self.env.context.get('no_offer'):
+                if res.letter_type_id.name in ['Demande de devis', 'Demande d\'offre', 'Demande de contrat']:
+                    values['date_envoi'] = res.date
+                    self.env['offre.contrat'].create(values)
 
-            if res.letter_type_id.name in ['Demande de devis', 'Demande d\'offre', 'Demande de contrat']:
-                values['date_envoi'] = res.date
-                self.env['offre.contrat'].create(values)
-
-            elif res.letter_type_id.name in ['Bon de commande']:
-                values['date_demande'] = res.date
-                self.env['bon.commande'].create(values)
+                elif res.letter_type_id.name in ['Bon de commande']:
+                    values['date_demande'] = res.date
+                    self.env['bon.commande'].create(values)
         return res
 
     @api.onchange('is_mail')
@@ -213,3 +220,4 @@ class LetterSend(models.Model):
     action_id = fields.Many2one('ir.actions.report', 'Action Rapport')
     mail_templale_id = fields.Many2one('mail.template', 'Email Template')
     mycontext = fields.Char('Context à passer')
+    model_id = fields.Many2one('letter.model', 'Modèle de Lettre')
