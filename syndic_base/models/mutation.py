@@ -15,7 +15,6 @@ class Mutation(models.Model):
     state = fields.Selection([('draft', 'brouillon'), ('done', 'terminé')], 'Etat', default='draft')
     immeuble_id = fields.Many2one('syndic.building', related='lot_ids.building_id', store=True, string="Immeuble")
 
-    @api.multi
     @api.depends('old_owner_ids', 'new_owner_ids')
     def _get_name(self):
         for mutation in self:
@@ -27,10 +26,11 @@ class Mutation(models.Model):
     @api.onchange('old_owner_ids')
     def onchange_old_owner(self):
         return {
-            'domain': {'lot_ids': [('owner_ids', 'in', self.old_owner_ids.ids)]}
+            'domain': {
+                    'lot_ids': [('owner_ids', 'in', self.old_owner_ids.ids)]
+                }
         }
 
-    @api.multi
     def mutation(self):
         if not self.env.context.get('no_mutation', False):
             for mutation in self:

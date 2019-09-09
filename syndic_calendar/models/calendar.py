@@ -9,6 +9,6 @@ class CreateLetter(models.Model):
     attendee_string = fields.Char('Participants', compute='compute_participant')
     is_ag = fields.Boolean('AG')
 
-    @api.one
     def compute_participant(self):
-        self.attendee_string = ','.join(self.attendee_ids.mapped('name'))
+        for rec in self:
+            rec.attendee_string = ','.join(rec.attendee_ids.mapped('name'))

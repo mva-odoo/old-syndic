@@ -19,7 +19,6 @@ class Task(models.Model):
         self.ensure_one()
         return {
             'name': _('Courrier'),
-            'view_type': 'form',
             'view_mode': 'form',
             'res_model': 'letter.letter',
             'type': 'ir.actions.act_window',

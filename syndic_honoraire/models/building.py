@@ -50,7 +50,6 @@ class Building(models.Model):
         self.env['syndic.honoraire'].create(honoraire_vals)
         return super(Building, self).create(values)
     
-    @api.multi
     def write(self, values):
         for building in self:
             honoraire_vals = {}

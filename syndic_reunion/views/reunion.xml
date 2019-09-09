@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<openerp>
+<odoo>
 	<data>
 		<record model="ir.ui.view" id="tree_rapport_reunion">
 			<field name="name">Rapport Reunion tree view</field>
@@ -33,12 +33,28 @@
 			<field name="type">form</field>
 			<field name="arch" type="xml">
 				<form string="Reunion">
-					<sheet string="Rapport reunion" layout="auto">
+					<header>
+						<button string='Start' name="set_list" type="object" states="draft"/>
+						<button string='Sauver Liste de Précense' name="set_busy" type="object" states="start"/>
+						<button string='En cours' name="set_busy" type="object" states="list"/>
+						<button string='End' name="set_end" type="object" states="start"/>
+						<field name="state" widget="statusbar"/>
+					</header>
+					<sheet>
+						<div class="oe_button_box" name="button_box">
+							<button class="oe_stat_button" type="object" name="open_points" icon="fa-folder-o">
+								Points
+							</button>
+							<button class="oe_stat_button" type="object" name="open_list" icon="fa-users">
+								Liste de Présence
+							</button>
+						</div>
+
 						<group>
 							<field name="name" invisible="1"/>
                         
 							<group>
-								<field name="immeuble_id" options="{'no_create':True}"/>
+								<field name="immeuble_id" options="{'no_create':True}" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
 								<field name="type_id" />
 								<field name="percentage_present" widget="progressbar"/>
 							</group>
@@ -50,12 +66,13 @@
 													
 						</group>
 
-						<notebook>
+						<notebook attrs="{'invisible': [('state', 'not in', ['list', 'busy'])]}">
 							<page string="Liste de présence">
 								<field name="list_ids" nolabel="1">
-									<tree editable="top" create="0" delete="0">
+									<tree editable="top" create="0" delete="0" decoration-danger="not is_present" decoration-success="is_present">
 										<field name="partner_id" readonly="1" force_save="1"/>
-										<field name="is_present"/>
+										<button string='Present' name="set_present" type="object" icon="fa-users" />
+										<field name="is_present" invisible="1"/>
 										<field name="is_represente"/>
 										<field name="owner_id" attrs="{'readonly': [('is_represente', '!=', True)]}" options="{'no_create':True, 'no_open':True}"/>
 										<field name="description" attrs="{'readonly': [('is_represente', '!=', True)]}"/>
@@ -66,17 +83,31 @@
 								<field name="descriptif" nolabel="1"/>
 							</page>
 						</notebook>
-						<group string="Points">
+						<!-- <group string="Points" attrs="{'invisible': [('state', '!=', 'busy')]}">
 							<field name="point_ids" nolabel="1">
 								<tree>
 									<field name="sequence" widget="handle"/>
 									<field name="name"/>
 									<field name="final_vote"/>
+									<button name="test" string="test" type="object"/>
 								</tree>
 							</field>
-						</group>
+						</group> -->
 					</sheet>
                 </form>
+			</field>
+		</record>
+
+		<record model="ir.ui.view" id="tree_rapport_reunion_point">
+			<field name="name">Rapport Reunion tree point view</field>
+			<field name="model">reunion.point</field>
+			<field name="arch" type="xml">
+				<tree>
+					<field name="sequence" widget="handle"/>
+					<field name="name"/>
+					<field name="final_vote"/>
+					<button name="test" string="test" type="object"/>
+                </tree>
 			</field>
 		</record>
 
@@ -86,10 +117,14 @@
 			<field name="type">form</field>
 			<field name="arch" type="xml">
 				<form>
+					<header>
+						<button name="set_is_vote" type="object" string="Ajouter un vote"/>
+					</header>
 					<sheet>
 						<group>
 							<field name="name" />
-							<field name="sequence" />
+							<field name="sequence" invisible="1"/>
+							<field name="reunion_id"/>
 		                </group>
 						<notebook>
 							<page string='Description'>
@@ -121,7 +156,10 @@
 										<field name="lot_ids" widget="many2many_tags" readonly="1" force_save="1"/>
 										<field name="value" readonly="1" force_save="1"/>
 										<field name="quotity_percentage" readonly="1" force_save="1"/>
-										<field name="vote"/>
+										<field name="vote" invisible="1"/>
+										<button type="object" name="set_is_ok" icon="fa-smile-o"/>
+										<button type="object" name="set_is_abstention" icon="fa-meh-o"/>
+										<button type="object" name="set_is_nok" icon="fa-frown-o"/>
 									</tree>
 								</field>
 							</page>
@@ -134,13 +172,35 @@
 			</field>
 		</record>
 
+		<record id="tree_meeting_liste" model="ir.ui.view">
+			<field name="name">Tree presence Liste</field>
+			<field name="model">letter.reunion.list</field>
+			<field name="arch" type="xml">
+				<tree editable="top" create="0" delete="0" decoration-danger="not is_present" decoration-success="is_present">
+					<field name="partner_id" readonly="1" force_save="1"/>
+					<button string='Present' name="set_present" type="object" icon="fa-users" />
+					<field name="is_present" invisible="1"/>
+					<field name="is_represente"/>
+					<field name="owner_id" attrs="{'readonly': [('is_represente', '!=', True)]}" options="{'no_create':True, 'no_open':True}"/>
+					<field name="description" attrs="{'readonly': [('is_represente', '!=', True)]}"/>
+				</tree>
+			</field>
+
+		</record>
+
 		<!--action -->
 
 		<record model="ir.actions.act_window" id="rapport_reunion">
 			<field name="name">Réunion</field>
 			<field name="type">ir.actions.act_window</field>
 			<field name="res_model">letter.reunion</field>
-			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+
+		<record model="ir.actions.act_window" id="rapport_point">
+			<field name="name">Réunion Points</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">reunion.point</field>
 			<field name="view_mode">tree,form</field>
 		</record>
 
@@ -148,7 +208,13 @@
 			<field name="name">Type de rapport</field>
 			<field name="type">ir.actions.act_window</field>
 			<field name="res_model">reunion.type</field>
-			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+
+		<record model="ir.actions.act_window" id="rapport_presence_list">
+			<field name="name">Liste de Présence</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">letter.reunion.list</field>
 			<field name="view_mode">tree,form</field>
 		</record>
 
@@ -159,4 +225,4 @@
 		<menuitem name="Rapports de réunions" id="menu_rapport_reunion" parent="reunion_menu_root" action="rapport_reunion" sequence="4"/>
 
 	</data>
-</openerp>
+</odoo>

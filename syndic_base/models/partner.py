@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from odoo import models, fields, api, exceptions, SUPERUSER_ID
+from odoo import models, fields, api
 
 
 class Partner(models.Model):
@@ -8,6 +8,7 @@ class Partner(models.Model):
     is_locataire = fields.Boolean('Locataire', compute='_get_partner_type', store=True)
     is_proprietaire = fields.Boolean('Propriétaire', compute='_get_partner_type', store=True)
     is_old = fields.Boolean('Ancien propriétaire', compute='_get_partner_type', store=True)
+    supplier = fields.Boolean('Fournisseur')
 
     mobile = fields.Char('GSM')
     fax = fields.Char('fax')
@@ -24,7 +25,7 @@ class Partner(models.Model):
     is_letter = fields.Boolean('Par Lettre')
     is_email = fields.Boolean('Par Email')
 
-    lot_ids = fields.Many2many('syndic.lot', 'lot_proprietaire', string='Lots')
+    lot_ids = fields.One2many('syndic.lot', 'owner_id', string='Lots')
     lot_count = fields.Integer('Quotitees Totales', compute='_get_number_lot')
 
     loaner_lot_ids = fields.Many2many('syndic.lot', 'lot_locataire', string='Lots(Locataire')
@@ -33,16 +34,23 @@ class Partner(models.Model):
     old_lot_ids = fields.Many2many('syndic.lot', 'old_prop_table', 'lot_id', 'old_proprio_id', string='Ancien lot')
     old_lot_count = fields.Integer('Ancien Lots', compute='_get_number_lot_old')
 
-    owner_building_ids = fields.Many2many('syndic.building', compute='_get_building',
-                                          search='_search_building', string='Immeuble')
-    loaner_building_ids = fields.Many2many('syndic.building', compute='_get_building',
-                                           search='_search_loaner_building', string='Immeuble(Locataire)')
+    owner_building_ids = fields.Many2many(
+        'syndic.building', compute='_get_building', search='_search_building', string='Immeuble')
+    loaner_building_ids = fields.Many2many(
+        'syndic.building', compute='_get_building', search='_search_loaner_building', string='Immeuble(Locataire)')
 
     country_id = fields.Many2one('res.country', default=lambda s: s.env.ref('base.be'))
-
     building_ids = fields.One2many('res.partner.contractual', 'partner_id', string="Immeubles")
-
     quotity_line_ids = fields.Many2many('syndic.quotite.line', string='Quotitées')
+
+    is_unindivision = fields.Boolean('Indivision')
+    unindivision_ids = fields.Many2many('res.partner', 'res_partner_unindivision_rel', 'unindivision_id', 'partner_id', string="indivision")
+    main_partner_id = fields.Many2one('res.partner', string="Contact Principale")
+
+    @api.onchange('main_partner_id', 'unindivision_ids')
+    def onchange_undivision(self):
+        if self.main_partner_id and self.unindivision_ids:
+            self.name = 'C/O %s/%s' % (self.main_partner_id.name, '/'.join(self.unindivision_ids.mapped('name')))
 
     def _get_name(self):
         if self._context.get('standard'):
@@ -68,7 +76,6 @@ class Partner(models.Model):
         field = 'lot_ids.building_id.name'
         if isinstance(value, int):
             field = 'lot_ids.building_id.id'
-        
         return [(field, operator, value)]
 
     def _search_loaner_building(self, operator, value):
@@ -83,24 +90,24 @@ class Partner(models.Model):
     def create(self, vals):
         partner = super(Partner, self).create(vals)
         if not self._context.get('normal_create'):
+            company_ids = self._context.get('allowed_company_ids')
+
             self.env['res.users'].with_context(normal_create=False).create({
                 'partner_id': partner.id,
                 'name': partner.name,
                 'login': '%s - %s' % (partner.name, partner.id),
-                'company_id': partner.company_id.id,
-                'company_ids': [(4, partner.company_id.id)],
+                'company_id': company_ids[0] if company_ids else False,
+                'company_ids': [(6, 0, company_ids)],
                 'groups_id': [(6, 0, [self.env.ref('base.group_portal').id])]
             })
         return partner
 
-    @api.multi
     def write(self, vals):
         if vals.get('company_id') and vals['company_id'] != 1:
             del vals['company_id']
         return super().write(vals)
 
-    @api.depends(
-        'lot_ids', 'loaner_lot_ids', 'loaner_lot_ids.building_id.active', 'lot_ids.building_id.active', 'old_lot_ids')
+    @api.depends('lot_ids', 'loaner_lot_ids', 'loaner_lot_ids.building_id.active', 'lot_ids.building_id.active', 'old_lot_ids')
     def _get_partner_type(self):
         for partner in self:
             if partner.lot_ids.filtered(lambda s: s.building_id.active):

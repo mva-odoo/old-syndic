@@ -10,7 +10,7 @@ class Lot(models.Model):
 
     name = fields.Char('Nom du lot', required=True)
     building_id = fields.Many2one('syndic.building', 'Immeuble')
-    is_undivision = fields.Boolean('Indivision')
+
     owner_id = fields.Many2one(
         'res.partner',
         'Propriétaire',
@@ -24,20 +24,7 @@ class Lot(models.Model):
             ('supplier', '=', True),
         ]
     )
-    owner_ids = fields.Many2many(
-        'res.partner',
-        'lot_proprietaire',
-        string='Propriétaires',
-        domain=[
-            '|',
-            '|',
-            ('is_proprietaire', '=', True),
-            ('is_locataire', '=', True),
-            '|',
-            ('is_old', '=', True),
-            ('supplier', '=', True),
-        ]
-    )
+
     loaner_ids = fields.Many2many(
         'res.partner',
         'lot_locataire',
@@ -65,29 +52,6 @@ class Lot(models.Model):
     )
     quotity = fields.Integer('Quotitée')
 
-    @api.onchange('is_undivision')
-    def onchangeundivision(self):
-        if self.is_undivision:
-            if not self.owner_ids:
-                domain = []
-            else:
-                domain = [('id', 'in', self.owner_ids.ids)]
-
-            return {
-                'domain': {
-                    'owner_id': domain,
-                }
-            }
-
-    @api.onchange('owner_id')
-    def onchange_owner(self):
-        self.owner_ids = self.owner_id
-
-    @api.onchange('owner_ids')
-    def onchange_owners(self):
-        if self.owner_id not in self.owner_ids:
-            self.owner_id = self.env['res.partner']
-
 
 class TypeLot(models.Model):
     _name = 'syndic.type_lot'
@@ -113,14 +77,16 @@ class Quotitee(models.Model):
     @api.onchange('type_id')
     def _onchange_quotity(self):
         values = [(6, 0, [])]
-        for lot in self.building_id.lot_ids.filtered(lambda s: s.display_type == False):
+        lot_ids = self.building_id.lot_ids.filtered(lambda s: s.display_type == False)
+        lots = self.env['syndic.lot'].browse(lot_ids.ids)
+        for lot in lots:
             values.append([
                 0,
                 0,
                 {
                     'lot_id': lot.id,
                     'lot_owner_ids': [
-                        (6, 0, lot.owner_ids.ids),
+                        (6, 0, lot.owner_id.ids),
                     ],
                     'value': lot.quotity
                 }
@@ -143,7 +109,6 @@ class QuotityLine(models.Model):
     def _onchange_lot_id(self):
         self.lot_owner_ids = self.lot_id.owner_ids
 
-    @api.multi
     def write(self, values):
         for quotity_line in self:
             if values.get('value'):

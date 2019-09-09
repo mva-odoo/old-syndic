@@ -15,6 +15,6 @@
     <record model="syndic.lot" id="syndic_gemini_lot1">
         <field name="name">Lot A1</field>
         <field name="building_id" ref="syndic_demo_building_gemini"/>
-        <field name="owner_ids" eval='[(4,ref("syndic_partner_gemini_owner"))]'/>
+        <field name="owner_id" ref="syndic_partner_gemini_owner"/>
     </record>
 </odoo>

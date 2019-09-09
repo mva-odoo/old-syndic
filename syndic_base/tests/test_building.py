@@ -52,7 +52,7 @@ class TestEventFlow(TestSyndicCommon):
         vals = {
             'name': 'A1',
             'building_id': self.gemini,
-            'owner_ids': [(6, 0, [self.env['res.users'].browse(self.serge).partner_id.id])],
+            'owner_id': self.env['res.users'].browse(self.serge).partner_id.id,
         }
         with self.assertRaises(AccessError):
             self.Lot.sudo(self.serge).create(vals)
@@ -72,7 +72,7 @@ class TestEventFlow(TestSyndicCommon):
         })
         mutation.mutation()
 
-        self.assertIn('New Owner', self.env['syndic.lot'].browse(self.A1).owner_ids.mapped('name'))
+        self.assertIn('New Owner', self.env['syndic.lot'].browse(self.A1).owner_id.name)
         sgimmo = self.env['res.partner'].browse(self.sgimmo)
         self.assertTrue(sgimmo.is_old)
         self.assertFalse(sgimmo.is_proprietaire)

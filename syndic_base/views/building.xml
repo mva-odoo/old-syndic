@@ -88,8 +88,7 @@
                     <notebook colspan="4">
                         <page string="Lot" name="lot">
                             <field name="lot_ids" attrs="{'readonly': [('is_lock', '=', True)]}" widget="section_and_note_one2many">
-                                <!-- <tree editable="top"> -->
-                                <tree>
+                                <tree editable="top">
                                     <control>
                                         <create string="Ajouter un Lot"/>
                                         <create string="Ajouter un étage" context="{'default_display_type': 'line_section'}"/>
@@ -97,7 +96,7 @@
                                     <field name="display_type" invisible="1"/>
                                     <field name="sequence" widget="handle"/>
                                     <field name="name" widget="section_and_note_text"/>
-                                    <field name="owner_id"/>
+                                    <field name="owner_id" context="{'form_view_ref': 'syndic_base.form_proprietaire'}"/>
                                     <field name="loaner_ids" widget="many2many_tags"/>
                                     <field name="quotity"/>
                                     <field name="type_id"/>
@@ -110,9 +109,7 @@
                                     </group>
                                     <group attrs="{'invisible': [('display_type', '!=', False)]}">
                                         <group>
-                                            <field name="owner_id"/>
-                                            <field name="is_undivision"/>
-                                            <field name="owner_ids" widget="many2many_tags" attrs="{'readonly': [('is_undivision', '=', False)]}"/>
+                                            <field name="owner_id" context="{'form_view_ref': 'syndic_base.form_proprietaire'}"/>
                                             <field name="loaner_ids" widget="many2many_tags"/>
                                         </group>
                                         <group>
@@ -186,7 +183,6 @@
         <field name="name">Immeubles</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">syndic.building</field>
-        <field name="view_type">form</field>
         <field name="view_mode">tree,form,graph,pivot</field>
         <field name="view_id" ref="tree_building" />
         <field name="search_view_id" ref="search_building"/>

@@ -77,7 +77,6 @@ class CreateLetter(models.Model):
 
     mail_ids = fields.One2many('mail.mail', 'letter_id', 'Emails')
 
-    @api.multi
     @api.depends('send_ids')
     def _get_send_type(self):
         for letter in self:
@@ -92,13 +91,11 @@ class CreateLetter(models.Model):
         for send_type in self.send_ids:
             self.letter_model_id = send_type.model_id
 
-    @api.multi
     @api.depends('propr_ids', 'fourn_ids', 'divers_ids', 'loc_ids')
     def _get_all_partner(self):
         for letter in self:
             letter.all_partner_ids = letter.propr_ids | letter.fourn_ids | letter.loc_ids | letter.divers_ids
 
-    @api.multi
     def save_template(self):
         return {
             'name': 'Sauver comme modèle',
@@ -175,7 +172,7 @@ class CreateLetter(models.Model):
 
     @api.onchange('immeuble_id', 'all_immeuble')
     def onchange_immeuble(self):
-        self.propr_ids = self.immeuble_id.mapped('lot_ids.owner_ids') if self.all_immeuble else self.env['res.partner']
+        self.propr_ids = self.immeuble_id.mapped('lot_ids.owner_id') if self.all_immeuble else self.env['res.partner']
 
     @api.onchange('letter_model_id')
     def onchange_letter(self):

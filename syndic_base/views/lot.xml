@@ -7,7 +7,7 @@
 				<search string="Lot">
                     <field name="name"/>
                     <field name="building_id"/>
-                    <field name="owner_ids"/>
+                    <field name="owner_id"/>
                     <field name="loaner_ids"/>
                     <group expand="0" string="Group By...">
 						<filter string="Immeuble" domain="[]" name="group_immeuble" context="{'group_by':'building_id'}"/>
@@ -23,7 +23,7 @@
 				<tree string="Lot">
                     <field name="name"/>
                     <field name="building_id"/>
-                    <field name="owner_ids" widget="many2many_tags"/>
+                    <field name="owner_id"/>
                     <field name="loaner_ids"  widget="many2many_tags"/>
                     <field name="type_id"/>
 				</tree>
@@ -40,8 +40,6 @@
 							<field name="name"/>
 							<field name="building_id"/>
 							<field name="owner_id"/>
-							<field name="is_undivision"/>
-							<field name="owner_ids" widget="many2many_tags"/>
 							<field name="loaner_ids"  widget="many2many_tags"/>
 							<field name="quotity"/>
 							<field name="type_id"/>
@@ -59,7 +57,6 @@
 			<field name="name">Lots</field>
 			<field name="type">ir.actions.act_window</field>
 			<field name="res_model">syndic.lot</field>
-			<field name="view_type">form</field>
 			<field name="view_mode">tree,form</field>
 		</record>
 

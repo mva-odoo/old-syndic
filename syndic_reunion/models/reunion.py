@@ -15,6 +15,9 @@ class ReunionListePresence(models.Model):
     owner_id = fields.Many2one('res.partner', 'Représenté par', domain="[('is_proprietaire', '=', True)]")
     description = fields.Char('Description')
 
+    def set_present(self):
+        self.ensure_one()
+        self.is_present = False if self.is_present else True
 
 class LetterReunion(models.Model):
     _name = 'letter.reunion'
@@ -38,6 +41,36 @@ class LetterReunion(models.Model):
 
     list_ids = fields.One2many('letter.reunion.list', 'reunion_id', 'Liste de présence')
 
+    state = fields.Selection(
+        [
+            ('draft', 'Ouvert'),
+            ('list', 'Liste de Présence'),
+            ('busy', 'En cours'),
+            ('end', 'Cloturé')
+        ], 'State', default="draft")
+
+    def set_list(self):
+        self.ensure_one()
+        self.state = 'list'
+
+    def set_busy(self):
+        self.ensure_one()
+        self.state = 'busy'
+
+    def set_end(self):
+        self.ensure_one()
+        self.state = 'end'
+
+    def open_points(self):
+        action = self.env.ref('syndic_reunion.rapport_point').read()[0]
+        action['domain'] = [('id', 'in', self.point_ids.ids)]
+        return action
+
+    def open_list(self):
+        action = self.env.ref('syndic_reunion.rapport_presence_list').read()[0]
+        action['domain'] = [('id', 'in', self.list_ids.ids)]
+        return action
+
     def _get_name(self):
         for reunion in self:
             reunion.name = '%s %s %s' % (reunion.type_id.name, reunion.immeuble_id.name, reunion.date_fr)
@@ -48,7 +81,7 @@ class LetterReunion(models.Model):
             total = sum(reunion.immeuble_id.lot_ids.mapped('quotity'))
             lots = reunion.immeuble_id.lot_ids & reunion.owner_ids.mapped('lot_ids')
             partial = sum(lots.mapped('quotity'))
-            
+
             reunion.present_quotity = partial
             reunion.percentage_quotity_present = (partial/total)*100 if total else 0.00
 
@@ -64,7 +97,7 @@ class LetterReunion(models.Model):
     def _onchange_immeuble(self):
         owners = self.immeuble_id.lot_ids.mapped('owner_id')
         self.owner_ids = owners
-        
+
         list_ids = [(6, 0, [])]
         for partner in owners:
             list_ids.append((0, 0, {'partner_id': partner.id}))
@@ -95,11 +128,16 @@ class ReunionPoint(models.Model):
     _description = 'reunion.point'
     _order = 'sequence'
 
+    @api.model
+    def _get_reunion_id(self):
+        if self._context and self._context.get('active_id'):
+            return self._context.get('active_id')
+
     name = fields.Char('Point', required=True)
     sequence = fields.Integer(u'Numéros de point')
-    reunion_id = fields.Many2one('letter.reunion', 'Reunion')
+    reunion_id = fields.Many2one('letter.reunion', 'Reunion', default=lambda s: s._get_reunion_id())
     descriptif = fields.Html('Description')
-    
+
     quotity_id = fields.Many2one('syndic.quotite', string='Quotitée')
 
     acceptation_percentage = fields.Selection([
@@ -109,12 +147,17 @@ class ReunionPoint(models.Model):
         ('100', '100%'),
     ])
 
+    is_vote = fields.Boolean('Est à voter')
     vote_ids = fields.One2many('syndic.vote', 'point_id', 'Votes')
 
     ok_vote = fields.Float('Vote OK', compute="_get_vote")
     final_vote = fields.Boolean('Vote final', compute="_get_final_vote")
 
     task_ids = fields.Many2many('syndic.claim', string="Tasks")
+
+    def set_is_vote(self):
+        self.ensure_one()
+        self.is_vote = True
 
     @api.depends('vote_ids')
     def _get_vote(self):
@@ -187,6 +230,18 @@ class VotePerson(models.Model):
         ('nok', 'Not ok'),
         ('abstention', 'Abstention'),
     ], 'Vote')
+
+    def set_is_ok(self):
+        self.ensure_one()
+        self.vote = 'ok'
+
+    def set_is_abstention(self):
+            self.ensure_one()
+            self.vote = 'abstention'
+
+    def set_is_nok(self):
+            self.ensure_one()
+            self.vote = 'nok'
 
     @api.depends('value')
     def _get_quotity_percentage(self):

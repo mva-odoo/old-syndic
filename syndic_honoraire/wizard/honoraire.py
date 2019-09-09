@@ -15,8 +15,6 @@ class SuiviFacture(models.TransientModel):
     year_id = fields.Many2one('syndic.honoraire.year', u'Année', required=True)
     date = fields.Date('Date', default=lambda *a: fields.date.today(), required=True)
 
-
-    @api.multi
     def invoice_generate(self):
         self.ensure_one()
         invoices = self.env['account.invoice']

@@ -23,14 +23,12 @@ class Base(models.AbstractModel):
                 sql = sql % ', '.join(set_clause)
                 self.env.cr.execute(sql, tuple(values))
 
-    @api.multi
     def write(self, vals):
         vals_copy = copy(vals)
         res = super(Base, self).write(vals)
         self._write_metada(vals_copy)
         return res
 
-    @api.model
     def create(self, vals):
         vals_copy = copy(vals)
         res = super(Base, self).create(vals)

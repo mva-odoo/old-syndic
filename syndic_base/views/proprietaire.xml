@@ -36,13 +36,35 @@
         <field name="mode">primary</field>
         <field name="inherit_id" ref="form_partner"/>
         <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']/../.." position="before">
+                <group>
+                    <field name="is_unindivision"/>
+                </group>
+            </xpath>
+
             <field name="name" position="after">
                 <field name="first_name"/>
                 <field name="owner_building_ids" widget="many2many_tags"/>
             </field>
+
             <field name="title" position="after">
                 <field name="convocation"/>
             </field>
+
+            <xpath expr="//group[@name='name']" position="attributes">
+                <attribute name="attrs">{'invisible': [('is_unindivision', '=', True)]}</attribute>
+            </xpath>
+
+            <xpath expr="//page[@name='contact']" position="attributes">
+                <attribute name="attrs">{'invisible': [('is_unindivision', '=', True)]}</attribute>
+            </xpath>
+
+            <xpath expr="//page[@name='contact']" position="after">
+                <page string="Indivision" attrs="{'invisible': [('is_unindivision', '!=', True)]}">
+                    <field name="main_partner_id" />
+                    <field name="unindivision_ids" />
+                </page>
+            </xpath>
 
             <xpath expr="/form" position="attributes">
                 <attribute name="create">false</attribute>
@@ -54,7 +76,6 @@
         <field name="name">Propriétaires</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">res.partner</field>
-        <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
         <field name="search_view_id" ref="search_proprietaire"/>
         <field name="domain">[('is_proprietaire', '=', True)]</field>

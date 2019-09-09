@@ -3,18 +3,18 @@
 from odoo import api, fields, models
 
 _MONTH = [
-    (1, 'Janvier'),
-    (2, 'Fevrier'),
-    (3, 'Mars'),
-    (4, 'Avril'),
-    (5, 'Mai'),
-    (6, 'Juin'),
-    (7, 'Juillet'),
-    (8, 'Aout'),
-    (9, 'Septembre'),
-    (10, 'Octobre'),
-    (11, 'Novembre'),
-    (12, 'Decembre')
+    ('1', 'Janvier'),
+    ('2', 'Fevrier'),
+    ('3', 'Mars'),
+    ('4', 'Avril'),
+    ('5', 'Mai'),
+    ('6', 'Juin'),
+    ('7', 'Juillet'),
+    ('8', 'Aout'),
+    ('9', 'Septembre'),
+    ('10', 'Octobre'),
+    ('11', 'Novembre'),
+    ('12', 'Decembre')
 ]
 
 
@@ -25,8 +25,9 @@ class Immeuble(models.Model):
     _order = 'name asc'
 
     active = fields.Boolean(default=True)
-    company_id = fields.Many2one('res.company', string='Company',
-                                 required=True, ondelete="cascade", delegate=True)
+    company_id = fields.Many2one(
+        'res.company', string='Company',
+        required=True, ondelete="cascade", delegate=True)
 
     city_id = fields.Many2one('res.city', 'Ville')
 
@@ -42,8 +43,9 @@ class Immeuble(models.Model):
 
     note = fields.Text('Notes')
 
-    manager_id = fields.Many2one('res.users', 'Gestionaire',
-                                 domain="[('groups_id.name','in',['Syndic/Employe','Syndic/Manager'])]")
+    manager_id = fields.Many2one(
+        'res.users', 'Gestionaire',
+        domain="[('groups_id.name','in',['Syndic/Employe','Syndic/Manager'])]")
 
     is_lock = fields.Boolean('Bloquer')
 
@@ -52,16 +54,17 @@ class Immeuble(models.Model):
     date_mois = fields.Selection(_MONTH, 'Mois')
     date_quinzaine = fields.Selection([('1', '1'), ('2', '2')], 'Quinzaine')
 
-    supplier_ids = fields.One2many('res.partner.contractual',
-                                   'building_id',
-                                   'Corps de métier')
+    supplier_ids = fields.One2many(
+        'res.partner.contractual', 'building_id', 'Corps de métier')
 
     qutoty_ids = fields.One2many('syndic.quotite', 'building_id', string='Quotitée Principal')
 
     _sql_constraints = [
-        ('building_num_unique',
-         'UNIQUE(num)',
-         "Le numeros d'immeuble doit être unique"),
+        (
+            'building_num_unique',
+            'UNIQUE(num)',
+            "Le numeros d'immeuble doit être unique"
+            ),
     ]
 
     @api.model
@@ -74,7 +77,7 @@ class Immeuble(models.Model):
         vals['is_lock'] = True
         vals['parent_id'] = self.env.ref('base.main_company').id
         res = super(Immeuble, self).create(vals)
-        
+
         quotite = self.env['syndic.quotite'].create({
             'building_id': res.id,
             'type_id': self.env.ref('syndic_base.syndic_quotite_base').id
@@ -88,20 +91,17 @@ class Immeuble(models.Model):
             'domain': {'city_id': [('zipcode', '=', self.zip)]}
         }
 
-    @api.multi
     def toggle_active(self):
         self.ensure_one()
         self.active = False if self.active else True
 
-    @api.multi
     def toggle_lock(self):
         self.ensure_one()
         self.is_lock = False if self.is_lock else True
 
-    @api.multi
     def action_inhabitant(self):
         self.ensure_one()
-        owner = self.mapped('lot_ids').mapped('owner_ids')
+        owner = self.mapped('lot_ids').mapped('owner_id')
         loaner = self.mapped('lot_ids').mapped('loaner_ids')
         if self._context.get('inhabitant_type') == 'owner':
             action = self.env.ref('syndic_base.action_proprietaire').read()[0]
@@ -116,7 +116,6 @@ class Immeuble(models.Model):
 
         return action
 
-    @api.multi
     def action_lot(self):
         self.ensure_one()
         action = self.env.ref('syndic_base.action_lot').read()[0]
@@ -126,7 +125,7 @@ class Immeuble(models.Model):
     def _get_quotity(self):
         for building in self:
             building.lot_count = len(building.lot_ids)
-            building.owner_count = len(building.mapped('lot_ids.owner_ids'))
+            building.owner_count = len(building.mapped('lot_ids.owner_id'))
             building.loaner_count = len(building.mapped('lot_ids.loaner_ids'))
 
 
@@ -135,13 +134,13 @@ class Contractual(models.Model):
     _description = 'Contractual'
 
     is_contractual = fields.Boolean('Contractuelle')
-    partner_id = fields.Many2one('res.partner', 'Partner',
-                                 domain=[('supplier', '=', True)])
+    partner_id = fields.Many2one(
+        'res.partner', 'Partner',domain=[('supplier', '=', True)])
     building_id = fields.Many2one('syndic.building', 'Immeuble')
     partner_street = fields.Char(related='partner_id.street', string='Adresse')
     partner_zip = fields.Char(related='partner_id.zip', string='Code Postal')
-    partner_city_id = fields.Many2one(related='partner_id.city_id',
-                                      string='Ville')
+    partner_city_id = fields.Many2one(
+        related='partner_id.city_id', string='Ville')
     partner_phone = fields.Char(related='partner_id.phone', string='Téléphone')
     partner_email = fields.Char(related='partner_id.email', string='Email')
 

@@ -43,7 +43,6 @@ class Claim(models.Model):
     def onchange_color(self):
         self.color = self.importance
 
-    @api.multi
     def write(self, vals):
         for res in self:
             partners = res.owner_ids | res.supplier_ids | res.manager_id.partner_id

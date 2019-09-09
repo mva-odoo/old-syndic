@@ -22,8 +22,7 @@ class SyndicHonoraireYear(models.Model):
     index = fields.Float('Index')
 
     honoraire_ids = fields.One2many('syndic.honoraire', 'year_id', string='Honoraires')
-    
-    @api.multi
+
     def set_index(self):
         for year in self:
             old_year = self.search([('id', '!=', year.id)], limit=1, order='id desc')

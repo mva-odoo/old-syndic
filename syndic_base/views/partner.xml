@@ -74,13 +74,17 @@
                         </button>
                     </div>
 
-                    <group colspan="4" col="4">
-                        <field name="name" colspan="2"/>
-                        <field name="title" colspan="2" string="Titre"/>
+                    <group name="name">
+                        <group>
+                            <field name="name"/>
+                        </group>
+                        <group>
+                            <field name="title" string="Titre"/>
+                        </group>
                     </group>
                     <notebook colspan="4">
                         <page string="Contact" name="contact">
-                            <group>
+                            <group name="address">
                                 <group string="Adresse">
                                     <field name="street"/>
                                     <field name="zip"/>
@@ -97,8 +101,9 @@
                             </group>
 
                             <group string="Autres contacts">
-                            <field name="child_ids" mode="kanban" nolabel="1">
-                                <kanban>
+                            <field name="child_ids" nolabel="1">
+                            <!-- <field name="child_ids" mode="kanban" nolabel="1"> -->
+                                <!-- <kanban>
                                     <field name="id"/>
                                     <field name="color"/>
                                     <field name="name"/>
@@ -119,7 +124,6 @@
                                     <field name="state_id"/>
                                     <field name="image_small"/>
                                     <field name="lang"/>
-                                    <!-- fields in form x2many view to diminish requests -->
                                     <field name="comment"/>
                                     <field name="customer"/>
                                     <field name="display_name"/>
@@ -164,7 +168,23 @@
                                             </div>
                                         </t>
                                     </templates>
-                                </kanban>
+                                </kanban> -->
+
+                                <tree editable="top">
+                                    <field name="name"/>
+                                    <field name="email"/>
+                                    <field name="phone"/>
+                                    <field name="street"/>
+                                    <field name="street2"/>
+                                    <field name="zip"/>
+                                    <field name="city_id"/>
+                                    <field name="country_id"/>
+                                    <field name="mobile"/>
+                                    <field name="fax"/>
+                                    <field name="state_id"/>
+                                    <field name="is_letter"/>
+                                    <field name="is_email"/>
+                                </tree>
                                 <form>
                                     <group colspan="4" col="4">
                                         <field name="name" colspan="2"/>
@@ -213,7 +233,6 @@
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">res.partner</field>
         <field name="domain">[]</field>
-        <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
     </record>
 
@@ -222,7 +241,6 @@
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">res.partner</field>
         <field name="domain">[('is_old', '=', True)]</field>
-        <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
     </record>
 
