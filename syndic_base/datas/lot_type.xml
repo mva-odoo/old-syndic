@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <data>
+        <record id="type_lot_cave" model="syndic.type_lot">
+            <field name="name">Cave</field>
+        </record>
+
+        <record id="type_lot_appartement" model="syndic.type_lot">
+            <field name="name">Appartement</field>
+        </record>
+
+        <record id="type_lot_cahmbrebonne" model="syndic.type_lot">
+            <field name="name">Chambre de bonne</field>
+        </record>
+        
+        <record id="type_lot_garage" model="syndic.type_lot">
+            <field name="name">Garage</field>
+        </record>
+    </data>
+    
+</odoo>

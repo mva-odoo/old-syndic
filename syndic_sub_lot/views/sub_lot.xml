@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record model="ir.ui.view" id="form_sublot">
+        <field name="name">Syndic Form Sub Lot</field>
+        <field name="model">syndic.lot</field>
+        <field name="inherit_id" ref="syndic_base.form_lot"/>
+        <field name="arch" type="xml">
+            <field name="loaner_ids" position="after">
+                <field name="parent_id"/>
+                <field name="child_ids"/>
+            </field>
+        </field>
+    </record>
+</odoo>

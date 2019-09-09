@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <data>
+        <!-- syndic.claim inherit form view -->
+        <record id="inherit_syndic_task" model="ir.ui.view">
+            <field name="name">syndic.claim.inherit.view.form</field>
+            <field name="model">syndic.claim</field>
+            <field name="inherit_id" ref="syndic_claim.form_claim"/>
+            <field name="arch" type="xml">
+               <xpath expr="//header" position="inside">
+                    <button string="Créer un Courrier" type="object" name="open_letter"/>
+               </xpath>
+               <xpath expr="//page[@name='description']" position="after">
+                    <page string="Lettres">
+                        <group>
+                            <field name="letter_ids"/>
+                        </group>
+                    </page>
+               </xpath>
+               <xpath expr="//field[@name='message_ids']" position="replace">
+                <field name="all_message_ids" widget="mail_thread" options="{'display_log_button': true}"/>
+               </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>
+

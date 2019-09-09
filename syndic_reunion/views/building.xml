@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <data>
+        <!-- syndic.building inherit form view -->
+        <record id="reunion_building_form" model="ir.ui.view">
+            <field name="name">reunion.syndic.building.inherit.view.form</field>
+            <field name="model">syndic.building</field>
+            <field name="inherit_id" ref="syndic_base.form_building"/>
+            <field name="arch" type="xml">
+                <xpath expr="//page[@name='comptabilite']" position="after">
+                    <page string="Reunions" name="reunions">
+                        <field name="reunion_ids" readonly="1">
+                            <tree>
+                                <field name="name"/>
+                                <field name="type_id"/>
+                                <field name="date"/>
+                            </tree>
+                        </field>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

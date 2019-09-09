@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+		<!--search -->
+		<record model="ir.ui.view" id="search_doc">
+			<field name="name">Claim search</field>
+			<field name="model">syndic.documents</field>
+			<field name="type">search</field>
+			<field name="arch" type="xml">
+				<search string="document">
+                    <field name="nom_document" />
+					<field name="proprio_ids" />
+                    <field name="type_id" />
+					<filter name="group_by_immeuble" string="Immeuble" context="{'group_by':'immeuble_id'}"/>
+				</search>
+			</field>
+		</record>
+
+		<!--tree view -->
+		<record model="ir.ui.view" id="tree_doc">
+			<field name="name">Claim tree view</field>
+			<field name="model">syndic.documents</field>
+			<field name="type">tree</field>
+			<field name="arch" type="xml">
+				<tree string="document">
+					<field name="create_date" />
+					<field name="nom_document" />
+					<field name="immeuble_id" />
+                    <field name="type_id" />
+                </tree>
+			</field>
+		</record>
+
+
+		<!--form -->
+		<record model="ir.ui.view" id="form_doc">
+			<field name="name">Claim form view</field>
+			<field name="model">syndic.documents</field>
+			<field name="type">form</field>
+			<field name="arch" type="xml">
+				<form string="claim" layout="manual" version="7.0">
+					<sheet string="Sales Order" layout="auto">
+						<group col="4" colspan="4">
+							<field name="nom_document" colspan="2"/>
+							<field name="document" colspan="2" filename="datas_fname"/>
+                            <field name="datas_fname" invisible="1"/>
+                            <field name="immeuble_id" />
+                            <field name="type_id" />
+                            <field name="all_document" />
+							<separator string="Propriétaire" colspan="4" groups="syndic_base.syndic_employe,syndic_base.syndic_manager"/>
+							<field name="proprio_ids" colspan="4" nolabel="1" groups="syndic_base.syndic_employe,syndic_base.syndic_manager">
+                                <tree>
+                                    <field name="name"/>
+                                </tree>
+                            </field>
+						</group>
+					</sheet>
+				</form>
+			</field>
+		</record>
+
+		<!--action -->
+		<record model="ir.actions.act_window" id="action_syndic_document">
+			<field name="name">documents</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">syndic.documents</field>
+			<field name="view_mode">tree,form</field>
+			<field name="context" eval="{'search_default_group_by_immeuble': 1}"/>
+ 		</record>
+
+
+		<!--menu -->
+		<menuitem name="Documents" id="menu_sub_docu" parent="syndic_base.master_syndic" sequence="70"/>
+		<menuitem name="Documents" id="menu_action_docu" parent="menu_sub_docu" action="action_syndic_document"/>
+
+	</data>
+</openerp>

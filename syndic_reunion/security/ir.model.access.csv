@@ -1,0 +1,15 @@
+"id","name","model_id:id","group_id:id","perm_read","perm_write","perm_create","perm_unlink"
+"syndic_reunion","syndic reunion","model_letter_reunion","syndic_base.syndic_manager",1,1,1,1
+"syndic_reunion_point","syndic point reunion","model_reunion_point","syndic_base.syndic_manager",1,1,1,1
+"syndic_reunion_employe","syndic reunion","model_letter_reunion","syndic_base.syndic_employe",1,1,1,0
+"syndic_reunion_point_employe","syndic point reunion","model_reunion_point","syndic_base.syndic_employe",1,1,1,0
+"syndic_reunion_type","syndic type reunion","model_reunion_type","syndic_base.syndic_employe",1,1,1,0
+"syndic_reunion_type_employe","syndic type reunion","model_reunion_type","syndic_base.syndic_manager",1,1,1,1
+"syndic_mail","syndic type reunion","mail.model_mail_mail","syndic_base.syndic_employe",1,1,1,0
+"syndic_mail_employe","syndic type reunion","mail.model_mail_mail","syndic_base.syndic_manager",1,1,1,1
+"syndic_mail_message","syndic type reunion","mail.model_mail_message","syndic_base.syndic_employe",1,1,1,0
+"syndic_mail_message_employe","syndic type reunion","mail.model_mail_message","syndic_base.syndic_manager",1,1,1,1
+"syndic_mail_serveur_employe","syndic type reunion","base.model_ir_mail_server","syndic_base.syndic_employe",1,1,1,0
+"syndic_mail_serveur_manager","syndic type reunion","base.model_ir_mail_server","syndic_base.syndic_manager",1,1,1,1
+access_syndic_vote,access_syndic_vote,model_syndic_vote,syndic_base.syndic_employe,1,1,1,1 
+access_syndic_list_presence,access_syndic_list_presence,model_letter_reunion_list,syndic_base.syndic_employe,1,1,1,1 

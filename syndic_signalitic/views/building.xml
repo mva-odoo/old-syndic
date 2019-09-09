@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record model="ir.ui.view" id="building_fiche_signalitic">
+        <field name="name">Syndic immeuble fiche signalitic</field>
+        <field name="model">syndic.building</field>
+        <field name="inherit_id" ref="syndic_base.form_building"/>
+        <field name="arch" type="xml">
+            <page name="comptabilite" position="after">
+              <page string="Informations" name="acte_base">
+                <group string="Acte de base">
+                  <field name="acte_de_base_ids" widget="section_and_note_one2many" nolabel="1">
+                    <tree editable="bottom">
+                      <control>
+                          <create string="Ajouter une description"/>
+                          <create string="ajouter une section" context="{'default_display_type': 'line_section'}"/>
+                          <create string="Add a note" context="{'default_display_type': 'line_note'}"/>
+                      </control>
+
+                      <field name="display_type" invisible="1"/>
+
+                      <field name="sequence" widget="handle"/>
+                      <field name="name" widget="section_and_note_text"/>
+                      <field name="date"/>
+                      <field name="note"/>
+                      <field name="type_id"/>
+                    </tree>
+                  </field>
+                </group>
+
+                <group string="Plan">
+                  <field name="plan_ids" widget="section_and_note_one2many" nolabel="1">
+                    <tree editable="bottom">
+                      <control>
+                          <create string="Ajouter une description"/>
+                          <create string="ajouter une section" context="{'default_display_type': 'line_section'}"/>
+                          <create string="Add a note" context="{'default_display_type': 'line_note'}"/>
+                      </control>
+
+                      <field name="display_type" invisible="1"/>
+
+                      <field name="sequence" widget="handle"/>
+                      <field name="name" widget="section_and_note_text"/>
+                      <field name="date"/>
+                      <field name="note"/>
+                      <field name="type_id"/>
+                    </tree>
+                  </field>
+                </group>
+
+                <group string="Permis">
+                  <field name="permis_ids" widget="section_and_note_one2many" nolabel="1">
+                    <tree editable="bottom">
+                      <control>
+                          <create string="Ajouter une description"/>
+                          <create string="ajouter une section" context="{'default_display_type': 'line_section'}"/>
+                          <create string="Add a note" context="{'default_display_type': 'line_note'}"/>
+                      </control>
+
+                      <field name="display_type" invisible="1"/>
+
+                      <field name="sequence" widget="handle"/>
+                      <field name="name" widget="section_and_note_text"/>
+                      <field name="date"/>
+                      <field name="note"/>
+                      <field name="type_id"/>
+                    </tree>
+                  </field>
+                  </group>
+
+                  <group string="Cléfs">
+                    <field name="cle_ids" widget="section_and_note_one2many" nolabel="1">
+                      <tree editable="bottom">
+                        <control>
+                            <create string="Ajouter une description"/>
+                            <create string="ajouter une section" context="{'default_display_type': 'line_section'}"/>
+                            <create string="Add a note" context="{'default_display_type': 'line_note'}"/>
+                        </control>
+
+                        <field name="display_type" invisible="1"/>
+
+                        <field name="sequence" widget="handle"/>
+                        <field name="name" widget="section_and_note_text"/>
+                        <field name="date"/>
+                        <field name="note"/>
+                        <field name="type_id"/>
+                      </tree>
+                    </field>
+                    </group>
+
+                    <group string="Dossier d’interventions ultérieures (DIU)">
+                      <field name="diu_ids" widget="section_and_note_one2many" nolabel="1">
+                        <tree editable="bottom">
+                          <control>
+                              <create string="Ajouter une description"/>
+                              <create string="ajouter une section" context="{'default_display_type': 'line_section'}"/>
+                              <create string="Add a note" context="{'default_display_type': 'line_note'}"/>
+                          </control>
+
+                          <field name="display_type" invisible="1"/>
+
+                          <field name="sequence" widget="handle"/>
+                          <field name="name" widget="section_and_note_text"/>
+                          <field name="date"/>
+                          <field name="note"/>
+                          <field name="type_id"/>
+                        </tree>
+                      </field>
+                      </group>
+                </page>
+                <page string="Contras" name="acte_base">
+                  <group string="Contrats de prestations réguliers">
+                    <field name="contrat_prestation_ids" widget="section_and_note_one2many" nolabel="1">
+                      <tree editable="bottom">
+                        <control>
+                            <create string="Ajouter une description"/>
+                            <create string="ajouter une section" context="{'default_display_type': 'line_section'}"/>
+                            <create string="Add a note" context="{'default_display_type': 'line_note'}"/>
+                        </control>
+
+                        <field name="display_type" invisible="1"/>
+
+                        <field name="sequence" widget="handle"/>
+                        <field name="name" widget="section_and_note_text"/>
+                        <field name="date"/>
+                        <field name="note"/>
+                        <field name="type_id"/>
+                      </tree>
+                    </field>
+                  </group>
+                  <group string="Contrats de fournitures régulières">
+                    <field name="contrat_fournitures_ids" widget="section_and_note_one2many" nolabel="1">
+                      <tree editable="bottom">
+                        <control>
+                            <create string="Ajouter une description"/>
+                            <create string="ajouter une section" context="{'default_display_type': 'line_section'}"/>
+                            <create string="Add a note" context="{'default_display_type': 'line_note'}"/>
+                        </control>
+
+                        <field name="display_type" invisible="1"/>
+
+                        <field name="sequence" widget="handle"/>
+                        <field name="name" widget="section_and_note_text"/>
+                        <field name="date"/>
+                        <field name="note"/>
+                        <field name="type_id"/>
+                      </tree>
+                    </field>
+                  </group>
+                  <group string="Contrats de recettes de la copropriété">
+                    <field name="contrat_recettes_ids" widget="section_and_note_one2many" nolabel="1">
+                      <tree editable="bottom">
+                        <control>
+                            <create string="Ajouter une description"/>
+                            <create string="ajouter une section" context="{'default_display_type': 'line_section'}"/>
+                            <create string="Add a note" context="{'default_display_type': 'line_note'}"/>
+                        </control>
+
+                        <field name="display_type" invisible="1"/>
+
+                        <field name="sequence" widget="handle"/>
+                        <field name="name" widget="section_and_note_text"/>
+                        <field name="date"/>
+                        <field name="note"/>
+                        <field name="type_id"/>
+                      </tree>
+                    </field>
+                  </group>
+                </page>
+              </page>
+          </field>
+    </record>
+</odoo>

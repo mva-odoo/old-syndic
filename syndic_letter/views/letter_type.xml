@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="form_send_type">
+            <field name="name">Send type form view</field>
+            <field name="model">letter.send</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group>
+                        <field name="name"/>
+                        <field name="is_email"/>
+                        <field name="is_papper"/>
+                        <field name="action_id" domain="[('model', '=', 'letter.letter')]" options="{'no_create': True}"/>
+                        <field name="mail_templale_id" domain="[('model_id', '=', 'letter.letter')]"/>
+                        <field name="mycontext"/>
+                        <field name="model_id"/>
+                    </group>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="action_send_type">
+            <field name="name">Send Type</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">letter.send</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem name="Type Envois" id="menu_send_type_letter" parent="menu_configuration_letter" action="action_send_type" sequence="7"/>
+    </data>
+</odoo>

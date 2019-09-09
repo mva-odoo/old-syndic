@@ -1,0 +1,26 @@
+"id","name","model_id:id","group_id:id","perm_read","perm_write","perm_create","perm_unlink"
+"syndic_building","syndic immeuble","model_syndic_building","syndic_manager",1,1,1,1
+"syndic_building_employe","syndic immeuble","model_syndic_building","syndic_employe",1,1,1,0
+"syndic_building_client","syndic client immeuble","model_syndic_building","syndic_client",1,0,0,0
+"syndic_lot","syndic lot","model_syndic_lot","syndic_manager",1,1,1,1
+"syndic_lot_employe","syndic lot","model_syndic_lot","syndic_employe",1,1,1,0
+"syndic_lot_client","syndic lot client","model_syndic_lot","syndic_client",1,0,0,0
+"syndic_type_lot","syndic type lot","model_syndic_type_lot","syndic_manager",1,1,1,1
+"syndic_type_lot_employe","syndic type lot","model_syndic_type_lot","syndic_employe",1,1,1,0
+"syndic_mutation","syndic mutation","model_syndic_mutation","syndic_manager",1,1,1,1
+"syndic_mutation_employe","syndic mutation","model_syndic_mutation","syndic_employe",1,1,1,0
+"syndic_res_partner_job_employe","syndic res_partner_job","model_res_partner_job","syndic_employe",1,1,1,1
+"syndic_city","syndic city","base_address_city.model_res_city","syndic_manager",1,1,1,1
+"syndic_city_employe","syndic city","base_address_city.model_res_city","syndic_employe",1,0,1,0
+syndic_contractual_employe","syndic repeir_general","model_res_partner_contractual","syndic_base.syndic_employe",1,1,1,1
+syndic_res_partner_employe","syndic res partner","base.model_res_partner","syndic_base.syndic_employe",1,1,1,0
+syndic_res_partner","syndic res partner","base.model_res_partner","syndic_base.syndic_manager",1,1,1,1
+syndic_res_user_employe","syndic res user","base.model_res_users","syndic_base.syndic_employe",1,1,1,0
+syndic_res_user","syndic res user","base.model_res_users","syndic_base.syndic_manager",1,1,1,0
+syndic_res_company_employe","syndic res company","base.model_res_company","syndic_base.syndic_employe",1,1,1,0
+syndic_res_company","syndic res company","base.model_res_company","syndic_base.syndic_manager",1,1,1,1
+syndic_ir_property_employe","syndic syndic_ir_property","base.model_ir_property","syndic_base.syndic_employe",1,1,1,0
+syndic_syndic_ir_property","syndic syndic_ir_property","base.model_ir_property","syndic_base.syndic_manager",1,1,1,1
+syndic_syndic_quotity","syndic syndic_quotity","model_syndic_quotite","syndic_base.syndic_employe",1,1,1,1
+syndic_syndic_quotity_type","syndic syndic_quotity type","model_syndic_quotite_type","syndic_base.syndic_employe",1,1,1,1
+syndic_syndic_quotity_line","syndic syndic_quotity line","model_syndic_quotite_line","syndic_base.syndic_employe",1,1,1,1

@@ -1,0 +1,22 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <data>
+        <!-- letter.letter inherit form view -->
+        <record id="inherit_syndic_letter" model="ir.ui.view">
+            <field name="name">letter.letter.inherit.view.form</field>
+            <field name="model">letter.letter</field>
+            <field name="inherit_id" ref="syndic_letter.form_new_letter"/>
+            <field name="arch" type="xml">
+               <xpath expr="//page[@name='options']" position="after">
+                    <page string="Tache">
+                        <group>
+                            <field name="task_id"/>
+                            <button name="action_send_mail" string="Send Quotation" type="object"/>
+                        </group>
+                    </page>
+               </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>
+

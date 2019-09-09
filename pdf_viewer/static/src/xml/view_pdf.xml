@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="PDFViewer">
+
+        <div style="height:99%;width:100%;">
+            <t t-if="widget.url">
+                <embed t-attf-src="{{ widget.url }}" type="application/pdf" width="100%" height="100%"/>
+            </t>
+        </div>
+    </t>
+</templates>

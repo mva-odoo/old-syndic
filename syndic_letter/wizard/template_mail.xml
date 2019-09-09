@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <record model="ir.ui.view" id="syndic_mail_model_form">
+      <field name="name">Syndic Mail model</field>
+      <field name="model">syndic.template.mail</field>
+      <field name="arch" type="xml">
+          <form>
+            <group>
+              <field name='name'/>
+            </group>
+            <field name='body_html'/>
+            <footer>
+              <button name='save_template' type='object' string='Sauver'/>
+            </footer>
+          </form>
+      </field>
+    </record>
+</odoo>

@@ -1,0 +1,8 @@
+<odoo>
+    <data noupdate="1">
+        <function
+            id="index_year_0"
+            model="syndic.building"
+            name="_get_first_year"/>
+    </data>
+</odoo>

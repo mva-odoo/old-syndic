@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<!--search -->
+    <record model="ir.ui.view" id="search_gestion_privative">
+        <field name="name">Gestion Privative search</field>
+        <field name="model">syndic.gestion.privative</field>
+        <field name="type">search</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+            </search>
+        </field>
+    </record>
+
+    <!--tree view -->
+    <record model="ir.ui.view" id="tree_gestion_privative">
+        <field name="name">Gestion Privative tree view</field>
+        <field name="model">syndic.gestion.privative</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+
+
+    <record model="ir.ui.view" id="form_gestion_privative">
+        <field name="name">Gestion Privative form view</field>
+        <field name="model">syndic.gestion.privative</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <group>
+                        <field name="name"/>
+                        <field name="num"/>
+                    </group>
+                    <group>
+                        <field name="partner_id"/>
+                        <field name="bank_account_id"/>
+                    </group>
+                </group>
+                <notebook>
+                  <page string="Lots" name="lots">
+                    <field name="lot_ids">
+                        <tree editable="bottom">
+                            <field name="name"/>
+                            <field name="loaner_ids" widget="many2many_tags"/>
+                            <field name="building_id"/>
+                        </tree>
+                    </field>
+                  </page>
+                  <page string="Comptabilite" name="comptabilite">
+                    <field name="bank_ids">
+                      <tree editable="top">
+                        <field name="acc_number"/>
+                        <field name="acc_type"/>
+                        <field name="bank_id"/>
+                      </tree>
+                    </field>
+                  </page>
+                </notebook>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="action_gestion_privative">
+        <field name="name">Gestion Privative</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">syndic.gestion.privative</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record model="ir.actions.act_window" id="action_gestion_privative_immeuble">
+        <field name="name">Immeuble Gestion Privative</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">syndic.building</field>
+        <field name="domain">[('lot_ids.gestion_id', '!=', False)]</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record model="ir.actions.act_window" id="syndic_base.action_building">
+        <field name="domain">['|', ('lot_ids.gestion_id', '=', False), ('lot_ids', '=', False)]</field>
+    </record>
+
+    <menuitem name="Gestion Privative" id="menu_gestion_privative"
+        web_icon="syndic_gestion_privative,static/description/icon.png"/>
+
+    <menuitem name="Gestion Privative" id="menu_gestion_privative_main"
+            parent="menu_gestion_privative"/>
+
+    <menuitem name="Gestion Privative" id="menu_gestion_privative_child"
+            parent="menu_gestion_privative_main"
+            sequence="10"
+            action="action_gestion_privative"/>
+
+    <menuitem name="Immeuble Gestion Privative" id="menu_immeuble_gestion_privative"
+        parent="menu_gestion_privative_main"
+        sequence="20"
+        action="action_gestion_privative_immeuble"/>
+</odoo>

@@ -1,0 +1,38 @@
+@media print{
+    .o_sub_menu{
+        display: none!important;
+    }
+    .o_content{
+        display: table-footer-group !important;
+    }
+}
+
+/* .o_list_view thead{
+    background: #7c7bad;
+    color: white;
+}
+.table thead th{
+    border-bottom: 0px;
+    border-top: 0px;
+}
+.nav-tabs .nav-link.active, .nav-tabs .nav-item.show .nav-link {
+    color: white;
+    background-color: #7c7bad;
+}
+.table-striped tbody tr:nth-of-type(odd) {
+    background: #ddddec;
+    color: black;
+}
+
+.o_field_widget.o_field_many2manytags .o_tag_color_0 {
+    background-color: white;
+    color: #7c7bad;
+    box-shadow: inset 0 0 0 2px #7c7bad;
+}
+.o_dropdown .dropdown-toggle:first-child {
+    color: white;
+    background: #7c7bad;
+}
+.o_searchview .o_searchview_more {
+    color: #7c7bad;
+} */
