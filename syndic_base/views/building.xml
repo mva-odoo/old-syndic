@@ -54,9 +54,6 @@
                                 context="{'inhabitant_type':'loaner'}">
                             <field string="Locataires" name="loaner_count" widget="statinfo"/>
                         </button>
-                        <button name="toggle_active" type="object" class="oe_stat_button" icon="fa-archive">
-                            <field name="active" widget="boolean_button" options='{"terminology": "active"}'/>
-                        </button>
                     </div>
                 <h1>
                     <field name="num" class="oe_inline" placeholder="Numéros d'immeuble"
@@ -85,10 +82,10 @@
                     </group>
 
                 </group>
-                    <notebook colspan="4">
+                    <notebook>
                         <page string="Lot" name="lot">
                             <field name="lot_ids" attrs="{'readonly': [('is_lock', '=', True)]}" widget="section_and_note_one2many">
-                                <tree editable="top">
+                                <tree editable="bottom">
                                     <control>
                                         <create string="Ajouter un Lot"/>
                                         <create string="Ajouter un étage" context="{'default_display_type': 'line_section'}"/>
@@ -101,29 +98,12 @@
                                     <field name="quotity"/>
                                     <field name="type_id"/>
                                 </tree>
-                                
-                                <form>
-                                    <group>
-                                        <field name="display_type" invisible="1"/>
-                                        <field name="name" widget="section_and_note_text"/>
-                                    </group>
-                                    <group attrs="{'invisible': [('display_type', '!=', False)]}">
-                                        <group>
-                                            <field name="owner_id" context="{'form_view_ref': 'syndic_base.form_proprietaire'}"/>
-                                            <field name="loaner_ids" widget="many2many_tags"/>
-                                        </group>
-                                        <group>
-                                            <field name="quotity"/>
-                                            <field name="type_id"/>
-                                        </group>
-                                    </group>
-                                </form>
 
                             </field>
                         </page>
                         <page string="Corps de métier" name="fiche_technique">
                             <field name="supplier_ids" attrs="{'readonly': [('is_lock', '=', True)]}">
-                                <tree editable="top">
+                                <tree editable="bottom">
                                     <field name="partner_id"
                                         context="{'default_supplier': True, 'form_view_ref': 'syndic_base.view_fournisseur_form'}"
                                         required="1"/>
@@ -158,7 +138,7 @@
                         <page string="Comptabilité" name="comptabilite">
                             <group string="Compte en Banque" name="bank">
                                 <field name="bank_ids" attrs="{'readonly': [('is_lock', '=', True)]}" nolabel="1">
-                                <tree editable="top">
+                                <tree editable="bottom">
                                     <field name="acc_number"/>
                                     <field name="acc_type"/>
                                     <field name="bank_id"/>

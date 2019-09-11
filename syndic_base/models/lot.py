@@ -40,8 +40,7 @@ class Lot(models.Model):
         ])
     type_id = fields.Many2one('syndic.type_lot', 'Type de lot')
     display_type = fields.Selection([
-        ('line_section', 'line_section'),
-        ('line_section', 'line_section'),
+        ('line_section', 'Section'),
     ], string='Display')
     sequence = fields.Integer(string='Sequence')
     quotity_ids = fields.Many2many('syndic.quotite', string='Quotitée')

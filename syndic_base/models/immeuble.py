@@ -91,10 +91,6 @@ class Immeuble(models.Model):
             'domain': {'city_id': [('zipcode', '=', self.zip)]}
         }
 
-    def toggle_active(self):
-        self.ensure_one()
-        self.active = False if self.active else True
-
     def toggle_lock(self):
         self.ensure_one()
         self.is_lock = False if self.is_lock else True
@@ -119,12 +115,12 @@ class Immeuble(models.Model):
     def action_lot(self):
         self.ensure_one()
         action = self.env.ref('syndic_base.action_lot').read()[0]
-        action['domain'] = [('id', '=', self.lot_ids.ids)]
+        action['domain'] = [('id', 'in', self.lot_ids.ids), ('display_type', '!=', 'line_section')]
         return action
 
     def _get_quotity(self):
         for building in self:
-            building.lot_count = len(building.lot_ids)
+            building.lot_count = len(building.lot_ids.filtered(lambda s: s.display_type != 'line_section'))
             building.owner_count = len(building.mapped('lot_ids.owner_id'))
             building.loaner_count = len(building.mapped('lot_ids.loaner_ids'))
 
@@ -135,7 +131,7 @@ class Contractual(models.Model):
 
     is_contractual = fields.Boolean('Contractuelle')
     partner_id = fields.Many2one(
-        'res.partner', 'Partner',domain=[('supplier', '=', True)])
+        'res.partner', 'Partner', domain=[('supplier', '=', True)])
     building_id = fields.Many2one('syndic.building', 'Immeuble')
     partner_street = fields.Char(related='partner_id.street', string='Adresse')
     partner_zip = fields.Char(related='partner_id.zip', string='Code Postal')

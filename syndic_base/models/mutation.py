@@ -27,7 +27,7 @@ class Mutation(models.Model):
     def onchange_old_owner(self):
         return {
             'domain': {
-                    'lot_ids': [('owner_ids', 'in', self.old_owner_ids.ids)]
+                    'lot_ids': [('owner_id', 'in', self.old_owner_ids.ids)]
                 }
         }
 
