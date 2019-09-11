@@ -107,7 +107,7 @@ class Partner(models.Model):
             del vals['company_id']
         return super().write(vals)
 
-    @api.depends('lot_ids', 'loaner_lot_ids', 'loaner_lot_ids.building_id.active', 'lot_ids.building_id.active', 'old_lot_ids')
+    @api.depends('lot_ids', 'loaner_lot_ids', 'loaner_lot_ids.building_id.active', 'lot_ids.building_id.active', 'old_lot_ids', 'lot_ids.owner_id')
     def _get_partner_type(self):
         for partner in self:
             if partner.lot_ids.filtered(lambda s: s.building_id.active):

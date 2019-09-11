@@ -15,7 +15,6 @@
         <field name="email">serge@test.com</field>
     </record>
 
-
     <record model="res.users" id="syndic_user_florence">
         <field name="name">Florence</field>
         <field name="login">florence@test.com</field>
@@ -32,10 +31,10 @@
         <field name="groups_id" eval="[(4, ref('syndic_base.syndic_employe')), (4, ref('base.group_user'))]"/>
     </record>
 
-     <record model="res.users" id="syndic_user_serge">
+    <record model="res.users" id="syndic_user_serge">
         <field name="name">Serge</field>
         <field name="login">serge@test.com</field>
-         <field name="password">serge</field>
+        <field name="password">serge</field>
         <field name="partner_id" ref="syndic_partner_serge"/>
         <field name="groups_id" eval="[(4, ref('syndic_base.syndic_client'))]"/>
     </record>

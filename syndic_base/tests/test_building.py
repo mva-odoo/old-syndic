@@ -67,7 +67,7 @@ class TestEventFlow(TestSyndicCommon):
         mutation = self.env['syndic.mutation'].create({
             'mutation_date': datetime.datetime.now(),
             'old_owner_ids': [(4, self.sgimmo)],
-            'new_owner_ids': [(0, 0, {'name': 'New Owner'})],
+            # 'new_owner_ids': [(0, 0, {'name': 'New Owner'})],
             'lot_ids': [(4, self.A1)],
         })
         mutation.mutation()
