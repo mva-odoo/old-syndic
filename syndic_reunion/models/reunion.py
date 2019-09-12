@@ -109,11 +109,11 @@ class LetterReunion(models.Model):
             }
         }
 
-    @api.one
     @api.depends('date')
     def _compute_date(self):
-        if self.date:
-            self.date_fr = SyndicTools().french_date(self.date)
+        for rec in self:
+            if rec.date:
+                rec.date_fr = SyndicTools().french_date(rec.date)
 
 
 class ReunionType(models.Model):

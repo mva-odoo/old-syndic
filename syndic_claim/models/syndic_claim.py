@@ -17,24 +17,33 @@ class Claim(models.Model):
     write_date = fields.Datetime(string='Update Date', readonly=True)
     create_uid = fields.Many2one('res.users', string="Createur", readonly=True)
     write_uid = fields.Many2one('res.users', string="Modifieur", readonly=True)
-    manager_id = fields.Many2one('res.users', string='Manager de la plainte',
-                                 domain=['!', ('groups_id.name', 'ilike', 'Syndic/Client')],
-                                 default=lambda self: self.env.uid)
-    
-    owner_ids = fields.Many2many('res.partner',
-                                 domain=[('is_proprietaire', '=', True)],
-                                 string=u'Propriétaires')
-    supplier_ids = fields.Many2many('res.partner',
-                                    domain=[('supplier', '=', True)],
-                                    string='Fournisseurs')
-   
+    manager_id = fields.Many2one(
+        'res.users', string='Manager de la plainte',
+        domain=['!', ('groups_id.name', 'ilike', 'Syndic/Client')],
+        default=lambda self: self.env.uid
+    )
+
+    owner_ids = fields.Many2many(
+        'res.partner',
+        'owner_claim_rel',
+        domain=[('is_proprietaire', '=', True)],
+        string=u'Propriétaires'
+    )
+    supplier_ids = fields.Many2many(
+        'res.partner',
+        'supplier_claim_rel',
+        domain=[('supplier', '=', True)],
+        string='Fournisseurs'
+    )
+
     claim_status_id = fields.Many2one('claim.status', string='Status de la plainte')
     building_id = fields.Many2one('syndic.building', 'Immeuble')
-    importance = fields.Selection([('0', 'pas important'),
-                                   ('1', 'important'),
-                                   ('2', 'tres important'),
-                                   ('3', 'ultra important')],
-                                  string='Importance')
+    importance = fields.Selection([
+        ('0', 'pas important'),
+        ('1', 'important'),
+        ('2', 'tres important'),
+        ('3', 'ultra important')
+        ], string='Importance')
     color = fields.Integer('Color')
 
     type_id = fields.Many2one('claim.type', 'Type')
@@ -143,8 +152,8 @@ class OffreContrats(models.Model):
     def onchange_acceptation(self):
         self.date_acceptation = date.today().strftime('%Y-%m-%d') if self.acceptation else False
 
-    @api.one
     def transform_bon_commande(self):
+        self.ensure_one()
         self.env['bon.commande'].create({
             'name': self.name,
             'immeuble_id': self.immeuble_id.id,

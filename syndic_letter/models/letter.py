@@ -140,11 +140,11 @@ class CreateLetter(models.Model):
 
             return send_type.action_id.with_context(multi_report=res).report_action(letter)
 
-    @api.one
     @api.depends('date')
     def _compute_date(self):
-        if self.date:
-            self.date_fr = SyndicTools().french_date(self.date)
+        for rec in self:
+            if rec.date:
+                rec.date_fr = SyndicTools().french_date(rec.date)
 
     @api.model
     def create(self, vals):

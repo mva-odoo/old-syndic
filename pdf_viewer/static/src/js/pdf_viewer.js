@@ -5,26 +5,30 @@ odoo.define('odoo.pdf_viewer', function (require) {
     var core = require('web.core');
     var framework = require('web.framework');
     var ActionManager = require('web.ActionManager');
-    var ControlPanelMixin = require('web.ControlPanelMixin');
+    // var ControlPanelMixin = require('web.ControlPanelMixin');
 
-    var Dashboard = AbstractAction.extend(ControlPanelMixin, {
+    // var Dashboard = AbstractAction.extend(ControlPanelMixin, {
+    var Dashboard = AbstractAction.extend({
         template: 'PDFViewer',
+        
         init: function(parent, action) {
-            this._super(parent);
-            this.url = '';
-            var context = action.context;
-
-            if ((typeof context.report !== "undefined") && (typeof context.active_id !== "undefined")){
-                if (typeof context.active_ids !== "undefined"){
-                    this.url = '/report/pdf/'+context.report+'/'+context.active_ids;
-                }
-                else{
-                   this.url = '/report/pdf/'+context.report+'/'+context.active_id;
-                }
+          // this._super(parent);
+          this.url = '';
+          var context = action.context;
+          
+          if ((typeof context.report !== "undefined") && (typeof context.active_id !== "undefined")){
+            if (typeof context.active_ids !== "undefined"){
+              this.url = '/report/pdf/'+context.report+'/'+context.active_ids;
             }
-
+            else{
+              this.url = '/report/pdf/'+context.report+'/'+context.active_id;
+            }
+          }
+          console.log(this.url)
+            
             if ((typeof context.multi_report !== "undefined") && (typeof context.active_id !== "undefined")){
               this.url = 'multi_report/'+context.multi_report+'/'+context.active_id;
+              
             }
         },
         start: function(){
@@ -34,15 +38,15 @@ odoo.define('odoo.pdf_viewer', function (require) {
 
         do_show: function () {
             this._super.apply(this, arguments);
-            this._updateControlPanel();
+            // this._updateControlPanel();
         },
 
         _updateControlPanel: function () {
-            this.update_control_panel({
-                cp_content: {
-                   $buttons: this.$buttons,
-                },
-            });
+            // this.update_control_panel({
+            //     cp_content: {
+            //       $buttons: this.$buttons,
+            //     },
+            // });
         },
 
     });

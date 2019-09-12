@@ -27,7 +27,7 @@ class Building(models.Model):
 
     def _get_count_invoice(self):
         for record in self:
-            record.count_invoice = self.sudo().env['account.invoice'].search_count([
+            record.count_invoice = self.sudo().env['account.move'].search_count([
                 ('partner_id', '=', record.company_id.partner_id.id)
             ])
 

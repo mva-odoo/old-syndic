@@ -17,7 +17,7 @@ class SuiviFacture(models.TransientModel):
 
     def invoice_generate(self):
         self.ensure_one()
-        invoices = self.env['account.invoice']
+        invoices = self.env['account.move']
 
         for immeuble in self.year_id.mapped('honoraire_ids.building_id'):
             frais = self.env['syndic.honoraire'].search([('year_id', '=', self.year_id.id), ('building_id', '=', immeuble.id)], limit=1)
@@ -45,7 +45,7 @@ class SuiviFacture(models.TransientModel):
             }
             
             if immeuble.is_merge:
-                invoices |= self.env['account.invoice'].create({
+                invoices |= self.env['account.move'].create({
                     'date': self.date,
                     'date_invoice': self.date,
                     'partner_id': immeuble.company_id.partner_id.id,
@@ -53,14 +53,14 @@ class SuiviFacture(models.TransientModel):
                 })
 
             else:
-                invoices |= self.env['account.invoice'].create({
+                invoices |= self.env['account.move'].create({
                     'date': self.date,
                     'date_invoice': self.date,
                     'partner_id': immeuble.company_id.partner_id.id,
                     'invoice_line_ids': [(0, 0, frais_admin_vals)]
                 })
 
-                invoices |= self.env['account.invoice'].create({
+                invoices |= self.env['account.move'].create({
                     'date': self.date,
                     'date_invoice': self.date,
                     'partner_id': immeuble.company_id.partner_id.id,
