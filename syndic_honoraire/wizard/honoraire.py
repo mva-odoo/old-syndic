@@ -67,6 +67,6 @@ class SuiviFacture(models.TransientModel):
                     'invoice_line_ids': [(0, 0, honoraire_vals)]
                 })
 
-        action = self.env.ref('account.action_invoice_tree1').read()[0]
+        action = self.env.ref('account.action_move_out_invoice_type').read()[0]
         action['domain'] = [('id', 'in', invoices.ids)]
         return action

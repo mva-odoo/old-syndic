@@ -69,4 +69,5 @@ odoo.define('odoo.pdf_viewer', function (require) {
         });
       },
     });
+    return Dashboard;
 });
