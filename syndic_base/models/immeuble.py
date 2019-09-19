@@ -32,6 +32,7 @@ class Immeuble(models.Model):
     city_id = fields.Many2one('res.city', 'Ville')
 
     BCE = fields.Char('BCE')
+    bank_ids = fields.One2many('res.partner.bank', 'building_id', 'Compte Bancaire')
     num = fields.Integer(u"N°", required=True)
     zip = fields.Char(default='')
 

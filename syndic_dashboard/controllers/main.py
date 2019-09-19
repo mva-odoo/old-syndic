@@ -45,8 +45,8 @@ class OrderRoute(http.Controller):
             events.append({
                 'month': month.month,
                 'date': '%s - %s' % (month.year, Mois_fr.get(month.month)),
-                'premier': buildings.filtered(lambda s: s.date_mois == str(month.month) and s.date_quinzaine == '1').read(['id', 'name', 'manager_id']),
-                'deuxieme': buildings.filtered(lambda s: s.date_mois == str(month.month) and s.date_quinzaine == '2').read(['id', 'name', 'manager_id']),
+                'premier': buildings.filtered(lambda s: s.date_mois == str(month.month) and s.date_quinzaine == '1').read(['id', 'name', 'manager_id', 'last_ag_date']),
+                'deuxieme': buildings.filtered(lambda s: s.date_mois == str(month.month) and s.date_quinzaine == '2').read(['id', 'name', 'manager_id', 'last_ag_date']),
             })
 
         return {

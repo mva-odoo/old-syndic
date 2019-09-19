@@ -72,9 +72,10 @@
                 <group>
                     <group string="Information Divers:" name="divers">
                         <field name="BCE" attrs="{'readonly': [('is_lock', '=', True)]}"/>
-                        <field name="manager_id" 
-                               attrs="{'readonly': [('is_lock', '=', True)]}"
-                               options="{'no_open': True, 'no_create': True}"/>
+                        <field 
+                            name="manager_id" 
+                            attrs="{'readonly': [('is_lock', '=', True)]}"
+                            options="{'no_open': True, 'no_create': True}"/>
                     </group>
                     <group string="Date de l'Assemblée Générale" name="assemblee">
                         <field name="date_mois" attrs="{'readonly': [('is_lock', '=', True)]}"/>

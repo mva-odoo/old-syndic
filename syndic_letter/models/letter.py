@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from odoo import models, fields, api, exceptions
+from odoo import models, fields, api, exceptions, _
 from odoo.addons.syndic_tools.syndic_tools import SyndicTools
 
 import base64
@@ -12,15 +12,19 @@ class CreateLetter(models.Model):
     _rec_name = 'sujet'
     _order = 'date desc'
 
-    send_ids = fields.Many2many('letter.send', string='Type d\'envoi', required=True)
+    send_ids = fields.Many2many(
+        'letter.send', string='Type d\'envoi', required=True)
 
     name = fields.Char('ID de la lettre', readonly=True)
     sujet = fields.Char('Sujet', required=True)
     immeuble_id = fields.Many2one('syndic.building', string='Immeuble')
-    user_from_id = fields.Many2one('res.users', 'From', 
-                                    required=True,
-                                    default=lambda self: self.env.user, 
-                                    domain="[('groups_id.name','in',['Syndic/Employe','Syndic/Manager'])]")
+    user_from_id = fields.Many2one(
+        'res.users',
+        'From',
+        required=True,
+        default=lambda self: self.env.user,
+        domain="[('groups_id.name','in',['Syndic/Employe','Syndic/Manager'])]"
+    )
     all_immeuble = fields.Boolean('Immeuble entier')
     propr_ids = fields.Many2many(
                             'res.partner',
@@ -138,6 +142,8 @@ class CreateLetter(models.Model):
                 if send_type.is_papper:
                     res.append(send_type.action_id.id)
 
+            if not letter.send_ids:
+                raise exceptions.UserError(_("Il faut choisir un type de lettre"))
             return send_type.action_id.with_context(multi_report=res).report_action(letter)
 
     @api.depends('date')

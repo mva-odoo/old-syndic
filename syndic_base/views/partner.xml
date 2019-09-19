@@ -100,7 +100,7 @@
                                 </group>
                             </group>
 
-                            <group string="Autres contacts">
+                            <group string="Autres contacts" name="other_contact">
                             <field name="child_ids" nolabel="1">
                             <!-- <field name="child_ids" mode="kanban" nolabel="1"> -->
                                 <!-- <kanban>

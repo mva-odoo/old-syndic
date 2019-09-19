@@ -55,15 +55,19 @@
                 <attribute name="attrs">{'invisible': [('is_unindivision', '=', True)]}</attribute>
             </xpath>
 
-            <xpath expr="//page[@name='contact']" position="attributes">
+            <xpath expr="//group[@name='address']" position="attributes">
                 <attribute name="attrs">{'invisible': [('is_unindivision', '=', True)]}</attribute>
             </xpath>
 
-            <xpath expr="//page[@name='contact']" position="after">
-                <page string="Indivision" attrs="{'invisible': [('is_unindivision', '!=', True)]}">
+            <xpath expr="//group[@name='other_contact']" position="attributes">
+                <attribute name="attrs">{'invisible': [('is_unindivision', '=', True)]}</attribute>
+            </xpath>
+
+            <xpath expr="//page[@name='contact']" position="inside">
+                <group string="Indivision" attrs="{'invisible': [('is_unindivision', '!=', True)]}">
                     <field name="main_partner_id" />
                     <field name="unindivision_ids" />
-                </page>
+                </group>
             </xpath>
 
             <xpath expr="/form" position="attributes">
