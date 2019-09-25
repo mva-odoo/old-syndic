@@ -14,30 +14,13 @@ class Lot(models.Model):
     owner_id = fields.Many2one(
         'res.partner',
         'Propriétaire',
-        domain=[
-            '|',
-            '|',
-            ('is_proprietaire', '=', True),
-            ('is_locataire', '=', True),
-            '|',
-            ('is_old', '=', True),
-            ('supplier', '=', True),
-        ]
     )
 
     loaner_ids = fields.Many2many(
         'res.partner',
         'lot_locataire',
         string='Locataires',
-        domain=[
-            '|',
-            '|',
-            ('is_proprietaire', '=', True),
-            ('is_locataire', '=', True),
-            '|',
-            ('is_old', '=', True),
-            ('supplier', '=', True),
-        ])
+    )
     type_id = fields.Many2one('syndic.type_lot', 'Type de lot')
     display_type = fields.Selection([
         ('line_section', 'Section'),

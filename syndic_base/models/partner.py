@@ -47,10 +47,24 @@ class Partner(models.Model):
     unindivision_ids = fields.Many2many('res.partner', 'res_partner_unindivision_rel', 'unindivision_id', 'partner_id', string="indivision")
     main_partner_id = fields.Many2one('res.partner', string="Contact Principale")
 
+    @api.onchange('is_unindivision')
+    def onchange_is_unindivision(self):
+        if self.is_unindivision:
+            self.email = ''
+            self.first_name = ''
+            self.title = False
+            self.convocation = False
+            self.phone = ''
+            self.fax = ''
+            self.mobile = ''
+            self.zip = ''
+            self.street = ''
+
     @api.onchange('main_partner_id', 'unindivision_ids')
     def onchange_undivision(self):
         if self.main_partner_id and self.unindivision_ids:
-            self.name = 'C/O %s/%s' % (self.main_partner_id.name, '/'.join(self.unindivision_ids.mapped('name')))
+            all_name = '%s/%s' % (self.main_partner_id.name, '/'.join(self.unindivision_ids.mapped('name')))
+            self.name = 'INDIVISION %s C/O %s' % (all_name, self.main_partner_id.name)
 
     def _get_name(self):
         if self._context.get('standard'):
