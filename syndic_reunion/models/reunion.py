@@ -34,7 +34,7 @@ class LetterReunion(models.Model):
     date = fields.Date(u'Date d\'envoi', default=lambda *a: fields.date.today(), copy=False)
     date_fr = fields.Char(string='Date', compute='_compute_date', store=True)
 
-    owner_ids = fields.Many2many('res.partner', string='Liste de présence')
+    owner_ids = fields.Many2many('res.partner', string='Propriétaires')
     percentage_present = fields.Float('Pourcentage de participation', compute="_get_percentage")
     percentage_quotity_present = fields.Float('Pourcentage de participation par quotitée', compute="_get_percentage_quotity")
     present_quotity = fields.Float('Quotitée Totale', compute="_get_percentage_quotity")
@@ -88,7 +88,7 @@ class LetterReunion(models.Model):
     @api.depends('owner_ids')
     def _get_percentage(self):
         for reunion in self:
-            total = len(self.immeuble_id.lot_ids.mapped('owner_ids'))
+            total = len(self.immeuble_id.mapped('lot_ids.owner_id'))
             partial = len(reunion.owner_ids)
 
             reunion.percentage_present = (partial/total)*100 if total else 0.00

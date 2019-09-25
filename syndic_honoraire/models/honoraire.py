@@ -27,6 +27,7 @@ class SyndicHonoraireYear(models.Model):
         for year in self:
             old_year = self.search([('id', '!=', year.id)], limit=1, order='id desc')
             for honoraire in old_year.honoraire_ids:
+                print(honoraire.honoraire * (1 + (year.index)/100) if year.index else honoraire.honoraire)
                 self.env['syndic.honoraire'].create({
                     'year_id': year.id,
                     'building_id': honoraire.building_id.id,

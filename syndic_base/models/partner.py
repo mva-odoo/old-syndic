@@ -91,8 +91,9 @@ class Partner(models.Model):
         partner = super(Partner, self).create(vals)
         if not self._context.get('normal_create'):
             company_ids = self._context.get('allowed_company_ids')
-
-            self.env['res.users'].with_context(normal_create=False).create({
+            if not company_ids:
+                company_ids = [self.env.ref('base.main_company').id]
+            self.env['res.users'].with_context(normal_create=True).create({
                 'partner_id': partner.id,
                 'name': partner.name,
                 'login': '%s - %s' % (partner.name, partner.id),

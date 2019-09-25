@@ -1,25 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <record model="res.partner" id="syndic_partner_sandrine">
-        <field name="name">Sandrine</field>
-        <field name="email">sandrine@test.com</field>
-    </record>
-
-    <record model="res.partner" id="syndic_partner_florence">
-        <field name="name">Florence</field>
-        <field name="email">florence@test.com</field>
-    </record>
-
-    <record model="res.partner" id="syndic_partner_serge">
-        <field name="name">Serge</field>
-        <field name="email">serge@test.com</field>
-    </record>
-
     <record model="res.users" id="syndic_user_florence">
         <field name="name">Florence</field>
         <field name="login">florence@test.com</field>
         <field name="password">florence</field>
-        <field name="partner_id" ref="syndic_partner_florence"/>
+        <field name="email">florence@test.com</field>
         <field name="groups_id" eval="[(4, ref('syndic_base.syndic_manager')), (4, ref('base.group_user'))]"/>
     </record>
 
@@ -27,7 +12,7 @@
         <field name="name">Sandrine</field>
         <field name="login">sandrine@test.com</field>
         <field name="password">sandrine</field>
-        <field name="partner_id" ref="syndic_partner_sandrine"/>
+        <field name="email">sandrine@test.com</field>
         <field name="groups_id" eval="[(4, ref('syndic_base.syndic_employe')), (4, ref('base.group_user'))]"/>
     </record>
 
@@ -35,7 +20,7 @@
         <field name="name">Serge</field>
         <field name="login">serge@test.com</field>
         <field name="password">serge</field>
-        <field name="partner_id" ref="syndic_partner_serge"/>
+        <field name="email">serge@test.com</field>
         <field name="groups_id" eval="[(4, ref('syndic_base.syndic_client'))]"/>
     </record>
 </odoo>

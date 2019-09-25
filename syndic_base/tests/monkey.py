@@ -1,18 +1,18 @@
 import unittest
 
-from odoo.addons.account.tests.test_account_customer_invoice import TestAccountCustomerInvoice
+# from odoo.addons.account.tests.test_account_customer_invoice import TestAccountCustomerInvoice
 from odoo.addons.account.tests.test_reconciliation_matching_rules import TestReconciliationMatchingRules
 from odoo.addons.account.tests.test_payment import TestPayment
 from odoo.addons.account.tests.test_bank_statement_reconciliation import TestBankStatementReconciliation
 from odoo.addons.account.tests.test_reconciliation_widget import TestUi
 
 
-@unittest.skip('Need to adapt')
-def test_customer_invoice_dashboard(self):
-    pass
+# @unittest.skip('Need to adapt')
+# def test_customer_invoice_dashboard(self):
+#     pass
 
 
-TestAccountCustomerInvoice.test_customer_invoice_dashboard = test_customer_invoice_dashboard
+# TestAccountCustomerInvoice.test_customer_invoice_dashboard = test_customer_invoice_dashboard
 
 
 @unittest.skip('Need to adapt')
