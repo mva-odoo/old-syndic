@@ -12,8 +12,8 @@ odoo.define('odoo.pdf_viewer', function (require) {
         contentTemplate: 'PDFViewer',
         hasControlPanel: true,
         
-        init: function(parent, action) {
-          this._super(parent, action);
+        init: function(parent, action, options) {
+          this._super(parent, action, options);
 
           this._title = _t('Lettre');
           this.url = '';

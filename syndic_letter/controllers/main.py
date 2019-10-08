@@ -23,5 +23,9 @@ class ReportController(http.Controller):
         
         pdf_merge = SyndicTools().merge_pdf(pdf)
         
-        pdfhttpheaders = [('Content-Type', 'application/pdf'), ('Content-Length', len(pdf))]
+        pdfhttpheaders = [
+            ('Content-Type', 'application/pdf'),
+            ('Content-Length', len(pdf)),
+        ]
+        print(pdfhttpheaders)
         return request.make_response(pdf_merge, headers=pdfhttpheaders)

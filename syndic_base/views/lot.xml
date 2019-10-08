@@ -20,7 +20,7 @@
 			<field name="name">Lot tree</field>
 			<field name="model">syndic.lot</field>
 			<field name="arch" type="xml">
-				<tree string="Lot">
+				<tree string="Lot" multi_edit="1">
                     <field name="name"/>
                     <field name="building_id"/>
                     <field name="owner_id"/>
