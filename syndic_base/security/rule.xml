@@ -8,7 +8,8 @@
         <field name="perm_write" eval="0"/>
         <field name="perm_create" eval="0"/>
         <field name="perm_unlink" eval="0" />
-        <field name="domain_force">['|', ('lot_ids.owner_ids','in', user.partner_id.id), ('lot_ids.loaner_ids', 'in', user.partner_id.id)]</field>
+        <!-- TODO: check also unindivision -->
+        <field name="domain_force">['|', ('lot_ids.owner_id','=', user.partner_id.id), ('lot_ids.loaner_ids', 'in', user.partner_id.id)]</field>
     </record>
 
     <record id="syndic_rule_see_all_building" model="ir.rule">

@@ -127,12 +127,18 @@ class Partner(models.Model):
         for partner in self:
             if partner.lot_ids.filtered(lambda s: s.building_id.active):
                 partner.is_proprietaire = True
+            else:
+                partner.is_proprietaire = False
 
             if partner.lot_ids.filtered(lambda s: not s.building_id.active) or partner.old_lot_ids:
                 partner.is_old = True
+            else:
+                partner.is_proprietaire = False
 
             if partner.loaner_lot_ids and partner.loaner_lot_ids.mapped('building_id').active:
                 partner.is_locataire = True
+            else:
+                partner.is_proprietaire = False
 
     @api.onchange('zip', 'country_id')
     def _onchange_zip(self):

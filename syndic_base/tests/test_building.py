@@ -18,10 +18,10 @@ class TestEventFlow(TestSyndicCommon):
         }
 
         with self.assertRaises(AccessError):
-            self.Building.sudo(self.serge).create(vals)
+            self.Building.with_user(self.serge).create(vals)
 
-        self.adfl = self.Building.sudo(self.sandrine).create(vals)
-        self.aloys =self.Building.sudo(self.florence).create({
+        self.adfl = self.Building.with_user(self.sandrine).create(vals)
+        self.aloys = self.Building.with_user(self.florence).create({
             'name': 'ALOYS',
             'num': '140',
             'zip': 1300,
@@ -31,22 +31,22 @@ class TestEventFlow(TestSyndicCommon):
 
         # write TODO: remove toggle  active doesn t exist any more replace with write ???
         #with self.assertRaises(AccessError):
-        #    self.adfl.sudo(self.serge).toggle_active()
-        #self.adfl.sudo(self.sandrine).toggle_active()
-        #self.adfl.sudo(self.florence).toggle_active()
+        #    self.adfl.with_user(self.serge).toggle_active()
+        #self.adfl.with_user(self.sandrine).toggle_active()
+        #self.adfl.with_user(self.florence).toggle_active()
 
         # read
         with self.assertRaises(AccessError):
-            self.aloys.sudo(self.serge).read([], [])
+            self.aloys.with_user(self.serge).read([], [])
 
-        self.aloys.sudo(self.sandrine).read([], [])
-        self.adfl.sudo(self.florence).read([], [])
+        self.aloys.with_user(self.sandrine).read([], [])
+        self.adfl.with_user(self.florence).read([], [])
 
         #unlink
         with self.assertRaises(AccessError):
-            self.aloys.sudo(self.serge).unlink()
-            self.aloys.sudo(self.sandrine).unlink()
-        self.adfl.sudo(self.florence).unlink()
+            self.aloys.with_user(self.serge).unlink()
+            self.aloys.with_user(self.sandrine).unlink()
+        self.adfl.with_user(self.florence).unlink()
 
     def test_01_lot(self):
         vals = {
@@ -55,24 +55,25 @@ class TestEventFlow(TestSyndicCommon):
             'owner_id': self.env['res.users'].browse(self.serge).partner_id.id,
         }
         with self.assertRaises(AccessError):
-            self.Lot.sudo(self.serge).create(vals)
+            self.Lot.with_user(self.serge).create(vals)
 
-        self.Lot.sudo(self.sandrine).create(vals)
-        self.Lot.sudo(self.florence).create(vals)
+        self.Lot.with_user(self.sandrine).create(vals)
+        self.Lot.with_user(self.florence).create(vals)
 
         # recheck read on a building where I am the owner (we don't have access to the signalitic field)
-        self.Building.browse(self.gemini).sudo(self.serge).read(['name', 'num'])
+        self.Building.browse(self.gemini).with_user(self.serge).read(['name', 'num'])
 
     def test_02_mutation(self):
         mutation = self.env['syndic.mutation'].create({
             'mutation_date': datetime.datetime.now(),
             'old_owner_ids': [(4, self.sgimmo)],
-            # 'new_owner_ids': [(0, 0, {'name': 'New Owner'})],
+            'new_owner_id': self.env['res.partner'].create({'name': 'New Owner'}).id,
             'lot_ids': [(4, self.A1)],
         })
         mutation.mutation()
 
         self.assertIn('New Owner', self.env['syndic.lot'].browse(self.A1).owner_id.name)
         sgimmo = self.env['res.partner'].browse(self.sgimmo)
+        print('---', sgimmo.name)
         self.assertTrue(sgimmo.is_old)
         self.assertFalse(sgimmo.is_proprietaire)

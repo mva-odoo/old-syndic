@@ -89,7 +89,8 @@ class QuotityLine(models.Model):
 
     @api.onchange('lot_id')
     def _onchange_lot_id(self):
-        self.lot_owner_ids = self.lot_id.owner_ids
+        # TODO: check if unindivision 
+        self.lot_owner_ids = self.lot_id.owner_id
 
     def write(self, values):
         for quotity_line in self:
