@@ -178,7 +178,17 @@ class CreateLetter(models.Model):
 
     @api.onchange('immeuble_id', 'all_immeuble')
     def onchange_immeuble(self):
-        self.propr_ids = self.immeuble_id.mapped('lot_ids.owner_id') if self.all_immeuble else self.env['res.partner']
+        owners = self.env['res.partner']
+        for owner in self.immeuble_id.lot_ids.owner_id:
+            if owner.is_unindivision:
+                if owner.main_partner_id:
+                    owners |= owner.main_partner_id
+                else:
+                    owners |= owner.unindivision_ids
+            else:
+                owners |= owner
+
+        self.propr_ids = owners
 
     @api.onchange('letter_model_id')
     def onchange_letter(self):
