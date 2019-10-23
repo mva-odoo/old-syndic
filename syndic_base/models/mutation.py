@@ -19,7 +19,7 @@ class Mutation(models.Model):
     def _get_name(self):
         for mutation in self:
             mutation.name = 'Mutation de %s vers %s' % (
-                ''.join(mutation.old_owner_ids.mapped('name')),
+                ''.join(mutation.old_owner_ids.name),
                 mutation.new_owner_id.name
             )
 
@@ -37,12 +37,12 @@ class Mutation(models.Model):
                 mutation.old_owner_ids.write({'old_lot_ids': [(4, lot_id.id) for lot_id in mutation.lot_ids]})
                 mutation.lot_ids.write({'owner_id': self.new_owner_id.id})
 
-                if not mutation.old_owner_ids.mapped('lot_ids.owner_id'):
-                    mutation.old_owner_ids.mapped('user_id').write({'active': False})
+                if not mutation.old_owner_ids.lot_ids.owner_id:
+                    mutation.old_owner_ids.user_id.write({'active': False})
 
                 mutation.write({'state': 'done'})
 
-                old_owner_name = mutation.old_owner_ids.mapped('name')
+                old_owner_name = mutation.old_owner_ids.name
                 for lot in mutation.lot_ids:
                     lot.message_post(
                         body=_('Mutation le %s: <b>Ancien:</b> %s - <b>Nouveau:</b> %s' % (

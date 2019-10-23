@@ -63,7 +63,7 @@ class Partner(models.Model):
     @api.onchange('main_partner_id', 'unindivision_ids')
     def onchange_undivision(self):
         if self.main_partner_id and self.unindivision_ids:
-            all_name = '%s/%s' % (self.main_partner_id.name, '/'.join(self.unindivision_ids.mapped('name')))
+            all_name = '%s/%s' % (self.main_partner_id.name, '/'.join(self.unindivision_ids.name))
             self.name = 'INDIVISION %s C/O %s' % (all_name, self.main_partner_id.name)
 
     def _get_name(self):
@@ -97,8 +97,8 @@ class Partner(models.Model):
 
     def _get_building(self):
         for partner in self:
-            partner.owner_building_ids = partner.lot_ids.mapped('building_id')
-            partner.loaner_building_ids = partner.loaner_lot_ids.mapped('building_id')
+            partner.owner_building_ids = partner.lot_ids.building_id
+            partner.loaner_building_ids = partner.loaner_lot_ids.building_id
 
     @api.model
     def create(self, vals):
@@ -135,10 +135,29 @@ class Partner(models.Model):
             else:
                 partner.is_proprietaire = False
 
-            if partner.loaner_lot_ids and partner.loaner_lot_ids.mapped('building_id').active:
+            if partner.loaner_lot_ids and partner.loaner_lot_ids.building_id.active:
                 partner.is_locataire = True
             else:
                 partner.is_proprietaire = False
+
+    def _get_sending_contact(self, email, letter):
+        contacts = self.env['res.partner']
+        for partner in self:
+            if partner.is_unindivision:
+                if partner.main_partner_id:
+                    contacts |= partner.main_partner_id
+                else:
+                    contacts |= partner.unindivision_ids
+            else:
+                contacts |= partner
+
+            if letter:
+                contacts |= partner.child_ids.filtered(lambda s: s.is_letter)
+
+            if email:
+                contacts |= partner.child_ids.filtered(lambda s: s.is_email)
+
+        return contacts
 
     @api.onchange('zip', 'country_id')
     def _onchange_zip(self):

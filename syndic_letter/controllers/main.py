@@ -20,12 +20,10 @@ class ReportController(http.Controller):
             pdf_data = action.render_qweb_pdf(docids, data=data)[0]
             pdf.append(pdf_data)
             pdf_len += len(pdf_data)
-        
+
         pdf_merge = SyndicTools().merge_pdf(pdf)
-        
-        pdfhttpheaders = [
+
+        return request.make_response(pdf_merge, headers=[
             ('Content-Type', 'application/pdf'),
             ('Content-Length', len(pdf)),
-        ]
-        print(pdfhttpheaders)
-        return request.make_response(pdf_merge, headers=pdfhttpheaders)
+        ])

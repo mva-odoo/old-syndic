@@ -42,7 +42,7 @@ class TestEventFlow(TestSyndicCommon):
         self.aloys.with_user(self.sandrine).read([], [])
         self.adfl.with_user(self.florence).read([], [])
 
-        #unlink
+        # unlink
         with self.assertRaises(AccessError):
             self.aloys.with_user(self.serge).unlink()
             self.aloys.with_user(self.sandrine).unlink()

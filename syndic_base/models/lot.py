@@ -63,8 +63,7 @@ class Quotitee(models.Model):
         lots = self.env['syndic.lot'].browse(lot_ids.ids)
         for lot in lots:
             values.append([
-                0,
-                0,
+                0, 0,
                 {
                     'lot_id': lot.id,
                     'lot_owner_ids': [

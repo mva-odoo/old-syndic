@@ -98,8 +98,8 @@ class Immeuble(models.Model):
 
     def action_inhabitant(self):
         self.ensure_one()
-        owner = self.mapped('lot_ids').mapped('owner_id')
-        loaner = self.mapped('lot_ids').mapped('loaner_ids')
+        owner = self.lot_ids.owner_id
+        loaner = self.lot_ids.loaner_ids
         if self._context.get('inhabitant_type') == 'owner':
             action = self.env.ref('syndic_base.action_proprietaire').read()[0]
             action['domain'] = [('id', 'in', owner.ids)]
@@ -122,8 +122,8 @@ class Immeuble(models.Model):
     def _get_quotity(self):
         for building in self:
             building.lot_count = len(building.lot_ids.filtered(lambda s: s.display_type != 'line_section'))
-            building.owner_count = len(building.mapped('lot_ids.owner_id'))
-            building.loaner_count = len(building.mapped('lot_ids.loaner_ids'))
+            building.owner_count = len(building.lot_ids.owner_id)
+            building.loaner_count = len(building.lot_ids.loaner_ids)
 
 
 class Contractual(models.Model):
@@ -157,7 +157,7 @@ class Contractual(models.Model):
         return {
             'domain': {
                 'building_id': [
-                    ('id', 'not in', self.partner_id.building_ids.mapped('building_id').ids),
+                    ('id', 'not in', self.partner_id.building_ids.building_id.ids),
                     ]
                 }
         }

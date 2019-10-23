@@ -98,7 +98,11 @@ class CreateLetter(models.Model):
     @api.depends('propr_ids', 'fourn_ids', 'divers_ids', 'loc_ids')
     def _get_all_partner(self):
         for letter in self:
-            letter.all_partner_ids = letter.propr_ids | letter.fourn_ids | letter.loc_ids | letter.divers_ids
+            partners = letter.propr_ids | letter.fourn_ids | letter.loc_ids | letter.divers_ids
+            is_mail = any(letter.send_ids.mapped('is_email'))
+            is_papper = any(letter.send_ids.mapped('is_papper'))
+
+            letter.all_partner_ids = partners._get_sending_contact(is_mail, is_papper)
 
     def save_template(self):
         return {
