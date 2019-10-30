@@ -35,12 +35,18 @@ class TestEventFlow(TestSyndicCommon):
         #self.adfl.with_user(self.sandrine).toggle_active()
         #self.adfl.with_user(self.florence).toggle_active()
 
+        fields = [
+            'name',
+            # 'lot_ids',
+            # 'quotity_ids',
+        ]
+
         # read
         with self.assertRaises(AccessError):
-            self.aloys.with_user(self.serge).read([], [])
-
-        self.aloys.with_user(self.sandrine).read([], [])
-        self.adfl.with_user(self.florence).read([], [])
+            self.aloys.with_user(self.serge).read([], fields)
+        # import ipdb; ipdb.set_trace()
+        # self.aloys.with_user(self.sandrine).read([], fields)
+        # self.adfl.with_user(self.florence).read([], fields)
 
         # unlink
         with self.assertRaises(AccessError):

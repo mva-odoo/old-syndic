@@ -63,7 +63,7 @@ class Partner(models.Model):
     @api.onchange('main_partner_id', 'unindivision_ids')
     def onchange_undivision(self):
         if self.main_partner_id and self.unindivision_ids:
-            all_name = '%s/%s' % (self.main_partner_id.name, '/'.join(self.unindivision_ids.name))
+            all_name = '%s/%s' % (self.main_partner_id.name, '/'.join(self.unindivision_ids.mapped('name')))
             self.name = 'INDIVISION %s C/O %s' % (all_name, self.main_partner_id.name)
 
     def _get_name(self):

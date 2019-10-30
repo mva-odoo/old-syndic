@@ -34,6 +34,16 @@ class Lot(models.Model):
     )
     quotity = fields.Integer('Quotitée')
 
+    @api.model
+    def create(self, vals):
+        res = super(Lot, self).create(vals)
+        quotities = res.building_id.quotity_ids.filtered(
+            lambda s: s.type_id == s.env.ref('syndic_base.syndic_quotite_base')
+        )
+        for quotity in quotities:
+            quotity._onchange_quotity()
+        return res
+
 
 class TypeLot(models.Model):
     _name = 'syndic.type_lot'
@@ -66,13 +76,15 @@ class Quotitee(models.Model):
                 0, 0,
                 {
                     'lot_id': lot.id,
-                    'lot_owner_ids': [
-                        (6, 0, lot.owner_id.ids),
-                    ],
+                    'lot_owner_id': lot.owner_id.id,
                     'value': lot.quotity
                 }
             ])
         self.line_ids = values
+
+    def reload_quotity(self):
+        self.ensure_one()
+        self._onchange_quotity()
 
 
 class QuotityLine(models.Model):
@@ -84,12 +96,11 @@ class QuotityLine(models.Model):
     value = fields.Float('valeur')
     lot_id = fields.Many2one('syndic.lot', 'Lot')
     lot_name = fields.Char('Nom du Lot', related="lot_id.name")
-    lot_owner_ids = fields.Many2many('res.partner', string='Propriétaire')
+    lot_owner_id = fields.Many2one('res.partner', string='Propriétaire')
 
     @api.onchange('lot_id')
     def _onchange_lot_id(self):
-        # TODO: check if unindivision 
-        self.lot_owner_ids = self.lot_id.owner_id
+        self.lot_owner_id = self.lot_id.owner_id
 
     def write(self, values):
         for quotity_line in self:

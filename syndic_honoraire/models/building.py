@@ -12,7 +12,12 @@ class Building(models.Model):
     honoraire = fields.Monetary('Honoraire', groups='syndic_base.syndic_manager')
     frais_admin = fields.Monetary('Frais Administratif', groups='syndic_base.syndic_manager')
 
-    honoraire_ids = fields.One2many('syndic.honoraire', 'building_id', 'Honoraires et frais administration')
+    honoraire_ids = fields.One2many(
+        'syndic.honoraire',
+        'building_id',
+        'Honoraires et frais administration',
+        groups='syndic_base.syndic_manager'
+    )
 
     count_invoice = fields.Integer('N° de factures', compute='_get_count_invoice')
     is_merge = fields.Boolean('Fusionner les frais administratifs avec les honoraires')
@@ -36,7 +41,7 @@ class Building(models.Model):
         self.env['syndic.honoraire.year'].create({'name': date.today().year})
 
     def _get_year(self):
-        return self.env['syndic.honoraire.year'].search([], limit=1, order='id desc')
+        return self.env['syndic.honoraire.year'].sudo().search([], limit=1, order='id desc')
 
     @api.model
     def create(self, values):
@@ -47,7 +52,7 @@ class Building(models.Model):
         if values.get('frais_admin'):
             honoraire_vals['frais_admin'] = values['frais_admin']
 
-        self.env['syndic.honoraire'].create(honoraire_vals)
+        self.env['syndic.honoraire'].sudo().create(honoraire_vals)
         return super(Building, self).create(values)
     
     def write(self, values):
@@ -63,9 +68,12 @@ class Building(models.Model):
             if honoraire_vals:
                 honoraire_vals['year_id'] = current_year.id
                 honoraire_vals['building_id'] = building.id
-                honoraire = self.env['syndic.honoraire'].search([('year_id', '=', current_year.id), ('building_id', '=', building.id)])
+                honoraire = self.env['syndic.honoraire'].search([
+                    ('year_id', '=', current_year.id),
+                    ('building_id', '=', building.id)
+                ])
                 if honoraire:
-                    honoraire.write(honoraire_vals)
+                    honoraire.sudo().write(honoraire_vals)
                 else:
                     self.env['syndic.honoraire'].create(honoraire_vals)
 

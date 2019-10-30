@@ -6,8 +6,8 @@
             <field name="inherit_id" ref="syndic_base.form_building"/>
             <field name="arch" type="xml">
                 <xpath expr="//page[@name='comptabilite']" position="after">
-                  <page string="Honoraires et Frais Admin." name="honoraire">
-                    <group groups="syndic_base.syndic_manager" string="Honoraires et Frais Admin." name="honoraire">
+                  <page string="Honoraires et Frais Admin." name="honoraire" groups="syndic_base.syndic_manager">
+                    <group string="Honoraires et Frais Admin." name="honoraire">
                         <field name="currency_id" invisible="1"/>
                           <group>
                             <field name="honoraire" widget='monetary' options="{'currency_field': 'currency_id'}"/>

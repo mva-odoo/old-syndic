@@ -58,7 +58,7 @@ class Immeuble(models.Model):
     supplier_ids = fields.One2many(
         'res.partner.contractual', 'building_id', 'Corps de métier')
 
-    qutoty_ids = fields.One2many('syndic.quotite', 'building_id', string='Quotitée Principal')
+    quotity_ids = fields.One2many('syndic.quotite', 'building_id', string='Quotitée Principal')
 
     _sql_constraints = [
         (

@@ -183,20 +183,12 @@ class ReunionPoint(models.Model):
     #         partner_lot[partner] = 
             
 
-    def _test(self):
-        partner_lot = {}
-        for lot in self.quotity_id.line_ids.mapped('lot_id'):
-            partner_lot[lot.owner_ids] = lot
-
-        return partner_lot
-
     @api.onchange('quotity_id')
     def _onchange_vote(self):
-        values = [(6,0, [])]
-        print(self._test())
+        values = [(6, 0, [])]
         # for quotity in self.quotity_id
 
-        for owner in self.quotity_id.line_ids.mapped('lot_owner_ids'):
+        for owner in self.quotity_id.line_ids.mapped('lot_owner_id'):
             
             if owner in self.reunion_id.list_ids.mapped('partner_id'):
                 quotity_lines = owner.quotity_line_ids.filtered(lambda s:s.quotity_id == self.quotity_id)

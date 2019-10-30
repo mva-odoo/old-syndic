@@ -118,17 +118,20 @@
                             </field>
                         </page>
                         <page string="Quotitées" name="quotity">
-                            <field name="qutoty_ids">
+                            <field name="quotity_ids">
                                 <tree>
                                     <field name="type_id"/>
                                 </tree>
                                 <form>
+                                    <header>
+                                        <button name="reload_quotity" string="Recharger" type="object"/>
+                                    </header>
                                     <group>
                                         <field name="type_id"/>
                                         <field name="line_ids">
                                             <tree editable="top" create="0" delete="0">
                                                 <field name="lot_id" readonly="1" force_save="1"/>
-                                                <field name="lot_owner_ids" readonly="1" widget="many2many_tags" force_save="1"/>
+                                                <field name="lot_owner_id" readonly="1" force_save="1"/>
                                                 <field name="value" sum="Quotitées totales"/>
                                             </tree>
                                         </field>
