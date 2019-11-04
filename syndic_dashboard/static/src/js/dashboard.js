@@ -81,8 +81,10 @@ var Dashboard = AbstractAction.extend({
 				var building_name = '<a href="javascript:;" class="building_btn premierli '+el_manager+'" data-id='+element["id"]+'>'+element['name']+'</a> ';
 				var calendar_icon = ' <a href="javascript:;" class="calendar_btn '+el_manager+'" data-building_id='+element["id"]+' data-name='+element["name"]+'><i class="fa fa-calendar"></i>';
 				var envelope_icon = '</a> <a href="javascript:;" class="letter_btn '+el_manager+'" data-building_id='+element["id"]+'><i class="fa fa-envelope"></i> ';
-				if (element['last_date'] !== false){
-					var date = ' ('+element['last_date']+') ';
+				
+				var date = '';
+				if (element['last_date'] !== undefined){
+					date = ' ('+element['last_date']+') ';
 				}
 				var $building_html = '<li class="premierli '+el_manager+'">'+calendar_icon+envelope_icon+building_name+date+'</li></a>';
 				new_this.$("#premier"+value.month).append($building_html);
@@ -101,8 +103,8 @@ var Dashboard = AbstractAction.extend({
 				if (element.manager_id !== undefined && element.manager_id[0] == session.uid){
 					el_manager = 'el_manager'
 				}
-				if (element['last_date'] !== false){
-					var date = ' ('+element['last_date']+') ';
+				if (element['last_date'] !== undefined){
+					date = ' ('+element['last_date']+') ';
 				}
 
 				var building_name = '<a href="javascript:;" class="building_btn deuxiemeli '+el_manager+'" data-id='+element["id"]+'>'+element['name']+'</a> ';
