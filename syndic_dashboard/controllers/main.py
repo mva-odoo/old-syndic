@@ -1,16 +1,11 @@
 # -*- coding: utf-8 -*-
 
 from odoo import http
-from datetime import date
+from datetime import date, datetime, timedelta
 from dateutil.relativedelta import relativedelta
 
 
-class OrderRoute(http.Controller):
-
-    @http.route('/timeline/statistics', type='json', auth='user')
-    def get_timeline(self):
-        today = date.today()
-        Mois_fr = {
+_Mois_fr = {
             1: 'Janvier',
             2: 'Fevrier',
             3: 'Mars',
@@ -24,6 +19,31 @@ class OrderRoute(http.Controller):
             11: 'Novembre',
             12: 'Decembre',
         }
+
+
+class OrderRoute(http.Controller):
+    def _get_is_set(self, year, month, quinzaine, building_id):
+        start = datetime(year, month.month, 1)
+        end = datetime(year, month.month, 15)
+        if quinzaine == 2:
+            start = datetime(year, month.month, 15)
+            next_month = datetime(year, month.month, 28) + timedelta(days=4)
+            end = next_month - timedelta(days=next_month.day)
+        calendar = http.request.env['calendar.event'].search(
+            [
+                ('building_id', '=', building_id),
+                ('is_ag', '=', True),
+                ('start', '>=', start),
+                ('stop', '<=', end),
+            ], limit=1
+        )
+
+        return '%s %s' % (calendar.start.day, _Mois_fr.get(calendar.start.month)) if calendar else False
+
+    @http.route('/timeline/statistics', type='json', auth='user')
+    def get_timeline(self):
+        today = date.today()
+
         dates = []
 
         dates.append((today-relativedelta(months=2)))
@@ -42,11 +62,33 @@ class OrderRoute(http.Controller):
 
         events = []
         for month in dates:
+            premiers = buildings.filtered(
+                lambda s: s.date_mois == str(month.month) and s.date_quinzaine == '1'
+            )
+
+            first = []
+            first_data = {}
+            for premier in premiers:
+                first_data = premier.read(['id', 'name', 'manager_id'])[0]
+                first_data['is_set'] = self._get_is_set(month.year , month, 1, first_data['id'])
+                first.append(first_data)
+            
+            deuxiemes = buildings.filtered(
+                lambda s: s.date_mois == str(month.month) and s.date_quinzaine == '2'
+            )
+
+            last = []
+            last_data = {}
+            for deuxieme in deuxiemes:
+                last_data = premier.read(['id', 'name', 'manager_id'])[0]
+                last_data['is_set'] = self._get_is_set(month.year, month, 2, last_data['id'])
+                last.append(last_data)
+
             events.append({
                 'month': month.month,
-                'date': '%s - %s' % (month.year, Mois_fr.get(month.month)),
-                'premier': buildings.filtered(lambda s: s.date_mois == str(month.month) and s.date_quinzaine == '1').read(['id', 'name', 'manager_id', 'last_ag_date']),
-                'deuxieme': buildings.filtered(lambda s: s.date_mois == str(month.month) and s.date_quinzaine == '2').read(['id', 'name', 'manager_id', 'last_ag_date']),
+                'date': '%s - %s' % (month.year, _Mois_fr.get(month.month)),
+                'premier': first,
+                'deuxieme': last,
             })
 
         return {

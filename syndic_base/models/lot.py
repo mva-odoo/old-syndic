@@ -96,11 +96,11 @@ class QuotityLine(models.Model):
     value = fields.Float('valeur')
     lot_id = fields.Many2one('syndic.lot', 'Lot')
     lot_name = fields.Char('Nom du Lot', related="lot_id.name")
-    lot_owner_id = fields.Many2one('res.partner', string='Propriétaire')
-
-    @api.onchange('lot_id')
-    def _onchange_lot_id(self):
-        self.lot_owner_id = self.lot_id.owner_id
+    lot_owner_id = fields.Many2one(
+        'res.partner',
+        string='Propriétaire',
+        related='lot_id.owner_id',
+    )
 
     def write(self, values):
         for quotity_line in self:
