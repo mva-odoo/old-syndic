@@ -133,12 +133,12 @@ class Partner(models.Model):
             if partner.lot_ids.filtered(lambda s: not s.building_id.active) or partner.old_lot_ids:
                 partner.is_old = True
             else:
-                partner.is_proprietaire = False
+                partner.is_old = False
 
             if partner.loaner_lot_ids and partner.loaner_lot_ids.building_id.active:
                 partner.is_locataire = True
             else:
-                partner.is_proprietaire = False
+                partner.is_locataire = False
 
     def _get_sending_contact(self, email, letter):
         contacts = self.env['res.partner']
