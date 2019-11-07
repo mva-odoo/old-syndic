@@ -136,7 +136,7 @@ class CreateLetter(models.Model):
                     send_type = send_type.with_context(mycontext)
 
                 if send_type.is_email:
-                    template_id = send_type.mail_templale_id
+                    template_id = send_type.mail_template_id
                     if template_id:
                         vals = letter._compose_message_vals(template_id.id)
                         mail = self.env['mail.compose.message'].create(vals)
@@ -235,6 +235,6 @@ class LetterSend(models.Model):
     is_email = fields.Boolean('Email')
     is_papper = fields.Boolean('Papier')
     action_id = fields.Many2one('ir.actions.report', 'Action Rapport')
-    mail_templale_id = fields.Many2one('mail.template', 'Email Template')
+    mail_template_id = fields.Many2one('mail.template', 'Email Template')
     mycontext = fields.Char('Context à passer')
     model_id = fields.Many2one('letter.model', 'Modèle de Lettre')
