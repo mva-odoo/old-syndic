@@ -45,9 +45,6 @@
 							<button class="oe_stat_button" type="object" name="open_points" icon="fa-folder-o">
 								Points
 							</button>
-							<button class="oe_stat_button" type="object" name="open_list" icon="fa-users">
-								Liste de Présence
-							</button>
 						</div>
 
 						<group>
@@ -83,7 +80,7 @@
 								<field name="descriptif" nolabel="1"/>
 							</page>
 						</notebook>
-						<!-- <group string="Points" attrs="{'invisible': [('state', '!=', 'busy')]}">
+						<group string="Points" attrs="{'invisible': [('state', '!=', 'busy')]}">
 							<field name="point_ids" nolabel="1">
 								<tree>
 									<field name="sequence" widget="handle"/>
@@ -92,7 +89,7 @@
 									<button name="test" string="test" type="object"/>
 								</tree>
 							</field>
-						</group> -->
+						</group>
 					</sheet>
                 </form>
 			</field>

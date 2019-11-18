@@ -28,7 +28,7 @@ odoo.define('odoo.pdf_viewer', function (require) {
             }
           }
             if ((typeof context.multi_report !== "undefined") && (typeof context.active_id !== "undefined")){
-              this.url = 'multi_report/'+context.multi_report+'/'+context.active_id;
+              this.url = 'multi_report/'+context.multi_report+'/'+context.active_id+'/'+context.active_model;
               
             }
         },

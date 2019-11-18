@@ -66,7 +66,7 @@
                                             <group>
                                                 <field name="user_from_id" options="{'no_create': True, 'no_open': True}"/>
                                                 <field name="letter_type_id" />
-                                                <field name="immeuble_id" />
+                                                <field name="immeuble_id" options="{'no_create': True, 'no_open': True}"/>
                                                 <field name="date"/>
                                                 <field name="date_fr"/>
                                             </group>
@@ -112,6 +112,7 @@
                             <group>
                                 <field name="is_mail" />
                                 <field name="letter_model_id" />
+                                <field name="is_merge" />
                                 <field name="piece_jointe_ids"
                                        widget="many2many_binary">
                                 <!-- <tree>

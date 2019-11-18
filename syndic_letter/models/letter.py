@@ -2,8 +2,6 @@
 from odoo import models, fields, api, exceptions, _
 from odoo.addons.syndic_tools.syndic_tools import SyndicTools
 
-import base64
-
 
 class CreateLetter(models.Model):
     _name = 'letter.letter'
@@ -32,6 +30,9 @@ class CreateLetter(models.Model):
                             'id1',
                             'id2',
                             domain=[('is_proprietaire', '=', True)],
+                            compute='_get_immeuble',
+                            readonly=False,
+                            store=True,
                             string=u'Propriétaire')
     fourn_ids = fields.Many2many(
                             'res.partner',
@@ -61,23 +62,56 @@ class CreateLetter(models.Model):
                             domain=[('is_locataire', '=', True)],
                             string='Locataires')
 
-    all_partner_ids = fields.Many2many('res.partner', string='All Partner',
-                                       compute='_get_all_partner')
+    all_partner_ids = fields.Many2many(
+        'res.partner', string='All Partner', compute='_get_all_partner')
     end_letter_id = fields.Many2one('letter.end', 'Fin de lettre')
     begin_letter_id = fields.Many2one('letter.begin', u'Début de lettre')
-    letter_type_id = fields.Many2one('letter.type', 'Type de lettre', required=True)
-    letter_model_id = fields.Many2one('letter.model', u'Modèle de lettre')
-    contenu = fields.Html('contenu', required=True)
+    letter_type_id = fields.Many2one(
+        'letter.type', 'Type de lettre', required=True)
+    letter_model_id = fields.Many2one(
+        'letter.model',
+        compute='_get_send_type',
+        readonly=False,
+        store=True,
+        compute_sudo=False,
+        string=u'Modèle de lettre',
+    )
+    contenu = fields.Html(
+        'contenu',
+        required=True,
+        compute='_get_body',
+        readonly=False,
+        store=True
+    )
     ps = fields.Text('PS')
     is_mail = fields.Boolean('Envoi par email', compute="_get_send_type")
     is_fax = fields.Boolean('Envoi par fax')
-    piece_jointe_ids = fields.Many2many('ir.attachment', 'letter_id', string='Piece Jointe')
+    piece_jointe_ids = fields.Many2many(
+        'ir.attachment', 'letter_id', string='Piece Jointe')
     create_date = fields.Datetime(u'Date de création')
-    date = fields.Date(u'Date d\'envoi', default=lambda *a: fields.date.today(), copy=False)
+    date = fields.Date(
+        u'Date d\'envoi',
+        default=lambda *a: fields.date.today(),
+        copy=False
+    )
     date_fr = fields.Char(string='Date', compute='_compute_date')
+    is_merge = fields.Boolean('Fusionner les Pièces jointes')
+    state = fields.Selection(
+        [
+            ('not_send', 'Pas envoyé'),
+            ('send', 'Envoyé')
+        ],
+        string='State',
+        default='not_send'
+    )
 
-    state = fields.Selection([('not_send', 'Pas envoyé'), ('send', 'Envoyé')], string='State', default='not_send')
-    mail_server = fields.Many2one('ir.mail_server', 'Serveur email')
+    mail_server = fields.Many2one(
+        'ir.mail_server',
+        compute='_get_mail_server',
+        readonly=False,
+        store=True,
+        string='Serveur email',
+    )
 
     mail_ids = fields.One2many('mail.mail', 'letter_id', 'Emails')
 
@@ -89,13 +123,11 @@ class CreateLetter(models.Model):
             else:
                 letter.is_mail = False
 
-    @api.onchange('send_ids')
-    def onchange_send_ids(self):
-        self.letter_model_id = False
-        for send_type in self.send_ids:
-            self.letter_model_id = send_type.model_id
+            letter.letter_model_id = False
+            for send_type in letter.send_ids:
+                letter.letter_model_id = send_type.model_id
 
-    @api.depends('propr_ids', 'fourn_ids', 'divers_ids', 'loc_ids')
+    @api.depends('propr_ids', 'fourn_ids', 'divers_ids', 'loc_ids', 'send_ids')
     def _get_all_partner(self):
         for letter in self:
             partners = letter.propr_ids | letter.fourn_ids | letter.loc_ids | letter.divers_ids
@@ -115,7 +147,7 @@ class CreateLetter(models.Model):
 
     def _compose_message_vals(self, template_id):
         child_partners = self.all_partner_ids.mapped('child_ids').filtered(lambda s: s.is_email)
-        partners = self.all_partner_ids.filtered(lambda s:s.email) | child_partners
+        partners = self.all_partner_ids.filtered(lambda s: s.email) | child_partners
 
         return {
             'model': 'letter.letter',
@@ -130,7 +162,6 @@ class CreateLetter(models.Model):
         for letter in self:
             res = []
             for send_type in letter.send_ids:
-                mails = self.env['mail.mail']
                 if send_type.mycontext:
                     mycontext = eval(send_type.mycontext)
                     send_type = send_type.with_context(mycontext)
@@ -176,27 +207,32 @@ class CreateLetter(models.Model):
                     self.env['bon.commande'].create(values)
         return res
 
-    @api.onchange('is_mail')
-    def onchange_server(self):
-        self.mail_server = self.env.user.server_mail_id.id if self.is_mail else False
+    @api.depends('is_mail')
+    def _get_mail_server(self):
+        for letter in self:
+            server_id = letter.env.user.server_mail_id.id
+            letter.mail_server = server_id if letter.is_mail else False
 
-    @api.onchange('immeuble_id', 'all_immeuble')
-    def onchange_immeuble(self):
-        owners = self.env['res.partner']
-        for owner in self.immeuble_id.lot_ids.owner_id:
-            if owner.is_unindivision:
-                if owner.main_partner_id:
-                    owners |= owner.main_partner_id
+    @api.depends('immeuble_id', 'all_immeuble')
+    def _get_immeuble(self):
+        for letter in self:
+            owners = letter.env['res.partner']
+            for owner in letter.immeuble_id.lot_ids.owner_id:
+                if owner.is_unindivision:
+                    if owner.main_partner_id:
+                        owners |= owner.main_partner_id
+                    else:
+                        owners |= owner.unindivision_ids
                 else:
-                    owners |= owner.unindivision_ids
-            else:
-                owners |= owner
+                    owners |= owner
 
-        self.propr_ids = owners
+            letter.propr_ids = owners if letter.all_immeuble else False
 
-    @api.onchange('letter_model_id')
-    def onchange_letter(self):
-        self.contenu = self.letter_model_id.text
+    @api.depends('letter_model_id')
+    def _get_body(self):
+        for letter in self:
+            if not letter.contenu:
+                letter.contenu = letter.letter_model_id.text
 
 
 class EndLetter(models.Model):

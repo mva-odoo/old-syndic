@@ -12,7 +12,6 @@
     'data': [
         'views/calendar.xml',
         'views/backend.xml',
-        'views/res_config.xml',
-        # 'security/ir.model.access.csv',
+        'security/ir.model.access.csv',
         ],
 }
