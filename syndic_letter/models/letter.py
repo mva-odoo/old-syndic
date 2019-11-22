@@ -263,6 +263,7 @@ class LetterModel(models.Model):
     name = fields.Char('Model Letter', required=True)
     text = fields.Html('Text', required=True)
 
+
 class LetterSend(models.Model):
     _name = 'letter.send'
     _description = 'letter.send'

@@ -96,7 +96,7 @@
 
                                     </page>
                                     <page string="fournisseurs">
-                                        <field name="fourn_ids" />
+                                        <field name="fourn_ids" context="{'default_supplier': 1}"/>
                                     </page>
                                     <page string="locataires">
                                         <field name="loc_ids" options="{'no_create': True}"/>
