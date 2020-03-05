@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+   <template id="syndic_reunion_assets_backend" name="syndic dashboard assets backend" inherit_id="web.assets_backend">
+        <xpath expr="." position="inside">
+            <link rel="stylesheet" href="/syndic_reunion/static/src/css/style.css"/>
+            <script type="text/javascript" src="/syndic_reunion/static/src/js/reunion_action.js"/>
+        </xpath>
+    </template>
+
+    <record model="ir.actions.client" id="action_reunion">
+      <field name="name">Reunion</field>
+      <field name="tag">syndic.reunion</field>
+    </record>
+
+    <menuitem 
+        name="Réunion" id="timeline_reunion_client_action_menu"
+        parent='syndic_base.master_syndic'
+        sequence="1"
+        action="action_reunion"/>
+
+</odoo>

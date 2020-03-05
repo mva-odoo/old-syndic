@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="timeline" xml:space="preserve">
+
+	<div t-name="syndic_reunion" >
+        <div class="body_vote">
+        </div>
+
+    </div>
+
+
+    <div t-name="vote.Buttons">
+		<button class="btn btn-primary vote_btn">Ajouter un nouveau Point</button>
+		<button class="btn btn-primary _save_vote_btn">Sauver</button>
+	</div>
+
+    <div t-name="vote.form">
+        <div class="vote_form">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-2">
+                        <input type="text"/>
+                    </div>
+                    <div class="col-sm-8">
+                        <input type="text"/>
+                    </div>
+                    <div class="col-sm-2">
+                        <a href="">Fermer</a>
+                    </div>
+                </div>
+            </div>
+            <button>Ajouter un vote</button>
+        </div>
+	</div>
+
+    <div t-name="ok_save">
+        test : <input type='text' class='o_input o_field_widget' name='summary'/>
+    </div>
+
+</templates>
