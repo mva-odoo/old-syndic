@@ -37,6 +37,7 @@
 						<button string='Start' name="set_list" type="object" states="draft"/>
 						<button string='Sauver Liste de Précense' name="set_busy" type="object" states="start"/>
 						<button string='En cours' name="set_busy" type="object" states="list"/>
+						<button string='Test' name="%(syndic_reunion.action_reunion)d" type="action"/>
 						<button string='End' name="set_end" type="object" states="start"/>
 						<field name="state" widget="statusbar"/>
 					</header>

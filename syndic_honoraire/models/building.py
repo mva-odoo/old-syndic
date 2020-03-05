@@ -45,16 +45,16 @@ class Building(models.Model):
 
     @api.model
     def create(self, values):
-        current_year = self._get_year()
-        honoraire_vals = {'year_id': current_year.id}
-        if values.get('honoraire'):
-            honoraire_vals['honoraire'] = values['honoraire']
-        if values.get('frais_admin'):
-            honoraire_vals['frais_admin'] = values['frais_admin']
+        res = super(Building, self).create(values)
 
-        self.env['syndic.honoraire'].sudo().create(honoraire_vals)
-        return super(Building, self).create(values)
-    
+        self.env['syndic.honoraire'].sudo().create({
+            'year_id': self._get_year().id,
+            'building_id': res.id,
+            'honoraire': res.honoraire,
+            'frais_admin': res.frais_admin,
+        })
+        return res
+
     def write(self, values):
         for building in self:
             honoraire_vals = {}

@@ -19,7 +19,7 @@ class Mutation(models.Model):
     def _get_name(self):
         for mutation in self:
             mutation.name = 'Mutation de %s vers %s' % (
-                ''.join(mutation.old_owner_ids.name),
+                ''.join(mutation.old_owner_ids.mapped('name') or []),
                 mutation.new_owner_id.name
             )
 

@@ -12,7 +12,11 @@
     'data': [
             'views/reunion.xml',
             'views/building.xml',
+            'views/client_action.xml',
             'report/reunion.xml',
             'security/ir.model.access.csv',
         ],
+    'qweb': [
+        'static/src/xml/template.xml',
+    ]
 }

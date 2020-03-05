@@ -1,8 +1,14 @@
- _____                 _ _      
-/  ___|               | (_)     
-\ `--. _   _ _ __   __| |_  ___ 
- `--. \ | | | '_ \ / _` | |/ __|
-/\__/ / |_| | | | | (_| | | (__ 
-\____/ \__, |_| |_|\__,_|_|\___|
-        __/ |                   
-       |___/                    
+# Module de gestion syndic:
+
+ - Gestion de base (immeuble, lot, propriétaires, loactaires)
+ - Calendrier
+ - Facture les honoraires
+ - Gestion et sinistres
+ - Partage de document
+ - calcule d'honoraire
+ - fiche signalitique
+ - courrier, emails
+
+ ## TODO: 
+ - comptabilité
+ - gestion des AG
